@@ -1,0 +1,22 @@
+{
+  "name": "root",
+  "private": false,
+  "devDependencies": {
+    "lerna": "^8.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "workspaces": [
+    "packages/*",
+    "website/*"
+  ],
+  "scripts": {
+    "build": "lerna run build --stream",
+    "dev:demo": "pnpm -r --filter react-app run dev",
+    "version:up": "lerna version patch --yes",
+    "build:packages": "lerna run build --stream --scope @deschool-protocol/*",
+    "build:react": "lerna run build --stream --scope @deschool-protocol/react",
+    "publish": "lerna publish from-package --yes"
+  }
+}
