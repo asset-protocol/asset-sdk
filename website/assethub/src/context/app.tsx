@@ -12,6 +12,7 @@ import {
 } from "@asset-protocol/react";
 import { AssetHubManager } from "./consts";
 import { useEthersSigner } from "./ether";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 const queryClient = new QueryClient();
 const config = getDefaultConfig({
@@ -30,9 +31,15 @@ function AppAssetHubProvider(props: { children: React.ReactNode }) {
     allAssetTypePlugin,
   ];
 
+  const client = new ApolloClient({
+    uri: "/api/graphql",
+    cache: new InMemoryCache(),
+  });
+
   return (
     <AssetProvider
       signer={signer!}
+      grapqlClient={client}
       storage={"ipfs"}
       plugins={plugins}
       assetHubManager={AssetHubManager}

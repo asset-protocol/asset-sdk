@@ -1,7 +1,6 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { ApolloProvider } from "@apollo/client";
+import { ApolloClient, ApolloProvider } from "@apollo/client";
 import { useContext, useState, createContext } from "react";
-import { client } from "../client/indexer/client";
 import { Signer } from "ethers";
 import { IStorage, StorageScheme } from "../core/storage";
 import { AssetHubConfig, AssetHubPlugin, IAssetHub } from "../core/plugin";
@@ -20,6 +19,7 @@ const queryClient = new QueryClient();
 export type AssetProviderProps = {
   signer: Signer;
   storage: StorageScheme;
+  grapqlClient: ApolloClient<unknown>;
   hub?: string;
   assetHubManager?: string;
   children?: React.ReactNode;
@@ -47,7 +47,7 @@ export function AssetProvider(props: AssetProviderProps) {
   return (
     <AssetContext.Provider value={value}>
       <QueryClientProvider client={queryClient}>
-        <ApolloProvider client={client}>
+        <ApolloProvider client={props.grapqlClient}>
           <HubInfoProvider
             signer={props.signer}
             hub={hub}

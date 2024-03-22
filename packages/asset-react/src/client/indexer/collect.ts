@@ -31,8 +31,6 @@ query GetCollectors($hub:String!, $assetId: BigInt!, $collector: String) {
   }
 }
 `
-
-
 type GqlCollectorList = {
   collectorsConnection: {
     edges: { node: AssetCollector }[],
