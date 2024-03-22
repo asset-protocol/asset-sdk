@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import "./markdown-viwer.css";
-import Vditor from "vditor";
+// import "./markdown-viwer.css";
+import Vditor from "deschool-vditor";
 import React from "react";
 import { useReplaceUri } from "../../../lib/utils";
 import { Asset } from "../../../client/core";
@@ -43,82 +43,6 @@ export default function MarkdownViewer({ value }: { value: Asset }) {
         return ser.serializeToString(dom);
       },
     });
-    // const vditor = new Vditor(editorRef.current, {
-    //   mode: "ir",
-    //   after: () => {
-    //     vditor.setValue(value.normalizedMetadata?.content ?? "");
-    //     setVd(vditor);
-    //     // const evt = document.createEvent("Event");
-    //     // evt.initEvent("click", true, true);
-    //     // if (vditor.vditor.toolbar) {
-    //     //   vditor.vditor.toolbar.elements?.preview.firstElementChild?.dispatchEvent(
-    //     //     evt
-    //     //   );
-    //     // }
-    //     vditor.disabled();
-    //   },
-    //   toolbar: [],
-    //   toolbarConfig: {
-    //     pin: true,
-    //     hide: true,
-    //   },
-    //   outline: {
-    //     enable: true,
-    //     position: "right",
-    //   },
-    //   image: {
-    //     isPreview: true,
-    //     preview: (e) => {
-    //       console.log("md image preview", e);
-    //       const image = e.getElementsByTagName("img");
-    //       for (let i = 0; i < image.length; i++) {
-    //         image[i].src = replaceUri(image[i].src)!;
-    //       }
-    //       const audios = e.getElementsByTagName("audio");
-    //       for (let i = 0; i < audios.length; i++) {
-    //         audios[i].src = replaceUri(audios[i].src)!;
-    //       }
-    //       const videos = e.getElementsByTagName("video");
-    //       for (let i = 0; i < videos.length; i++) {
-    //         videos[i].src = replaceUri(videos[i].src)!;
-    //       }
-    //       const links = e.getElementsByTagName("a");
-    //       for (let i = 0; i < links.length; i++) {
-    //         links[i].href = replaceUri(links[i].href)!;
-    //       }
-    //     },
-    //   },
-    //   preview: {
-    //     actions: [],
-    //     delay: 0,
-    //     maxWidth: undefined,
-    //     markdown: {
-    //       gfmAutoLink: true,
-    //     },
-    //     parse: (e) => {
-    //       const image = e.getElementsByTagName("img");
-    //       for (let i = 0; i < image.length; i++) {
-    //         image[i].src = replaceUri(image[i].src)!;
-    //       }
-    //       const audios = e.getElementsByTagName("audio");
-    //       for (let i = 0; i < audios.length; i++) {
-    //         audios[i].src = replaceUri(audios[i].src)!;
-    //       }
-    //       const videos = e.getElementsByTagName("video");
-    //       for (let i = 0; i < videos.length; i++) {
-    //         videos[i].src = replaceUri(videos[i].src)!;
-    //       }
-    //       const links = e.getElementsByTagName("a");
-    //       for (let i = 0; i < links.length; i++) {
-    //         links[i].href = replaceUri(links[i].href)!;
-    //       }
-    //     },
-    //   },
-    //   cache: {
-    //     id: "ah-md-viewer-cache",
-    //   },
-    // });
-    // Clear the effect
     return () => {
       vd?.destroy();
       setVd(undefined);

@@ -3,7 +3,7 @@ import { useAssetHub } from "../context";
 import { ASSET_TYPE_UNKNOW, Info } from "../core";
 import { useEffect, useState } from "react";
 
-export function useEditor() {
+export function useEditorProvider() {
   const { ctx } = useAssetHub();
   return (type: string) => {
     let p = ctx.editorProviders[type]?.find(p => p.selector(type));

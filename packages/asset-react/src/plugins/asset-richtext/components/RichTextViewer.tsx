@@ -1,4 +1,4 @@
-import { LexicalEditor } from "./lexical";
+import LexicalEditor from "./lexical";
 import {
   AssetViewerWithHeader,
   useAssetViewer,

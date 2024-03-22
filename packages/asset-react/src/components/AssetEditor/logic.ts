@@ -1,12 +1,13 @@
-import { Asset, AssetMetadata } from "../../client/core";
+import { Asset } from "../../client/core";
 import { useAssetHub } from "../../context";
+import { AssetMetadata } from "../../core";
 import { UpdateAssetInput } from "../../hook/assethub";
 
 export type AssetFieldType = {
   type: string;
   name: string;
   content: string;
-  image: string;
+  image?: string;
   description?: string;
   tags?: string[];
   collectModule?: { module: string; data?: string };
@@ -31,5 +32,4 @@ export function useSaveAssetMetadata() {
       contentURI: metadataURI,
     }
   }
-
 }

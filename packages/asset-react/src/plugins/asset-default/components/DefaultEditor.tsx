@@ -1,15 +1,16 @@
 import { Input } from "antd";
+import { useAssetEditor } from "../../../components/AssetEditor/AssetEditorContext";
+import { AssetEditorHeader } from "../../../components";
 
-export type ContentEditorProps = {
-  value?: string;
-  onChange?: (v: string) => void;
-};
-
-export default function ContentEditor(props: ContentEditorProps) {
+export default function ContentEditor() {
+  const { content, setContent } = useAssetEditor();
   return (
-    <Input.TextArea
-      value={props.value}
-      onChange={(e) => props.onChange?.(e.target.value)}
-    />
+    <>
+      <AssetEditorHeader />
+      <Input.TextArea
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+      />
+    </>
   );
 }

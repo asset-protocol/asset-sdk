@@ -68,6 +68,9 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
+      deschool-vditor:
+        specifier: ^3.10.2
+        version: 3.10.2
       ethers:
         specifier: ^6.11.1
         version: 6.11.1
@@ -89,9 +92,6 @@ importers:
       react-player:
         specifier: ^2.13.0
         version: 2.13.0(react@18.2.0)
-      vditor:
-        specifier: ^3.10.2
-        version: 3.10.2
     devDependencies:
       '@svgr/rollup':
         specifier: ^8.1.0
@@ -3560,6 +3560,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: false
     bundledDependencies:
       - napi-wasm
@@ -3753,7 +3754,7 @@ packages:
     dependencies:
       '@react-native-community/cli-tools': 12.3.6
       chalk: 4.1.2
-      execa: 5.0.0
+      execa: 5.1.1
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -3790,7 +3791,7 @@ packages:
       command-exists: 1.2.9
       deepmerge: 4.3.1
       envinfo: 7.11.1
-      execa: 5.0.0
+      execa: 5.1.1
       hermes-profile-transformer: 0.0.6
       node-stream-zip: 1.15.0
       ora: 5.4.1
@@ -3818,7 +3819,7 @@ packages:
     dependencies:
       '@react-native-community/cli-tools': 12.3.6
       chalk: 4.1.2
-      execa: 5.0.0
+      execa: 5.1.1
       fast-xml-parser: 4.3.6
       glob: 7.2.3
       logkitty: 0.7.1
@@ -3831,7 +3832,7 @@ packages:
     dependencies:
       '@react-native-community/cli-tools': 12.3.6
       chalk: 4.1.2
-      execa: 5.0.0
+      execa: 5.1.1
       fast-xml-parser: 4.3.6
       glob: 7.2.3
       ora: 5.4.1
@@ -3902,7 +3903,7 @@ packages:
       chalk: 4.1.2
       commander: 9.5.0
       deepmerge: 4.3.1
-      execa: 5.0.0
+      execa: 5.1.1
       find-up: 4.1.0
       fs-extra: 8.1.0
       graceful-fs: 4.2.11
@@ -7127,6 +7128,12 @@ packages:
     resolution: {integrity: sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==}
     dev: true
 
+  /deschool-vditor@3.10.2:
+    resolution: {integrity: sha512-oPQ5dpEqc3RH+2inX+MlDtd/cbApOQmZ3qmbrQVCLXy1KYOR5fpJxa7dq+NzTwQ+tlhV8D0eLcsezFFmIJVm9w==}
+    dependencies:
+      diff-match-patch: 1.0.5
+    dev: false
+
   /destr@2.0.3:
     resolution: {integrity: sha512-2N3BOUU4gYMpTP24s5rF5iP7BDr7uNTCs4ozw3kf/eKfvWSIu93GEBi5m427YoyJoeOzQ5smuu4nNAPGb8idSQ==}
     dev: false
@@ -7685,6 +7692,7 @@ packages:
       onetime: 5.1.2
       signal-exit: 3.0.7
       strip-final-newline: 2.0.0
+    dev: true
 
   /execa@5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
@@ -10190,6 +10198,10 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: false
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -13621,12 +13633,6 @@ packages:
   /vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
-    dev: false
-
-  /vditor@3.10.2:
-    resolution: {integrity: sha512-NtnsqKoU7cFUb7HPLct+fSjRnuhSlfSp0bpCDm0GcH2emngoZb6m1cEyg8yhu1WkHt8ugD9i1OMrA1tnMEW6fA==}
-    dependencies:
-      diff-match-patch: 1.0.5
     dev: false
 
   /viem@1.21.4(typescript@5.2.2):

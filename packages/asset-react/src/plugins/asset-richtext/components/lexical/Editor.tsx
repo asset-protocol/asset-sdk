@@ -44,6 +44,7 @@ function MyOnChangePlugin({
 }
 
 export function LexicalEditor(props: LexicalEditorProps) {
+  console.log("state: ", props.value ? props.value : null);
   const initialConfig: InitialConfigType = {
     namespace: "richTestViewer",
     // theme: {},
@@ -52,7 +53,7 @@ export function LexicalEditor(props: LexicalEditorProps) {
       console.error(e);
     },
     nodes: editorNodes,
-    editorState: props.value ?? null,
+    editorState: props.value ? props.value : null,
   };
 
   const onChange = (editorState: EditorState) => {

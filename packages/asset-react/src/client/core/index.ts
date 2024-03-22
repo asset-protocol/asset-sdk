@@ -1,15 +1,6 @@
-export type AssetType = "image" | "video" | "audio" | "markdown" | string;
+import { AssetMetadata } from "../../core";
 
-export type AssetMetadata = {
-  name?: string;
-  description?: string;
-  type?: string;
-  content?: string;
-  image?: string;
-  tags?: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
-}
+export type AssetType = "image" | "video" | "audio" | "markdown" | string;
 
 export type Asset = {
   id: string;
@@ -21,8 +12,8 @@ export type Asset = {
   contentUri?: string;
   timestamp: bigint;
   hash: string;
-  metadata?: string;
-  normalizedMetadata?: AssetMetadata;
+  metadata: string;
+  normalizedMetadata: AssetMetadata;
   collectModule?: string;
   collectModuleInitData?: string;
   collectNft?: string;

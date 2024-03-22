@@ -1,17 +1,19 @@
-import Vditor from "vditor";
-import "vditor/dist/index.css";
+import Vditor from "deschool-vditor";
+import "deschool-vditor/dist/index.css";
 import React, { useState, useEffect } from "react";
 import { useReplaceUri } from "../../../lib/utils";
+import { useFetchBlob } from "../../../client/indexer/blob";
+import { useAssetEditor } from "../../../components/AssetEditor/AssetEditorContext";
 export type MarkdownEditorProps = {
-  value?: string;
-  onChange?: (value: string) => void;
   className?: string;
 };
 
 export default function MarkdownEditor(props: MarkdownEditorProps) {
+  const { content, setContent } = useAssetEditor();
   const editorRef = React.useRef<HTMLDivElement>(null);
   const [vd, setVd] = useState<Vditor>();
   const replaceUri = useReplaceUri();
+  const fetchBlob = useFetchBlob();
 
   useEffect(() => {
     if (!editorRef.current) {
@@ -20,10 +22,10 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
     const vditor = new Vditor(editorRef.current, {
       mode: "wysiwyg",
       after: () => {
-        vditor.setValue(props.value ?? "");
+        vditor.setValue(content ?? "");
         setVd(vditor);
       },
-      input: (t) => props.onChange?.(t),
+      input: (t) => setContent(t),
       cache: {
         id: "ah-md-editor-cache",
       },
@@ -46,6 +48,13 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
             }
           }
           return res.map((r) => r.uri).join("\n");
+        },
+        linkToImgHandler: async (url) => {
+          const data = await fetchBlob(url);
+          if (data) {
+            return URL.createObjectURL(data);
+          }
+          return "11";
         },
       },
       image: {

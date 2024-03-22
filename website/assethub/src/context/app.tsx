@@ -1,6 +1,10 @@
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { WagmiProvider } from "wagmi";
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+  useConnectModal,
+} from "@rainbow-me/rainbowkit";
+import { useAccount, WagmiProvider } from "wagmi";
 import { polygonMumbai } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
@@ -25,6 +29,8 @@ const JWTOKEN =
 
 function AppAssetHubProvider(props: { children: React.ReactNode }) {
   const signer = useEthersSigner();
+  const account = useAccount();
+  const { openConnectModal } = useConnectModal();
   const plugins = [
     ipfsPinataPlugin({ jwtToken: JWTOKEN, gateway: "https://ipfs.io" }),
     arwaveStoragePlugin,
@@ -42,6 +48,8 @@ function AppAssetHubProvider(props: { children: React.ReactNode }) {
       grapqlClient={client}
       storage={"ipfs"}
       plugins={plugins}
+      account={account.address}
+      requireLogin={() => openConnectModal?.()}
       assetHubManager={AssetHubManager}
     >
       {props.children}

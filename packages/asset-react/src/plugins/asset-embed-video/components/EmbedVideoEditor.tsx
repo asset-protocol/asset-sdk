@@ -1,15 +1,13 @@
 import { Input } from "antd";
+import { useAssetEditor } from "../../../components/AssetEditor/AssetEditorContext";
+import { AssetEditorHeader } from "../../../components";
 
-export type ExternalLinkEditorProps = {
-  value?: string;
-  onChange?: (v: string) => void;
-};
-
-export default function ExternalLinkEditor(props: ExternalLinkEditorProps) {
+export default function ExternalLinkEditor() {
+  const { content, setContent } = useAssetEditor();
   return (
-    <Input
-      value={props.value}
-      onChange={(e) => props.onChange?.(e.target.value)}
-    />
+    <>
+      <AssetEditorHeader />
+      <Input value={content} onChange={(e) => setContent(e.target.value)} />
+    </>
   );
 }

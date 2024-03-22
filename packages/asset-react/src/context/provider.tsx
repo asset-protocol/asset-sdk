@@ -10,6 +10,9 @@ export type AssetContextData = {
   ctx: IAssetHub;
   storage: IStorage;
   changeHub: (hub?: string) => void;
+
+  account?: string;
+  requireLogin: () => void;
 };
 
 const AssetContext = createContext<AssetContextData>({} as never);
@@ -17,13 +20,18 @@ const AssetContext = createContext<AssetContextData>({} as never);
 const queryClient = new QueryClient();
 
 export type AssetProviderProps = {
-  signer: Signer;
-  storage: StorageScheme;
-  grapqlClient: ApolloClient<unknown>;
   hub?: string;
+  storage: StorageScheme;
   assetHubManager?: string;
-  children?: React.ReactNode;
   plugins?: AssetHubPlugin[];
+
+  grapqlClient: ApolloClient<unknown>;
+
+  signer: Signer;
+  account?: string;
+  requireLogin: () => void;
+
+  children?: React.ReactNode;
 };
 
 export function AssetProvider(props: AssetProviderProps) {
@@ -39,6 +47,8 @@ export function AssetProvider(props: AssetProviderProps) {
     ctx,
     storage,
     changeHub: setHub,
+    account: props.account,
+    requireLogin: props.requireLogin,
   };
   let children = props.children;
   config.configProviders.forEach(

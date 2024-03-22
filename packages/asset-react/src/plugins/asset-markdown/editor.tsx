@@ -2,6 +2,7 @@ import { AssetHubConfig } from "../../core/plugin";
 import { Suspense, lazy } from "react";
 import { TYPE_MARKDOWN } from "./consts";
 import { useAssetHub } from "../../context";
+import { AssetEditorHeader } from "../../components";
 
 const Editor = lazy(() => import("./components/MarkdownEditor"));
 
@@ -10,9 +11,12 @@ const markdownEditor = (config: AssetHubConfig) => {
     types: [{ value: TYPE_MARKDOWN, label: "Markdown" }],
     selector: (t) => t === TYPE_MARKDOWN,
     editor: (props) => (
-      <Suspense>
-        <Editor {...props} />
-      </Suspense>
+      <>
+        <AssetEditorHeader />
+        <Suspense>
+          <Editor {...props} />
+        </Suspense>
+      </>
     ),
     useOnSubmit: () => {
       const { storage } = useAssetHub();

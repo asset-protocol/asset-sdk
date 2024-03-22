@@ -4,24 +4,28 @@ import { DeleteOutlined, InboxOutlined } from "@ant-design/icons";
 import { Button, Upload } from "antd";
 import { UploadChangeParam } from "antd/es/upload/interface";
 import { useEffect, useState } from "react";
+import { useAssetEditor } from "../../../components/AssetEditor/AssetEditorContext";
+import { AssetEditorHeader } from "../../../components";
 
 export type ImageFileInfo = {
   uid: string;
   url: string;
 };
 
-export type ImageEditorProps = {
-  value?: string;
-  onChange?: (v?: string[]) => void;
-};
-
-export default function ImageEditor(props: ImageEditorProps) {
-  let images: string[] | string = props.value ?? [];
-  if (typeof props.value === "string") {
-    images = JSON.parse(props.value) as string[];
+export default function ImageEditor() {
+  const { content, setContent } = useAssetEditor();
+  let images: string[] | string = content ?? [];
+  if (typeof content === "string") {
+    try {
+      images = JSON.parse(content) as string[];
+    } catch (e) {
+      console.warn(e);
+      images = [];
+    }
   }
   const fs = (images as string[]).map((f) => ({ uid: f, url: f }));
   const [files, setFiles] = useState(fs);
+
   const blobRequest = useBlobRequest();
   const replaceUri = useReplaceUri();
 
@@ -39,12 +43,13 @@ export default function ImageEditor(props: ImageEditorProps) {
   };
 
   useEffect(() => {
-    props.onChange?.(files.map((f) => f.url));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setContent(JSON.stringify(files.map((f) => f.url)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
   return (
     <div>
+      <AssetEditorHeader />
       <Upload.Dragger
         multiple
         showUploadList={false}

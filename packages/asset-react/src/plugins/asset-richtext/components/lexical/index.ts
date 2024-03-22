@@ -1,1 +1,1 @@
-export * from './Editor'
+export { LexicalEditor as default } from './Editor'

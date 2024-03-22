@@ -15,11 +15,8 @@ export default function imageEditor(config: AssetHubConfig) {
     ),
     useOnSubmit: () => {
       const { storage } = useAssetHub();
-      return async (cur: string | unknown) => {
-        if (typeof cur === "string") {
-          return cur;
-        }
-        const files = cur as string[];
+      return async (cur: string) => {
+        const files = cur ? JSON.parse(cur) : [];
         const resFiles: string[] = [];
         for (const file of files) {
           if (file.startsWith("blob:")) {
@@ -33,7 +30,6 @@ export default function imageEditor(config: AssetHubConfig) {
           }
         }
         const res = JSON.stringify(resFiles);
-        console.log("onSubmit", res);
         return res;
       };
     },

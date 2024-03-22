@@ -4,6 +4,7 @@ import { AssetViewPage } from "../pages/asset/AssetViewPage";
 import { AssetEditPage } from "../pages/asset/AssetEditPage";
 import { AssetCreatePage } from "../pages/asset/AssetCreatePage";
 import { Layerout } from "../pages/Layout";
+import { DemoPage } from "../pages/asset/DemoPage";
 
 const root = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const root = createBrowserRouter([
       {
         path: "",
         element: <Navigate to="/home" />,
+      },
+      {
+        path: "demo",
+        element: <DemoPage />,
       },
       {
         path: ":hub",
