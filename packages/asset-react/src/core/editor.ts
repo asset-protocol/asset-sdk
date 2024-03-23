@@ -19,5 +19,5 @@ export type IEditorProvider = {
   types: Info[];
   selector: (type: string) => boolean;
   editor: IEditor;
-  useOnSubmit?: () => ((cur: string, pre?: string) => Promise<string>);
+  useBeforePublish?: () => ((cur: string, pre?: string) => Promise<string>);
 }

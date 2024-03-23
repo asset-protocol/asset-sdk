@@ -1,9 +1,4 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 import { AssetMetadata, AssetModule } from "../../core";
 import { Asset } from "../../client/core";
 
@@ -11,8 +6,8 @@ export type AssetMetadataEditData = Omit<AssetMetadata, "type" | "content">;
 
 export type AssetEditorContextData = {
   asset?: Asset;
-  type?: string;
-  setType: (t?: string) => void;
+  type: string;
+  setType: (t: string) => void;
 
   metadata?: AssetMetadataEditData;
   setMetadata(m?: AssetMetadataEditData): void;
@@ -47,7 +42,7 @@ function useAsetMeataData(asset?: Asset) {
 
 export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const { children, asset } = props;
-  const [type, setType] = useState<string | undefined>(asset?.type);
+  const [type, setType] = useState<string>(asset?.type ?? "video");
   const [metadata, setMetadata] = useAsetMeataData(asset);
   const [content, setContent] = useState<string | undefined>(
     asset?.normalizedMetadata.content

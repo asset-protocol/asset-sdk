@@ -8,7 +8,7 @@ const videoEditor = (config: AssetHubConfig) => {
     types: [{ value: TYPE_VIDEO, label: "Video" }],
     selector: (t) => t === TYPE_VIDEO,
     editor: (props) => <VideoEditor {...props} />,
-    useOnSubmit: () => {
+    useBeforePublish: () => {
       const { storage } = useAssetHub();
       return async (cur: string) => {
         if (cur.startsWith("blob:")) {

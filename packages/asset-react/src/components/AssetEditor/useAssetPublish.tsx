@@ -3,6 +3,7 @@ import { useAssetHub } from "../../context";
 import {
   UpdateAssetInput,
   useCreateAsset,
+  useEditorProvider,
   useUpdateAsset,
 } from "../../hook";
 import { ZERO_BYTES } from "../../core";
@@ -14,6 +15,8 @@ export function useAssetPublish() {
   const { storage } = useAssetHub();
   const { create } = useCreateAsset();
   const { update } = useUpdateAsset();
+  const editor = useEditorProvider()(type);
+  const beforePublish = editor.useBeforePublish?.();
 
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +25,11 @@ export function useAssetPublish() {
     let assetId = asset?.assetId;
     try {
       const newData: UpdateAssetInput = {};
-      const data = { ...metadata, type, content };
+      let newConent = content;
+      if (content && beforePublish) {
+        newConent = await beforePublish(content, asset?.normalizedMetadata.content);
+      }
+      const data = { ...metadata, type, content: newConent };
       if (metadata?.image?.startsWith("blob:")) {
         const image = await fetch(metadata.image).then((res) => res.blob());
         data.image = await storage.upload({

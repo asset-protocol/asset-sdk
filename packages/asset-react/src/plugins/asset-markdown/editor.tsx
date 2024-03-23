@@ -18,7 +18,7 @@ const markdownEditor = (config: AssetHubConfig) => {
         </Suspense>
       </>
     ),
-    useOnSubmit: () => {
+    useBeforePublish: () => {
       const { storage } = useAssetHub();
       return async (cur: string) => {
         let res = cur;

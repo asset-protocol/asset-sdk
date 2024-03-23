@@ -11,6 +11,7 @@ export type AssetContentEditorProps = {
 export function AssetMetadataEditor(props: AssetContentEditorProps) {
   const { type } = useAssetEditor();
   const selectEditor = useEditorProviderSelector();
+
   const editorProvider = useMemo(() => {
     if (type) {
       return selectEditor(type);
@@ -20,7 +21,7 @@ export function AssetMetadataEditor(props: AssetContentEditorProps) {
   const Editor = useMemo(() => {
     if (editorProvider) {
       return forwardRef((refProps: IEditorProps, ref) => {
-        const onSubmit = editorProvider!.useOnSubmit?.();
+        const onSubmit = editorProvider!.useBeforePublish?.();
         useImperativeHandle(ref, () => ({
           onSubmit: onSubmit || ((v) => v),
         }));

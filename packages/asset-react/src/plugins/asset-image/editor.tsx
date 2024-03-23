@@ -13,7 +13,7 @@ export default function imageEditor(config: AssetHubConfig) {
         <Editor {...props} />
       </Suspense>
     ),
-    useOnSubmit: () => {
+    useBeforePublish: () => {
       const { storage } = useAssetHub();
       return async (cur: string) => {
         const files = cur ? JSON.parse(cur) : [];
