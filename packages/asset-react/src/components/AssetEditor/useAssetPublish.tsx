@@ -27,7 +27,7 @@ export function useAssetPublish() {
       const newData: UpdateAssetInput = {};
       let newConent = content;
       if (content && beforePublish) {
-        newConent = await beforePublish(content, asset?.normalizedMetadata.content);
+        newConent = await beforePublish(content, asset?.content);
       }
       const data = { ...metadata, type, content: newConent };
       if (metadata?.image?.startsWith("blob:")) {

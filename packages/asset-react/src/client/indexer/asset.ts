@@ -25,9 +25,10 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
       edges {
         node {
           assetId
-          name
           type
-          metadata
+          name
+          image
+          description
           tags
           publisher
           contentUri
@@ -76,7 +77,7 @@ export function useGetHubAssets(args: GetAssetHubAssetsInput) {
   })
   const newData = useMemo(() => ({
     assets: data?.assetsConnection.edges.map(a => {
-      return parseMetadata(a.node);
+      return a.node;
     }),
     pageInfo: data?.assetsConnection.pageInfo
   }), [data])
@@ -90,22 +91,54 @@ export function useGetAssetsByWallet(publisher: string, hub: string) {
   })
 }
 
+
+const GET_HUb_ASSETS_BY_ID = gql`
+query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
+  assetsConnection(
+    first: $first,
+    after: $after,
+    orderBy: $orderBy,
+    where: { hub_eq: $hub, publisher_eq: $publisher, assetId_eq: $assetId }){
+      edges {
+        node {
+          assetId
+          type
+          name
+          image
+          description
+          content
+          tags
+          publisher
+          contentUri
+          timestamp
+          metadata
+          hash
+          collectModule
+          collectModuleInitData
+          collectNft
+          collectCount
+          gatedModule
+          gatedModuleInitData
+        }
+      }
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+    }
+}
+`;
+
 export function useGetAssetById(assetId: bigint, hub: string) {
   const tokenId = assetId.toString();
-  const { data, ...res } = useGetHubAssets({
-    hub: hub,
-    assetId: tokenId,
-    fetchPolicy: "no-cache"
+  const { data, ...res } = useQuery<GqlAssetList<Asset>>(GET_HUb_ASSETS_BY_ID, {
+    variables: { assetId: tokenId, hub: hub, orderBy: "timestamp_DESC" },
+    fetchPolicy: "no-cache",
+    skip: !hub
   })
-  return { ...res, asset: data.assets?.[0] }
-}
-
-function parseMetadata(asset: Asset): Asset {
-  const res = {
-    ...asset,
-    normalizedMetadata: asset.metadata ? JSON.parse(asset.metadata) : undefined,
-  }
-  return res;
+  return { ...res, asset: data?.assetsConnection.edges?.[0].node }
 }
 
 const REFRESH_ASSET_METADATA = gql`

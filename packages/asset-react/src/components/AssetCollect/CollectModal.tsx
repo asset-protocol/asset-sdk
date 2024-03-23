@@ -86,7 +86,7 @@ export function CollectModal(props: CollectModalProps) {
         <div className="flex-[3] min-w-[100px]">
           <div className="shadow-md rounded-lg overflow-hidden">
             <img
-              src={replaceUri(props.asset.normalizedMetadata?.image)}
+              src={replaceUri(props.asset?.image)}
               alt=""
               className="w-full object-cover aspect-[2/1]"
             />

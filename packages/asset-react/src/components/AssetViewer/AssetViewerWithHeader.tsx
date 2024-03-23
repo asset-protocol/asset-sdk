@@ -64,7 +64,7 @@ export function AssetViewerWithHeader(props: {
       {showCover && (
         <div className="relative w-full aspect-[24/9]">
           <img
-            src={replaceUri(asset.normalizedMetadata?.image)}
+            src={replaceUri(asset?.image)}
             alt=""
             className="w-full h-full z-[-1] absolute top-0 object-cover rounded-md overflow-hidden"
           />
@@ -127,7 +127,7 @@ export function AssetViewerWithHeader(props: {
         <div className={`${showCover ? "-mt-24" : ""}`}>
           {showDescription && (
             <div className="m-auto text-gray-500 my-4 text-base bg-gray-100 rounded-md py-6 px-6 mx-4">
-              {asset.normalizedMetadata?.description}
+              {asset?.description}
             </div>
           )}
         </div>

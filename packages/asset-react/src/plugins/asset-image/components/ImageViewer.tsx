@@ -3,7 +3,7 @@ import { AssetViewerWithHeader } from "../../../components";
 import { useReplaceUri } from "../../../lib/utils";
 
 export default function ImageViewer({ value }: { value: Asset }) {
-  const images = value.normalizedMetadata?.content ?? "[]";
+  const images = value.content ?? "[]";
   const files = JSON.parse(images) as string[];
 
   const replaceUri = useReplaceUri();

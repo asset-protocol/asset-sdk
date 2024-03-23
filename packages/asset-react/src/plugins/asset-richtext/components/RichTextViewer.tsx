@@ -10,10 +10,7 @@ export default function RichTextViewer() {
     <div className="max-w-[1080px] mx-auto border-[1px] border-t-0 border-solid border-gray-300">
       <AssetViewerWithHeader></AssetViewerWithHeader>
       <div className="px-4">
-        <LexicalEditor
-          value={asset.normalizedMetadata?.content}
-          editable={false}
-        />
+        <LexicalEditor value={asset.content} editable={false} />
       </div>
     </div>
   );

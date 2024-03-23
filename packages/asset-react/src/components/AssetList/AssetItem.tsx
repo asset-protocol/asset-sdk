@@ -10,8 +10,6 @@ export function AssetItem(props: {
   classname?: string;
 }) {
   const { value } = props;
-  const normalizedMetadata = props.value.normalizedMetadata;
-
   const replaceUri = useReplaceUri();
   const viewAsset = () => {
     props.onClick?.(value);
@@ -24,12 +22,12 @@ export function AssetItem(props: {
         props.classname
       )}
     >
-      {normalizedMetadata && (
+      {
         <Image
           title="asset image"
           preview={false}
           className="aspect-[2/1] cursor-pointer object-cover w-full"
-          src={replaceUri(normalizedMetadata?.image)}
+          src={replaceUri(value.image)}
           placeholder={
             <Skeleton.Image
               active
@@ -39,8 +37,8 @@ export function AssetItem(props: {
           }
           onClick={viewAsset}
         ></Image>
-      )}
-      {!normalizedMetadata && (
+      }
+      {!value.name && (
         <div
           className="text-3xl aspect-[2/1] flex items-center justify-center bg-gray-200 font-bold"
           onClick={viewAsset}
@@ -61,12 +59,10 @@ export function AssetItem(props: {
             <div>#{value.assetId?.toString()}</div>
           </div>
         </div>
-        <div className="line-clamp-1">
-          {value.normalizedMetadata?.description}
-        </div>
+        <div className="line-clamp-1">{value.description}</div>
         <div className="flex-1 flex gap-2">
-          {normalizedMetadata?.tags ? (
-            normalizedMetadata.tags?.map((t: string) => (
+          {value.tags ? (
+            value.tags.split(",").map((t: string) => (
               <Tag
                 key={t}
                 color={
@@ -82,7 +78,9 @@ export function AssetItem(props: {
         </div>
         <div className="flex items-center justify-between">
           <div>{value.collectCount?.toString() ?? 0} Collected</div>
-          <div className="text-gray-500">{fromNow(Number.parseInt(value.timestamp.toString()))}</div>
+          <div className="text-gray-500">
+            {fromNow(Number.parseInt(value.timestamp.toString()))}
+          </div>
         </div>
       </div>
     </div>

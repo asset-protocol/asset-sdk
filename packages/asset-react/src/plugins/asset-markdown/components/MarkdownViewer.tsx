@@ -16,7 +16,7 @@ export default function MarkdownViewer({ value }: { value: Asset }) {
     if (!editorRef.current) {
       return;
     }
-    Vditor.preview(editorRef.current, value.normalizedMetadata?.content ?? "", {
+    Vditor.preview(editorRef.current, value.content ?? "", {
       mode: "light",
       anchor: 1,
       markdown: {},

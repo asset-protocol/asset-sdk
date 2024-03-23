@@ -14,7 +14,7 @@ export default function EmbedVideoViewer({
     <div className="max-w-[1280px] mx-auto">
       <div className="aspect-video rounded-xl overflow-hidden">
         <VideoPlayer
-          url={replaceUri(value.normalizedMetadata?.content)}
+          url={replaceUri(value.content)}
           controls
         ></VideoPlayer>
       </div>

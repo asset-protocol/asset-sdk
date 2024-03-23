@@ -36,7 +36,7 @@ export type AssetEditorProviderProps = {
 
 function useAsetMeataData(asset?: Asset) {
   return useState<AssetMetadataEditData | undefined>(() => {
-    return asset && asset.normalizedMetadata;
+    return asset && asset.metadata && JSON.parse(asset.metadata);
   });
 }
 
@@ -44,9 +44,7 @@ export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const { children, asset } = props;
   const [type, setType] = useState<string>(asset?.type ?? "video");
   const [metadata, setMetadata] = useAsetMeataData(asset);
-  const [content, setContent] = useState<string | undefined>(
-    asset?.normalizedMetadata.content
-  );
+  const [content, setContent] = useState<string | undefined>(asset?.content);
   const [collectModule, setCollectModule] = useState<AssetModule | undefined>(
     () => {
       if (asset?.collectModule) {

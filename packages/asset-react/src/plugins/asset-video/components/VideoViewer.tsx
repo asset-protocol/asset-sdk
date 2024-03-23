@@ -14,7 +14,7 @@ export default function VideoViewer({
     <div className="max-w-[1280px] mx-auto">
       <div className="w-full aspect-video rounded-xl overflow-hidden">
         <ReactPlayer
-          url={replaceUri(value.normalizedMetadata?.content)}
+          url={replaceUri(value.content)}
           controls
           width={"100%"}
           height={"100%"}
