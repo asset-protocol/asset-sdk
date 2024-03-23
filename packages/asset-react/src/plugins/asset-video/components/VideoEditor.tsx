@@ -8,7 +8,7 @@ export default function VideoEditor() {
     <>
       <AssetEditorHeader />
       <VideoBlobUpload
-        accept=".mp4,.avi,.mkv"
+        accept="video/*,.mkv"
         value={content}
         onChange={(v) => setContent(v)}
       ></VideoBlobUpload>

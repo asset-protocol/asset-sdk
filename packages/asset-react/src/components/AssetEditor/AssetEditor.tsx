@@ -8,15 +8,15 @@ import { AssetEditorPanel } from "./AssetEnditorPanel";
 
 export type AssetEditorProps = Omit<AssetEditorProviderProps, "children"> & {
   className?: string;
+  onPublished?: (assetId: bigint) => void;
 };
 
 export function AssetEditor(props: AssetEditorProps) {
-  const { className, ...resProps } = props;
-
+  const { className, onPublished, ...resProps } = props;
   return (
     <AssetEditorProvider {...resProps}>
-      <div className={clsx("mt-4", className)}>
-        <AssetEditorPanel />
+      <div className={clsx("", className)}>
+        <AssetEditorPanel onPublished={onPublished}/>
         <AssetMetadataEditor />
       </div>
     </AssetEditorProvider>

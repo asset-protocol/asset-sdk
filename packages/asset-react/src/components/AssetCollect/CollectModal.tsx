@@ -88,7 +88,7 @@ export function CollectModal(props: CollectModalProps) {
             <img
               src={replaceUri(props.asset.normalizedMetadata?.image)}
               alt=""
-              className="w-full object-cover aspect-video"
+              className="w-full object-cover aspect-[2/1]"
             />
             <div className="line-clamp-2 text-xl flex-1 px-4 py-1 font-bold">
               {props.asset.name}

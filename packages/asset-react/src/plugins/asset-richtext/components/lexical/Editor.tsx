@@ -44,7 +44,6 @@ function MyOnChangePlugin({
 }
 
 export function LexicalEditor(props: LexicalEditorProps) {
-  console.log("state: ", props.value ? props.value : null);
   const initialConfig: InitialConfigType = {
     namespace: "richTestViewer",
     // theme: {},
@@ -66,31 +65,29 @@ export function LexicalEditor(props: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className={clsx("flex flex-col", props.classname)}>
-        <div className="flex-1 h-full">
-          <AutoLinkPlugin />
-          <CodeHighlightPlugin />
-          <HistoryPlugin />
-          <AutoFocusPlugin />
-          <RichTextPlugin
-            contentEditable={
-              props.editable ? (
-                <div
-                  className={`h-full flex flex-col border-[1px] border-solid border-gray-300`}
-                >
-                  <div className="bg-white py-2 border-0 border-b-[1px] px-2 border-solid border-gray-300">
-                    <ToolBarPlugin />
-                  </div>
-                  <ContentEditable className="focus-visible:outline-none flex-1 overflow-auto px-4" />
+        <AutoLinkPlugin />
+        <CodeHighlightPlugin />
+        <HistoryPlugin />
+        <AutoFocusPlugin />
+        <RichTextPlugin
+          contentEditable={
+            props.editable ? (
+              <div
+                className={`flex-1 flex flex-col border-[1px] border-solid border-gray-300`}
+              >
+                <div className="bg-white py-2 border-0 border-b-[1px] px-2 border-solid border-gray-300">
+                  <ToolBarPlugin />
                 </div>
-              ) : (
-                <ContentEditable className="focus-visible:outline-none flex-1 overflow-auto" />
-              )
-            }
-            placeholder={<div>Enter some text...</div>}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <MyOnChangePlugin onChange={onChange} />
-        </div>
+                <ContentEditable className="focus-visible:outline-none flex-1 overflow-auto px-4" />
+              </div>
+            ) : (
+              <ContentEditable className="focus-visible:outline-none flex-1 overflow-auto" />
+            )
+          }
+          placeholder={<div>Enter some text...</div>}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <MyOnChangePlugin onChange={onChange} />
       </div>
     </LexicalComposer>
   );

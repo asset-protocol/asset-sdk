@@ -1,10 +1,5 @@
 import { AbiCoder, BytesLike } from "ethers";
 
-export type CollectModule = {
-  module: string;
-  initData: BytesLike;
-};
-
 export type FeeConfig = {
   currency: string;
   recipient: string;

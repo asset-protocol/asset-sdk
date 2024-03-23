@@ -16,7 +16,7 @@ export function AssetCard(props: AssetCardProps) {
       <img
         src={replaceUri(props.image)}
         alt=""
-        className="w-full object-cover aspect-video"
+        className="w-full object-cover aspect-[2/1]"
       />
       <div className="line-clamp-2 text-xl flex-1 px-4 py-1 font-bold">
         {props.name}

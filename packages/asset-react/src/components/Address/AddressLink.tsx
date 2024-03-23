@@ -2,7 +2,7 @@ import { Button } from "antd";
 import clsx from "clsx";
 
 export function AddressLink(props: {
-  address: string;
+  address?: string;
   to?: string;
   className?: string;
 }) {
@@ -13,6 +13,7 @@ export function AddressLink(props: {
   );
 }
 
-export function formatAddress(address: string) {
+export function formatAddress(address?: string) {
+  if (!address) return address;
   return `${address.slice(0, 10)}...${address.slice(-4)}`;
 }

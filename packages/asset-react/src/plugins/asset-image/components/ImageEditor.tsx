@@ -49,7 +49,7 @@ export default function ImageEditor() {
 
   return (
     <div>
-      <AssetEditorHeader />
+      <AssetEditorHeader useImage={false} />
       <Upload.Dragger
         multiple
         showUploadList={false}

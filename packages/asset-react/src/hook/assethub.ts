@@ -3,7 +3,7 @@ import { DataTypes, NewERC20 } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useCallback, useState } from "react";
 import { AssetHubDeployDataStruct } from "../client/assethub/typechain-types/AssetHubManager";
-import { CollectModule, ZERO_BYTES, parseFeeCollectModuleInitData } from "../core";
+import { AssetModule, ZERO_BYTES, parseFeeCollectModuleInitData } from "../core";
 
 export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
@@ -38,19 +38,19 @@ export function useDeployNewAssetHub() {
     }
   }
   return { deploy, data, isLoading };
-
 }
 
 export type AssetCreateData = Partial<DataTypes.AssetCreateDataStruct>;
 
-const zeroCreateData: DataTypes.AssetCreateDataStruct = {
-  publisher: ZeroAddress,
-  contentURI: "",
-  assetCreateModuleData: ZERO_BYTES,
-  collectModule: ZeroAddress,
-  collectModuleInitData: ZERO_BYTES,
-  gatedModule: ZeroAddress,
-  gatedModuleInitData: ZERO_BYTES
+function checkCreateData(data: AssetCreateData): DataTypes.AssetCreateDataStruct {
+  data.publisher = data.publisher || ZeroAddress;
+  data.contentURI = data.contentURI || "";
+  data.assetCreateModuleData = data.assetCreateModuleData || ZERO_BYTES;
+  data.collectModule = data.collectModule || ZeroAddress;
+  data.collectModuleInitData = data.collectModuleInitData || ZERO_BYTES;
+  data.gatedModule = data.gatedModule || ZeroAddress;
+  data.gatedModuleInitData = data.gatedModuleInitData || ZERO_BYTES;
+  return data as DataTypes.AssetCreateDataStruct;
 }
 
 export function useCreateAsset() {
@@ -61,10 +61,8 @@ export function useCreateAsset() {
       throw new Error("asset hub not set");
     }
     setIsLoading(true);
-    const createData = {
-      ...zeroCreateData,
-      ...data,
-    };
+    const createData = checkCreateData(data);
+    console.log("createData", createData)
     try {
       const tokenId = await assetHub.create.staticCall(createData);
       const res = await assetHub.create(createData);
@@ -79,12 +77,13 @@ export function useCreateAsset() {
 
 export type UpdateAssetInput = Partial<DataTypes.AssetUpdateDataStruct>;
 
-const zeroUpdateData: DataTypes.AssetUpdateDataStruct = {
-  collectModule: ZeroAddress,
-  collectModuleInitData: ZERO_BYTES,
-  gatedModule: ZeroAddress,
-  gatedModuleInitData: ZERO_BYTES,
-  contentURI: "",
+function checkUpdateData(data: UpdateAssetInput): DataTypes.AssetUpdateDataStruct {
+  data.collectModule = data.collectModule || ZeroAddress;
+  data.collectModuleInitData = data.collectModuleInitData || ZERO_BYTES;
+  data.gatedModule = data.gatedModule || ZeroAddress;
+  data.gatedModuleInitData = data.gatedModuleInitData || ZERO_BYTES;
+  data.contentURI = data.contentURI || "";
+  return data as DataTypes.AssetUpdateDataStruct;
 }
 
 export function useUpdateAsset() {
@@ -97,20 +96,10 @@ export function useUpdateAsset() {
     }
     setIsLoading(true);
     try {
-      const updateData = {
-        ...zeroUpdateData,
-        ...data
-      }
-      const initdata = {
-        collectModule: updateData.collectModule,
-        collectModuleInitData: updateData.collectModuleInitData,
-        gatedModule: updateData.gatedModule,
-        gatedModuleInitData: updateData.gatedModuleInitData,
-        contentURI: updateData.contentURI
-      }
-      console.log("updatedata", initdata)
-      console.log("assetId", assetId)
-      const res = await assetHub.update(assetId, initdata);
+      const updateData = checkUpdateData(data);
+      console.log("updatedata", updateData);
+      console.log("assetId", assetId);
+      const res = await assetHub.update(assetId, updateData);
       await res.wait();
     } finally {
       setIsLoading(false);
@@ -120,7 +109,7 @@ export function useUpdateAsset() {
 }
 
 
-export type CollectData = CollectModule & {
+export type CollectData = AssetModule & {
   collectData: BytesLike;
 }
 

@@ -28,12 +28,12 @@ export function AssetItem(props: {
         <Image
           title="asset image"
           preview={false}
-          className="aspect-video cursor-pointer object-cover w-full"
+          className="aspect-[2/1] cursor-pointer object-cover w-full"
           src={replaceUri(normalizedMetadata?.image)}
           placeholder={
             <Skeleton.Image
               active
-              rootClassName="!w-full !aspect-video"
+              rootClassName="!w-full !aspect-[2/1]"
               className="!w-full !h-full"
             />
           }
@@ -42,7 +42,7 @@ export function AssetItem(props: {
       )}
       {!normalizedMetadata && (
         <div
-          className="text-3xl aspect-video flex items-center justify-center bg-gray-200 font-bold"
+          className="text-3xl aspect-[2/1] flex items-center justify-center bg-gray-200 font-bold"
           onClick={viewAsset}
         >
           No Metadata

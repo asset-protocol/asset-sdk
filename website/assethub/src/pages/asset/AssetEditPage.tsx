@@ -14,15 +14,16 @@ export function AssetEditPage() {
 
   const navigate = useNavigateAssetHub();
 
-  const handleSubmitted = (assetId: bigint) => {
+  const handleSubmited = (assetId: bigint) => {
     navigate(`/asset/${assetId}`, { replace: true });
   };
+
   if (!asset) {
     return <div>Loading...</div>;
   }
   return (
     <div className="max-w-[1080px] mx-auto">
-      <AssetEditor asset={asset} onPublished={handleSubmitted}></AssetEditor>
+      <AssetEditor asset={asset} onPublished={handleSubmited}></AssetEditor>
     </div>
   );
 }

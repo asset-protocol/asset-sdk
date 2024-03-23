@@ -1,3 +1,5 @@
+import { BytesLike } from "ethers";
+
 export type AssetMetadata = {
   type: string;
   name: string;
@@ -8,3 +10,8 @@ export type AssetMetadata = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extra?: { [key in string]: any };
 }
+
+export type AssetModule = {
+  module: string;
+  initData?: BytesLike;
+};

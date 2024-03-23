@@ -1,20 +1,16 @@
-import { ReactNode, createContext, useContext, useState } from "react";
-import { AssetMetadata } from "../../core";
-import { Asset } from "../..";
-
-export type CollectModule = {
-  collectModule: string;
-  collectModuleInitData?: string;
-};
-export type GatedModule = {
-  collectModule: string;
-  collectModuleInitData?: string;
-};
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+} from "react";
+import { AssetMetadata, AssetModule } from "../../core";
+import { Asset } from "../../client/core";
 
 export type AssetMetadataEditData = Omit<AssetMetadata, "type" | "content">;
 
 export type AssetEditorContextData = {
-  assetId?: bigint;
+  asset?: Asset;
   type?: string;
   setType: (t?: string) => void;
 
@@ -24,11 +20,14 @@ export type AssetEditorContextData = {
   content?: string;
   setContent: (c?: string) => void;
 
-  collectModule?: CollectModule;
-  setCollectModule(m?: CollectModule): void;
+  collectModule?: AssetModule;
+  setCollectModule(m?: AssetModule): void;
 
-  gatedModule?: GatedModule;
-  setGatedModule(m?: GatedModule): void;
+  gatedModule?: AssetModule;
+  setGatedModule(m?: AssetModule): void;
+
+  publishedAssetId: false | bigint;
+  setPublished(assetId: bigint): void;
 };
 
 const AssetEditorContext = createContext<AssetEditorContextData>(
@@ -38,7 +37,6 @@ const AssetEditorContext = createContext<AssetEditorContextData>(
 export type AssetEditorProviderProps = {
   asset?: Asset;
   children?: ReactNode;
-  onPublished?: (assetId: bigint) => void;
 };
 
 function useAsetMeataData(asset?: Asset) {
@@ -49,14 +47,37 @@ function useAsetMeataData(asset?: Asset) {
 
 export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const { children, asset } = props;
-  const [type, setType] = useState<string>();
+  const [type, setType] = useState<string | undefined>(asset?.type);
   const [metadata, setMetadata] = useAsetMeataData(asset);
-  const [content, setContent] = useState<string>();
-  const [collectModule, setCollectModule] = useState<CollectModule>();
-  const [gatedModule, setGatedModule] = useState<GatedModule>();
+  const [content, setContent] = useState<string | undefined>(
+    asset?.normalizedMetadata.content
+  );
+  const [collectModule, setCollectModule] = useState<AssetModule | undefined>(
+    () => {
+      if (asset?.collectModule) {
+        return {
+          module: asset.collectModule,
+          initData: asset.collectModuleInitData,
+        };
+      }
+      return undefined;
+    }
+  );
+  const [gatedModule, setGatedModule] = useState<AssetModule | undefined>(
+    () => {
+      if (asset?.gatedModule) {
+        return {
+          module: asset.gatedModule,
+          initData: asset.gatedModuleInitData,
+        };
+      }
+      return undefined;
+    }
+  );
+  const [publishedAssetId, setPublished] = useState<bigint | false>(false);
 
   const value: AssetEditorContextData = {
-    assetId: asset?.assetId,
+    asset: asset,
     type,
     setType: (t) => {
       const cachedContent = localStorage.getItem("asset:conent:" + t);
@@ -75,6 +96,8 @@ export function AssetEditorProvider(props: AssetEditorProviderProps) {
     setCollectModule,
     gatedModule,
     setGatedModule,
+    publishedAssetId: publishedAssetId,
+    setPublished: setPublished,
   };
 
   return (

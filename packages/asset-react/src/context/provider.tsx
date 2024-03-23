@@ -9,6 +9,7 @@ import { HubInfoContext, HubInfoProvider } from "./hub-info";
 export type AssetContextData = {
   ctx: IAssetHub;
   storage: IStorage;
+  setStorage: (storage: IStorage) => void;
   changeHub: (hub?: string) => void;
 
   account?: string;
@@ -41,11 +42,12 @@ export function AssetProvider(props: AssetProviderProps) {
     props.plugins.forEach((p) => p(config));
   }
   const ctx = config.build();
-  const storage = ctx.storages[props.storage];
+  const [storage, setStorage] = useState<IStorage>(ctx.storages[props.storage]);
   if (!storage) throw new Error("storage not found: " + props.storage);
   const value = {
     ctx,
     storage,
+    setStorage,
     changeHub: setHub,
     account: props.account,
     requireLogin: props.requireLogin,

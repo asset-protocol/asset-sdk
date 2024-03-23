@@ -9,10 +9,7 @@ export function AssetCreatePage() {
   };
   return (
     <div className="max-w-[1080px] mx-auto">
-      <AssetEditor
-        editorProps={{ className: "h-[1000px]" }}
-        onSubmitted={handleSubmitted}
-        ></AssetEditor>
+      <AssetEditor onPublished={handleSubmitted}></AssetEditor>
     </div>
   );
 }

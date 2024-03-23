@@ -1,27 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { AddressLink } from "..";
 import { useAssetHub } from "../../context";
+import { AssetModule } from "../../core";
 import { parseFeeCollectModuleInitData } from "../../core/collect";
 import { useCurrentAsscount } from "../../hook/core";
-import { Button, InputNumber, Select, Switch } from "antd";
+import { InputNumber, Select, Switch } from "antd";
 import { AbiCoder, ZeroAddress } from "ethers";
-import { BytesLike } from "ethers";
 import { useEffect, useState } from "react";
 
-export type CollectModuleValue = {
-  module: string;
-  data: BytesLike;
-};
-
 export type FeeAssetCollectionInputProps = {
-  value?: CollectModuleValue;
-  onChange?: (value?: CollectModuleValue) => void;
+  value?: AssetModule;
+  onChange?: (value?: AssetModule) => void;
 };
 
 const TestToken = "0xc2ADF187D9B064F68FcD8183195cddDB33E10E8F";
 
 export function FeeAssetCollectionInput(props: FeeAssetCollectionInputProps) {
   const { onChange } = props;
-  const data = parseFeeCollectModuleInitData(props.value?.data);
+  const data = parseFeeCollectModuleInitData(props.value?.initData);
 
   const { hubInfo } = useAssetHub();
   const account = useCurrentAsscount();
@@ -51,7 +47,7 @@ export function FeeAssetCollectionInput(props: FeeAssetCollectionInputProps) {
         );
         onChange({
           module: selectedModule,
-          data: initData,
+          initData: initData,
         });
       } else {
         onChange(undefined);
@@ -81,30 +77,33 @@ export function FeeAssetCollectionInput(props: FeeAssetCollectionInputProps) {
   return (
     <div>
       <div className="flex justify-between">
-        Collect Module:
+        Collect Setting:
         <Switch value={useCollect} onChange={(v) => setUseCollect(v)} />
       </div>
       {useCollect && (
-        <div className="ml-4 mt-2">
-          <div className="flex flex-wrap gap-2 items-center">
-            Module:
+        <div className="px-4 pt-2 rounded-lg bg-gray-100">
+          <div className="flex items-center">
+            <span className="w-[64px]">Module</span>
             <Select
-              style={{ width: 160 }}
+              style={{ width: 170 }}
               title={selectedModule}
               options={opts}
               value={selectedModule}
               onChange={(t) => setSelectedModule(t)}
             ></Select>
-            Token:
+          </div>
+          <div className="flex flex-wrap items-center mt-2">
+            <span className="w-[64px]">Token</span>
             <Select
               options={tokens}
-              style={{ width: 160 }}
+              style={{ width: 170 }}
               title={selectedToken}
               value={selectedToken}
               onChange={(v) => setSelectedToken(v)}
             ></Select>
-            Amount:
             <InputNumber<number>
+              className="flex-1 ml-2"
+              placeholder="Amount"
               min={0}
               style={{ width: 100 }}
               value={amount}
@@ -112,9 +111,7 @@ export function FeeAssetCollectionInput(props: FeeAssetCollectionInputProps) {
             />
           </div>
           Funds will be sent to{" "}
-          <Button type="link" className="p-0 text-base ml-2">
-            {data?.recipient ?? account}
-          </Button>
+          <AddressLink address={data?.recipient ?? account} />
         </div>
       )}
     </div>
