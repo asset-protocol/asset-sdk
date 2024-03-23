@@ -24,7 +24,6 @@ export function AssetViewerWithHeader(props: {
 
   const replaceUri = useReplaceUri();
   const { hubInfo } = useAssetHub();
-
   const { data, refetch: collectorsRefetch } = useGetAssetCollectors(
     hubInfo?.id ?? "",
     asset.assetId.toString(),
