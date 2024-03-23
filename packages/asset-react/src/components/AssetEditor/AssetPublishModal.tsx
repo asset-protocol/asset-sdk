@@ -83,6 +83,7 @@ export function AssetPublishModal(props: AssetPublishModalProps) {
       title="Pulbish Asset"
       width={700}
       transitionName=""
+      maskClosable={false}
       maskTransitionName=""
       className="h-[max-content]"
       wrapClassName="backdrop-blur-md"
