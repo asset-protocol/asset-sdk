@@ -17,6 +17,7 @@ export function AssetList(props: AssetListProps) {
   const { data, loading } = useGetHubAssets({
     hub: hubInfo?.id ?? "",
     first: 9999,
+    fetchPolicy: "no-cache",
     orderBy: ["timestamp_DESC"],
   });
   return (

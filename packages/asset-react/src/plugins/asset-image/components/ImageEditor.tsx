@@ -13,7 +13,7 @@ export type ImageFileInfo = {
 };
 
 export default function ImageEditor() {
-  const { content, setContent } = useAssetEditor();
+  const { content, setContent, metadata, setMetadata } = useAssetEditor();
   let images: string[] | string = content ?? [];
   if (typeof content === "string") {
     try {
@@ -44,6 +44,7 @@ export default function ImageEditor() {
 
   useEffect(() => {
     setContent(JSON.stringify(files.map((f) => f.url)));
+    setMetadata(metadata && { ...metadata, image: files[0]?.url });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
