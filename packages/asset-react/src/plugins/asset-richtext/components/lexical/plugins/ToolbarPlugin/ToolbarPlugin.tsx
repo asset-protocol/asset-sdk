@@ -20,8 +20,6 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import Icon from "@ant-design/icons";
-import { Button, ButtonProps } from "antd";
 import alignJustify from "@material-design-icons/svg/outlined/format_align_justify.svg?raw";
 import alignCenter from "@material-design-icons/svg/outlined/format_align_center.svg?raw";
 import format_align_right from "@material-design-icons/svg/outlined/format_align_right.svg?raw";
@@ -32,27 +30,12 @@ import format_italic from "@material-design-icons/svg/outlined/format_italic.svg
 import format_bold from "@material-design-icons/svg/outlined/format_bold.svg?raw";
 import redo from "@material-design-icons/svg/outlined/redo.svg?raw";
 import undo from "@material-design-icons/svg/outlined/undo.svg?raw";
-import clsx from "clsx";
+import { SvgIcon, ToolButton } from "./ToolButton";
+import { InsertImageToolButton } from "./ImageButton";
 const LowPriority = 1;
 
 function Divider() {
   return <div className="divider" />;
-}
-
-function SvgIcon(props: { svg: string }) {
-  return (
-    <Icon
-      className="scale-75"
-      component={() => (
-        <span dangerouslySetInnerHTML={{ __html: props.svg }}></span>
-      )}
-    />
-  );
-}
-
-function ToolButton(props: ButtonProps) {
-  const { className, ...resProps } = props;
-  return <Button className={clsx(className)} {...resProps}></Button>;
 }
 
 export default function ToolbarPlugin() {
@@ -196,6 +179,7 @@ export default function ToolbarPlugin() {
         aria-label="Justify Align"
         icon={<SvgIcon svg={alignJustify} />}
       ></ToolButton>
+      <InsertImageToolButton editor={editor} />
     </div>
   );
 }
