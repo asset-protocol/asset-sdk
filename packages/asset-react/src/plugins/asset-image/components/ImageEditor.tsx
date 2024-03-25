@@ -39,18 +39,33 @@ export default function ImageEditor() {
   };
 
   const handleRemoveImage = (f: ImageFileInfo) => {
-    setFiles(files.filter((v) => v.uid != f.uid));
+    const res = files.filter((file) => file.uid !== f.uid);
+    setFiles(res);
+    if (metadata?.image === f.url) {
+      setMetadata(metadata && { ...metadata, image: res[0]?.url });
+    }
   };
 
   useEffect(() => {
     setContent(JSON.stringify(files.map((f) => f.url)));
-    setMetadata(metadata && { ...metadata, image: files[0]?.url });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
+  useEffect(() => {
+    const target = files[0]?.url;
+    if (target === metadata?.image) return;
+    if (!metadata) {
+      setMetadata({ name: "", image: files[0]?.url });
+    } else if (!metadata.image || files.find((f) => f.url === metadata.image)) {
+      //未设置封面或者封面是通过图片列表设置的（非手动设置），则更新封面
+      setMetadata(metadata && { ...metadata, image: files[0]?.url });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files, metadata]);
+
   return (
     <div>
-      <AssetEditorHeader useImage={false} />
+      <AssetEditorHeader />
       <Upload.Dragger
         multiple
         showUploadList={false}

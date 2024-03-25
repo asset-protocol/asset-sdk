@@ -7,7 +7,7 @@ import {
 export default function RichTextViewer() {
   const { asset } = useAssetViewer();
   return (
-    <div className="max-w-[1080px] mx-auto border-[1px] border-t-0 border-solid border-gray-300">
+    <div className="max-w-4xl mx-auto border-[1px] border-t-0 border-solid border-gray-300">
       <AssetViewerWithHeader></AssetViewerWithHeader>
       <div className="px-4">
         <LexicalEditor value={asset.content} editable={false} />
