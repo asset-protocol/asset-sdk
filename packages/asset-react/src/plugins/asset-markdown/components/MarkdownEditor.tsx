@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useReplaceUri } from "../../../lib/utils";
 import { useFetchBlob } from "../../../client/indexer/blob";
 import { useAssetEditor } from "../../../components/AssetEditor/AssetEditorContext";
+import clsx from "clsx";
 export type MarkdownEditorProps = {
   className?: string;
 };
@@ -109,5 +110,10 @@ export default function MarkdownEditor(props: MarkdownEditorProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div ref={editorRef} className={props.className}></div>;
+  return (
+    <div
+      ref={editorRef}
+      className={clsx("min-h-[500px]", props.className)}
+    ></div>
+  );
 }

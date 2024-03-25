@@ -14,7 +14,7 @@ export default function AssetRichTextEditor(props: RichTextEditorProps) {
   const { content, setContent } = useAssetEditor();
   return (
     <>
-      <AssetEditorHeader />
+      <AssetEditorHeader descriptonPlaceholder="Input Summary" />
       <Suspense>
         <LexicalEditor
           classname={clsx("min-h-[500px]", props.className)}

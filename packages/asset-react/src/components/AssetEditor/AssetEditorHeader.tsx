@@ -4,7 +4,10 @@ import { useBlobRequest } from "../../lib/request";
 import { useAssetEditor } from "./AssetEditorContext";
 import { useReplaceUri } from "../../lib/utils";
 
-export function AssetEditorHeader(props: { useImage?: boolean }) {
+export function AssetEditorHeader(props: {
+  useImage?: boolean;
+  descriptonPlaceholder?: string;
+}) {
   const blobRequest = useBlobRequest();
   const { metadata, setMetadata } = useAssetEditor();
   const replaceUri = useReplaceUri();
@@ -64,14 +67,16 @@ export function AssetEditorHeader(props: { useImage?: boolean }) {
         className={`${
           image && useImage ? "px-4 " : ""
         }border-gray-300 border-solid border-0${
-          image && useImage ? " -translate-y-28" : ""
+          image && useImage
+            ? " -translate-y-32 h-32 flex flex-col justify-center"
+            : ""
         }`}
       >
         <Input.TextArea
           placeholder="Input Title"
           variant="borderless"
           autoSize={{ minRows: 1, maxRows: 2 }}
-          className="text-3xl font-bold h-24 bg-transparent break-words border-0 focus:border-gray-500 hover:bg-transparent focus:bg-transparent"
+          className="text-3xl font-bold bg-transparent break-words border-0 focus:border-gray-500 hover:bg-transparent focus:bg-transparent"
           onKeyDown={(e) => {
             if (e.code === "Enter") {
               e.preventDefault();
@@ -84,10 +89,10 @@ export function AssetEditorHeader(props: { useImage?: boolean }) {
         ></Input.TextArea>
       </div>
       <div>
-        <div className={`${image && useImage ? "-mt-14" : ""}`}>
+        <div className={`${image && useImage ? "-mt-32" : ""}`}>
           {
             <Input.TextArea
-              placeholder="Input Description"
+              placeholder={props.descriptonPlaceholder ?? "Input Description"}
               autoSize
               variant="borderless"
               className="m-auto text-gray-500 my-4 text-base bg-gray-100 rounded-md py-6 px-6 focus:border-gray-500 hover:bg-gray-100 focus:bg-gray-100"
