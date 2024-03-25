@@ -190,22 +190,20 @@ export function InsertImageDialog(props: InsertImageDialogProps): JSX.Element {
 
 export default function ImagesPlugin({
   captionsEnabled,
-  srcHandler,
+  preRender,
   onConvertImageNode,
 }: {
   captionsEnabled?: boolean;
-  srcHandler?: (src: string) => string;
+  preRender?: (src: string) => string;
   onConvertImageNode?: (payload: ImagePayload, preNode: LexicalNode) => void;
 }): JSX.Element | null {
   const [editor] = useLexicalComposerContext();
-  ImageNode.srcHandler = srcHandler;
-  ImageNode.onConvertImageNode = onConvertImageNode;
-  console.log("ImageNode", ImageNode.srcHandler);
+  ImageNode.preRender = preRender;
+  ImageNode.onConvertImageElement = onConvertImageNode;
   useEffect(() => {
     if (!editor.hasNodes([ImageNode])) {
       throw new Error("ImagesPlugin: ImageNode not registered on editor");
     }
-
     return mergeRegister(
       editor.registerCommand<InsertImagePayload>(
         INSERT_IMAGE_COMMAND,
@@ -215,7 +213,6 @@ export default function ImagesPlugin({
           if ($isRootOrShadowRoot(imageNode.getParentOrThrow())) {
             $wrapNodeInElement(imageNode, $createParagraphNode).selectEnd();
           }
-          console.log("INSERT_IMAGE_COMMAND");
           return true;
         },
         COMMAND_PRIORITY_EDITOR
@@ -226,7 +223,6 @@ export default function ImagesPlugin({
           const imageNode = new ImageNode(
             payload.src,
             payload.altText,
-            payload.maxWidth ?? 1000,
             payload.width,
             payload.height,
             payload.showCaption,
@@ -234,7 +230,6 @@ export default function ImagesPlugin({
             payload.captionsEnabled
           );
           $getNodeByKey(payload.key!)?.replace(imageNode, false);
-          // $insertNodes([imageNode]);
           return true;
         },
         COMMAND_PRIORITY_EDITOR
@@ -293,7 +288,6 @@ function onDragStart(event: DragEvent): boolean {
         caption: node.__caption,
         height: node.__height,
         key: node.getKey(),
-        maxWidth: node.__maxWidth,
         showCaption: node.__showCaption,
         src: node.__src,
         width: node.__width,

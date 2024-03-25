@@ -1,10 +1,11 @@
-import { SerializedRootNode } from "lexical";
+import { SerializedLexicalNode, SerializedRootNode } from "lexical";
 import { AssetHubConfig } from "../../core/plugin";
 import AssetRichTextEditor from "./components/RichTextEditor";
 import { TYPE_RICH_TEXT } from "./consts";
-import { SerializedImageNode } from "./components/lexical/nodes/ImageNode";
 import { useAssetHub } from "../../context";
 import { findTypedChildrenNode } from "./components/utils";
+
+type SerializedWithSrcNode = SerializedLexicalNode & { src: string };
 
 const richtextEditor = (config: AssetHubConfig) => {
   config.registerEditor({
@@ -15,12 +16,13 @@ const richtextEditor = (config: AssetHubConfig) => {
       const { storage } = useAssetHub();
       return async (cur) => {
         const node: { root: SerializedRootNode } = JSON.parse(cur);
-        const imageNodes = findTypedChildrenNode<SerializedImageNode>(
+        const imageNodes = findTypedChildrenNode<SerializedWithSrcNode>(
           node.root,
-          "image"
+          ["image", "video"]
         );
+        console.log("imageNodes", imageNodes);
         for (const imageNode of imageNodes) {
-          if (imageNode.src.startsWith("blob:")) {
+          if (imageNode.src?.startsWith("blob:")) {
             imageNode.src = await storage.upload({
               data: await fetch(imageNode.src).then((res) => res.blob()),
             });

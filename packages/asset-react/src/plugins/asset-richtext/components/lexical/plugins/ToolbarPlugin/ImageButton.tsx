@@ -10,6 +10,7 @@ export function InsertImageToolButton({ editor }: { editor: LexicalEditor }) {
   return (
     <>
       <ToolButton
+        title="Insert image"
         onClick={() => setOpen(true)}
         icon={<SvgIcon svg={imageIcon} />}
       ></ToolButton>

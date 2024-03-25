@@ -32,6 +32,7 @@ import redo from "@material-design-icons/svg/outlined/redo.svg?raw";
 import undo from "@material-design-icons/svg/outlined/undo.svg?raw";
 import { SvgIcon, ToolButton } from "./ToolButton";
 import { InsertImageToolButton } from "./ImageButton";
+import { InsertVideoToolButton } from "./VideoButton";
 const LowPriority = 1;
 
 function Divider() {
@@ -101,7 +102,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
         className="toolbar-item spaced"
-        aria-label="Undo"
+        title="Undo"
         icon={<SvgIcon svg={undo} />}
       ></ToolButton>
       <ToolButton
@@ -110,7 +111,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(REDO_COMMAND, undefined);
         }}
         className="toolbar-item"
-        aria-label="Redo"
+        title="Redo"
         icon={<SvgIcon svg={redo} />}
       />
       <Divider />
@@ -119,7 +120,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
         }}
         type={isBold ? "primary" : undefined}
-        aria-label="Format Bold"
+        title="Format Bold"
         icon={<SvgIcon svg={format_bold} />}
       ></ToolButton>
       <ToolButton
@@ -127,7 +128,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
         }}
         type={isItalic ? "primary" : undefined}
-        aria-label="Format Italics"
+        title="Format Italics"
         icon={<SvgIcon svg={format_italic} />}
       ></ToolButton>
       <ToolButton
@@ -135,7 +136,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
         }}
         type={isUnderline ? "primary" : undefined}
-        aria-label="Format Underline"
+        title="Format Underline"
         icon={<SvgIcon svg={underline} />}
       ></ToolButton>
       <ToolButton
@@ -143,7 +144,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
         type={isStrikethrough ? "primary" : undefined}
-        aria-label="Format Strikethrough"
+        title="Format Strikethrough"
         icon={<SvgIcon svg={strikethrough_s} />}
       ></ToolButton>
       <Divider />
@@ -152,7 +153,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
         }}
         className="toolbar-item spaced"
-        aria-label="Left Align"
+        title="Left Align"
         icon={<SvgIcon svg={format_align_left} />}
       ></ToolButton>
       <ToolButton
@@ -160,7 +161,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
         }}
         className="toolbar-item spaced"
-        aria-label="Center Align"
+        title="Center Align"
         icon={<SvgIcon svg={alignCenter} />}
       ></ToolButton>
       <ToolButton
@@ -168,7 +169,7 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
         }}
         className="toolbar-item spaced"
-        aria-label="Right Align"
+        title="Right Align"
         icon={<SvgIcon svg={format_align_right} />}
       ></ToolButton>
       <ToolButton
@@ -176,10 +177,11 @@ export default function ToolbarPlugin() {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
         }}
         className="toolbar-item"
-        aria-label="Justify Align"
+        title="Justify Align"
         icon={<SvgIcon svg={alignJustify} />}
       ></ToolButton>
       <InsertImageToolButton editor={editor} />
+      <InsertVideoToolButton editor={editor} />
     </div>
   );
 }
