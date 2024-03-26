@@ -35,6 +35,7 @@ export function VideoUploadButton(props: {
     <Upload
       showUploadList={false}
       customRequest={blobRequest}
+      accept="video/*,mkv"
       onChange={(f) => {
         if (f.file.response) {
           editor.dispatchCommand(INSERT_VIDEO_COMMAND, {

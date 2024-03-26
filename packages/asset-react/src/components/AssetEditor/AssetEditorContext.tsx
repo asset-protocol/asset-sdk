@@ -32,6 +32,7 @@ const AssetEditorContext = createContext<AssetEditorContextData>(
 export type AssetEditorProviderProps = {
   asset?: Asset;
   children?: ReactNode;
+  defaultType?: string;
 };
 
 function useAsetMeataData(asset?: Asset) {
@@ -42,7 +43,9 @@ function useAsetMeataData(asset?: Asset) {
 
 export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const { children, asset } = props;
-  const [type, setType] = useState<string>(asset?.type ?? "video");
+  const [type, setType] = useState<string>(
+    asset?.type ?? props.defaultType ?? "default"
+  );
   const [metadata, setMetadata] = useAsetMeataData(asset);
   const [content, setContent] = useState<string | undefined>(asset?.content);
   const [collectModule, setCollectModule] = useState<AssetModule | undefined>(

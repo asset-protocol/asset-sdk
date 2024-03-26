@@ -6,6 +6,9 @@ import {
 import { EditorState } from "lexical";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import ToolBarPlugin from "./plugins/ToolbarPlugin/ToolbarPlugin";
@@ -21,6 +24,7 @@ import { useReplaceUri } from "../../../../lib/utils";
 import { useFetchBlob } from "../../../../client/indexer";
 import { UPDATE_VIDEO_COMMAND, VideoPlugin } from "./plugins/VideoPlugin";
 import { Affix } from "antd";
+import EditorTheme from "./theme/EditorTheme";
 
 export type LexicalEditorProps = {
   value?: string;
@@ -118,6 +122,7 @@ export function LexicalEditor(props: LexicalEditorProps) {
     },
     nodes: editorNodes,
     editorState: props.value ? props.value : null,
+    theme: EditorTheme,
   };
 
   const onChange = (editorState: EditorState) => {
@@ -130,13 +135,6 @@ export function LexicalEditor(props: LexicalEditorProps) {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className={clsx("flex flex-col", props.classname)}>
-        <AutoLinkPlugin />
-        <LinkPlugin />
-        <BlobImagesPlugin />
-        <BlobVideoPlugin />
-        <CodeHighlightPlugin />
-        <HistoryPlugin />
-        <AutoFocusPlugin />
         <RichTextPlugin
           contentEditable={
             props.editable ? (
@@ -144,7 +142,7 @@ export function LexicalEditor(props: LexicalEditorProps) {
                 className={`flex-1 flex flex-col border-[1px] border-solid border-gray-300`}
               >
                 <Affix offsetTop={72}>
-                  <div className="py-2 border-0 border-b-[1px] px-2 border-solid border-gray-300 bg-[#ffffff99] backdrop-blur-lg">
+                  <div className="py-2 text-2xl border-0 border-b-[1px] px-2 border-solid border-gray-300 bg-[#ffffff99] backdrop-blur-lg">
                     <ToolBarPlugin />
                   </div>
                 </Affix>
@@ -157,6 +155,16 @@ export function LexicalEditor(props: LexicalEditorProps) {
           placeholder={<div>Enter some text...</div>}
           ErrorBoundary={LexicalErrorBoundary}
         />
+        <AutoLinkPlugin />
+        <LinkPlugin />
+        <BlobImagesPlugin />
+        <BlobVideoPlugin />
+        <CodeHighlightPlugin />
+        <HistoryPlugin />
+        <AutoFocusPlugin />
+        <CheckListPlugin />
+        <ListPlugin />
+        <HashtagPlugin />
         <MyOnChangePlugin onChange={onChange} />
       </div>
     </LexicalComposer>

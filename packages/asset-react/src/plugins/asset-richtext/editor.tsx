@@ -20,7 +20,6 @@ const richtextEditor = (config: AssetHubConfig) => {
           node.root,
           ["image", "video"]
         );
-        console.log("imageNodes", imageNodes);
         for (const imageNode of imageNodes) {
           if (imageNode.src?.startsWith("blob:")) {
             imageNode.src = await storage.upload({
@@ -28,8 +27,6 @@ const richtextEditor = (config: AssetHubConfig) => {
             });
           }
         }
-        console.log("imageNodes", imageNodes);
-        console.log("imageNodes", node);
         return JSON.stringify(node);
       };
     },

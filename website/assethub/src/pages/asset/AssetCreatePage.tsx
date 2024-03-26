@@ -1,4 +1,4 @@
-import { AssetEditor } from "@asset-protocol/react";
+import { AssetEditor, TYPE_RICH_TEXT } from "@asset-protocol/react";
 import { useNavigateAssetHub } from "../../utils/route";
 
 export function AssetCreatePage() {
@@ -9,7 +9,10 @@ export function AssetCreatePage() {
   };
   return (
     <div className="max-w-[1080px] mx-auto">
-      <AssetEditor onPublished={handleSubmitted}></AssetEditor>
+      <AssetEditor
+        onPublished={handleSubmitted}
+        defaultType={TYPE_RICH_TEXT}
+      ></AssetEditor>
     </div>
   );
 }

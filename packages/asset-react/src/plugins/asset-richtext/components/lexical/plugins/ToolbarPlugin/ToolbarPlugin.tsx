@@ -6,10 +6,15 @@
  *
  */
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { mergeRegister } from "@lexical/utils";
+import {
+  $findMatchingParent,
+  $getNearestNodeOfType,
+  mergeRegister,
+} from "@lexical/utils";
 import {
   $getSelection,
   $isRangeSelection,
+  $isRootOrShadowRoot,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   FORMAT_ELEMENT_COMMAND,
@@ -33,6 +38,13 @@ import undo from "@material-design-icons/svg/outlined/undo.svg?raw";
 import { SvgIcon, ToolButton } from "./ToolButton";
 import { InsertImageToolButton } from "./ImageButton";
 import { InsertVideoToolButton } from "./VideoButton";
+import { BlockFormatDropDown } from "./BlockFormat";
+import { $isListNode, ListNode } from "@lexical/list";
+import { $isHeadingNode } from "@lexical/rich-text";
+import { $isCodeNode } from "@lexical/code";
+import { blockTypeToBlockName, rootTypeToRootName } from "./consts";
+import { $isTableNode } from "@lexical/table";
+import { getSelectedNode } from "../../utils/getSelectedNode";
 const LowPriority = 1;
 
 function Divider() {
@@ -48,29 +60,89 @@ export default function ToolbarPlugin() {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+  // const [selectedElementKey, setSelectedElementKey] = useState<NodeKey | null>(
+  //   null
+  // );
+  const [blockType, setBlockType] =
+    useState<keyof typeof blockTypeToBlockName>("paragraph");
+  // const [codeLanguage, setCodeLanguage] = useState<string>("");
+  const [rootType, setRootType] =
+    useState<keyof typeof rootTypeToRootName>("root");
 
-  const updateToolbar = useCallback(() => {
+  const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
+      const anchorNode = selection.anchor.getNode();
+      let element =
+        anchorNode.getKey() === "root"
+          ? anchorNode
+          : $findMatchingParent(anchorNode, (e) => {
+              const parent = e.getParent();
+              return parent !== null && $isRootOrShadowRoot(parent);
+            });
+      if (element === null) {
+        element = anchorNode.getTopLevelElementOrThrow();
+      }
       // Update text format
       setIsBold(selection.hasFormat("bold"));
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
       setIsStrikethrough(selection.hasFormat("strikethrough"));
+      // Update links
+      const node = getSelectedNode(selection);
+
+      const elementKey = element.getKey();
+      const elementDOM = editor.getElementByKey(elementKey);
+
+      const tableNode = $findMatchingParent(node, $isTableNode);
+      if ($isTableNode(tableNode)) {
+        setRootType("table");
+      } else {
+        setRootType("root");
+      }
+
+      if (elementDOM !== null) {
+        // setSelectedElementKey(elementKey);
+        if ($isListNode(element)) {
+          const parentList = $getNearestNodeOfType<ListNode>(
+            anchorNode,
+            ListNode
+          );
+          const type = parentList
+            ? parentList.getListType()
+            : element.getListType();
+          setBlockType(type);
+        } else {
+          const type = $isHeadingNode(element)
+            ? element.getTag()
+            : element.getType();
+          if (type in blockTypeToBlockName) {
+            setBlockType(type as keyof typeof blockTypeToBlockName);
+          }
+          if ($isCodeNode(element)) {
+            // const language =
+            //   element.getLanguage() as keyof typeof CODE_LANGUAGE_MAP;
+            // setCodeLanguage(
+            //   language ? CODE_LANGUAGE_MAP[language] || language : ""
+            // );
+            return;
+          }
+        }
+      }
     }
-  }, []);
+  }, [editor]);
 
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
-          updateToolbar();
+          $updateToolbar();
         });
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         () => {
-          updateToolbar();
+          $updateToolbar();
           return false;
         },
         LowPriority
@@ -92,7 +164,7 @@ export default function ToolbarPlugin() {
         LowPriority
       )
     );
-  }, [editor, updateToolbar]);
+  }, [editor, $updateToolbar]);
 
   return (
     <div className="flex gap-1" ref={toolbarRef}>
@@ -115,6 +187,11 @@ export default function ToolbarPlugin() {
         icon={<SvgIcon svg={redo} />}
       />
       <Divider />
+      <BlockFormatDropDown
+        editor={editor}
+        rootType={rootType}
+        blockType={blockType}
+      />
       <ToolButton
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");

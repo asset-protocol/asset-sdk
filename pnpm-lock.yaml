@@ -26,6 +26,9 @@ importers:
       '@lexical/code':
         specifier: ^0.14.2
         version: 0.14.2(lexical@0.13.1)
+      '@lexical/hashtag':
+        specifier: ^0.14.2
+        version: 0.14.2(lexical@0.13.1)
       '@lexical/link':
         specifier: ^0.14.2
         version: 0.14.2(lexical@0.13.1)
@@ -41,6 +44,9 @@ importers:
       '@lexical/rich-text':
         specifier: ^0.14.2
         version: 0.14.2(@lexical/clipboard@0.14.2)(@lexical/selection@0.14.2)(@lexical/utils@0.13.1)(lexical@0.13.1)
+      '@lexical/selection':
+        specifier: ^0.14.2
+        version: 0.14.2(lexical@0.13.1)
       '@lexical/table':
         specifier: ^0.14.2
         version: 0.14.2(lexical@0.13.1)
@@ -77,6 +83,9 @@ importers:
       lexical:
         specifier: ^0.13.1
         version: 0.13.1
+      material-symbols:
+        specifier: ^0.17.1
+        version: 0.17.1
       rc-upload:
         specifier: ^4.5.2
         version: 4.5.2(react-dom@18.2.0)(react@18.2.0)
@@ -2556,6 +2565,15 @@ packages:
       lexical: 0.13.1
     dependencies:
       '@lexical/utils': 0.13.1(lexical@0.13.1)
+      lexical: 0.13.1
+    dev: false
+
+  /@lexical/hashtag@0.14.2(lexical@0.13.1):
+    resolution: {integrity: sha512-H2z71iGX3n0ZB45y5uoI7aPwVjClo01df480IrTecKxr4aAKbK5LhFQWOphiUXBiv4O1sn+Xa88f8IpbfqQ5Vg==}
+    peerDependencies:
+      lexical: 0.14.2
+    dependencies:
+      '@lexical/utils': 0.14.2(lexical@0.13.1)
       lexical: 0.13.1
     dev: false
 
@@ -9624,6 +9642,10 @@ packages:
     dependencies:
       '@babel/runtime': 7.24.1
       remove-accents: 0.5.0
+    dev: false
+
+  /material-symbols@0.17.1:
+    resolution: {integrity: sha512-1kJan8t3U3Fmuu/YPu2MVsL/ODSja71o+J7ODROQfMaCzzal0izY4SATafEKgXUXU+jL0zIiBQdyzsno7vXBvA==}
     dev: false
 
   /mdn-data@2.0.28:

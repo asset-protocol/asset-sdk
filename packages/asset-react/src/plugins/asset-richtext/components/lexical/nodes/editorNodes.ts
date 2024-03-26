@@ -15,6 +15,7 @@ import { MarkNode } from '@lexical/mark';
 import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode';
 import { HeadingNode, QuoteNode } from '@lexical/rich-text';
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import {HashtagNode} from '@lexical/hashtag';
 import { ImageNode } from './ImageNode';
 import { VideoNode } from './VideoNode';
 
@@ -35,6 +36,7 @@ const editorNodes: Array<Klass<LexicalNode>> = [
   EmojiNode,
   HorizontalRuleNode,
   MarkNode,
+  HashtagNode,
   ImageNode,
   VideoNode,
 ];
