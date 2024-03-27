@@ -2,15 +2,16 @@ import { Avatar } from "antd";
 import { useReplaceUri } from "../../lib/utils";
 import { UserOutlined } from "@ant-design/icons";
 import { AddressLink } from "../Address/AddressLink";
+import { useAssetHub } from "../..";
 
 export type AssetCardProps = {
   name: string;
-  publisher: string;
   image?: string;
 };
 
 export function AssetCard(props: AssetCardProps) {
   const replaceUri = useReplaceUri();
+  const { account } = useAssetHub();
   return (
     <div className="shadow-md rounded-lg overflow-hidden">
       <img
@@ -26,8 +27,11 @@ export function AssetCard(props: AssetCardProps) {
           className="mr-2 bg-[#87d068]"
           size={32}
           icon={<UserOutlined />}
+          src={account?.avatar}
         />
-        <AddressLink address={props.publisher} />
+        <AddressLink
+          address={account?.name ?? account?.name}
+        />
       </div>
       <div className="mt-4"></div>
     </div>

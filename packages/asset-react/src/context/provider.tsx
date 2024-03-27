@@ -6,13 +6,19 @@ import { IStorage, StorageScheme } from "../core/storage";
 import { AssetHubConfig, AssetHubPlugin, IAssetHub } from "../core/plugin";
 import { HubInfoContext, HubInfoProvider } from "./hub-info";
 
+export type AccountInfo = {
+  address: string;
+  name?: string;
+  avatar?: string;
+};
+
 export type AssetContextData = {
   ctx: IAssetHub;
   storage: IStorage;
   setStorage: (storage: IStorage) => void;
   changeHub: (hub?: string) => void;
 
-  account?: string;
+  account?: AccountInfo;
   requireLogin: () => void;
 };
 
@@ -29,7 +35,7 @@ export type AssetProviderProps = {
   grapqlClient: ApolloClient<unknown>;
 
   signer: Signer;
-  account?: string;
+  account?: AccountInfo;
   requireLogin: () => void;
 
   children?: React.ReactNode;

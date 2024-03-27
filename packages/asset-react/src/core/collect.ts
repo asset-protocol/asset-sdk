@@ -6,7 +6,7 @@ export type FeeConfig = {
   amount: number;
 };
 
-export function parseFeeCollectModuleInitData(data?: BytesLike): FeeConfig | undefined {
+export function parseTokenCollectModuleInitData(data?: BytesLike): FeeConfig | undefined {
   if (!data || data == "0x") {
     return;
   }

@@ -13,6 +13,7 @@ query GetAssetHubs{
     name
     nftGatedModule
     feeCollectModule
+    tokenCollectModule
     timestamp
     version
     hash
@@ -34,6 +35,7 @@ query GetAssetHubBy($nameOrId: String){
     name
     nftGatedModule
     feeCollectModule
+    tokenCollectModule
     timestamp
     version
     hash

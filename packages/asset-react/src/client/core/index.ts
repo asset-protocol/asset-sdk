@@ -29,6 +29,7 @@ export type AssetHubInfo = {
   admin: string
   nftGatedModule: string
   feeCollectModule: string
+  tokenCollectModule: string
   implementation: string
   timestamp: bigint
   version: string

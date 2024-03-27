@@ -17,6 +17,7 @@ import {
 import { AssetHubManager } from "./consts";
 import { useEthersSigner } from "./ether";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { useMemo } from "react";
 
 const queryClient = new QueryClient();
 const config = getDefaultConfig({
@@ -29,7 +30,7 @@ const JWTOKEN =
 
 function AppAssetHubProvider(props: { children: React.ReactNode }) {
   const signer = useEthersSigner();
-  const account = useAccount();
+  const currentAccount = useAccount();
   const { openConnectModal } = useConnectModal();
   const plugins = [
     ipfsPinataPlugin({ jwtToken: JWTOKEN, gateway: "https://ipfs.io" }),
@@ -42,13 +43,21 @@ function AppAssetHubProvider(props: { children: React.ReactNode }) {
     cache: new InMemoryCache(),
   });
 
+  const account = useMemo(
+    () =>
+      currentAccount.address && {
+        address: currentAccount.address,
+      },
+    [currentAccount]
+  );
+
   return (
     <AssetProvider
       signer={signer!}
       grapqlClient={client}
       storage={"ipfs"}
       plugins={plugins}
-      account={account.address}
+      account={account}
       requireLogin={() => openConnectModal?.()}
       assetHubManager={AssetHubManager}
     >

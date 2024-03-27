@@ -2,11 +2,17 @@ import { Button, Modal, ModalProps, Select } from "antd";
 import { AssetCard } from "../Assset/AssetCard";
 import { useAssetEditor } from "./AssetEditorContext";
 import { useAssetHub } from "../../context";
-import { FeeAssetCollectionInput } from "../AssetCollect";
 import { useAssetPublish } from "./useAssetPublish";
+import {
+  CollectModuleInput,
+  CollectModuleItem,
+} from "../AssetCollect/CollectModuleInput";
+import { useMemo } from "react";
+import { FeeCollectModuleItem } from "../AssetCollect";
+import { TokenCollectModuleItem } from "../AssetCollect/TokenCollectModuleItem";
 
 export function AssetPublishForm() {
-  const { account, ctx, storage, setStorage } = useAssetHub();
+  const { account, ctx, storage, setStorage, hubInfo } = useAssetHub();
   const { metadata, collectModule, setCollectModule, setPublished } =
     useAssetEditor();
 
@@ -22,16 +28,31 @@ export function AssetPublishForm() {
       setPublished(assetId);
     });
   };
+
+  const modules: CollectModuleItem[] = useMemo(() => {
+    if (!hubInfo) return [];
+    const res: CollectModuleItem[] = [
+      {
+        label: "Fee Collect Module",
+        module: hubInfo.feeCollectModule,
+        content: FeeCollectModuleItem,
+      },
+      {
+        label: "Token Collect Module",
+        module: hubInfo.tokenCollectModule,
+        content: TokenCollectModuleItem,
+      },
+    ];
+    console.log("options", res);
+    return res;
+  }, [hubInfo]);
+
   return (
     metadata &&
     account && (
       <div className="flex flex-wrap gap-6 text-base">
         <div className="flex-[3] min-w-[100px] items-center">
-          <AssetCard
-            name={metadata.name}
-            publisher={account}
-            image={metadata.image}
-          />
+          <AssetCard name={metadata.name} image={metadata.image} />
         </div>
         <div className="flex-[4] items-start flex flex-col">
           <div>
@@ -46,11 +67,12 @@ export function AssetPublishForm() {
             />
           </div>
           <div className="w-full mt-2">
-            <FeeAssetCollectionInput
+            <CollectModuleInput
               value={collectModule}
               onChange={(v) => {
                 setCollectModule(v);
               }}
+              moudles={modules}
             />
           </div>
           <div className="flex-1"></div>

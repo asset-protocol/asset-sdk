@@ -4,7 +4,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { ZeroAddress } from "ethers";
 import { Asset } from "../../client/core";
 import { useReplaceUri } from "../../lib/utils";
-import { ZERO_BYTES, parseFeeCollectModuleInitData } from "../../core";
+import { ZERO_BYTES, parseTokenCollectModuleInitData } from "../../core";
 import { useCollectAsset } from "../../hook/assethub";
 import { useERC20BalanceOf } from "../../hook";
 import { useEffect, useMemo, useState } from "react";
@@ -29,7 +29,7 @@ export function CollectModal(props: CollectModalProps) {
   const [balance, setBalance] = useState<bigint>();
 
   const useCollectModule = hasCollectModule(asset);
-  const collectModuleData = parseFeeCollectModuleInitData(
+  const collectModuleData = parseTokenCollectModuleInitData(
     asset.collectModuleInitData
   );
   const erc20BalanceOf = useERC20BalanceOf(

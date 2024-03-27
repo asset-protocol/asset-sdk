@@ -3,7 +3,7 @@ import { DataTypes, NewERC20 } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useCallback, useState } from "react";
 import { AssetHubDeployDataStruct } from "../client/assethub/typechain-types/AssetHubManager";
-import { AssetModule, ZERO_BYTES, parseFeeCollectModuleInitData } from "../core";
+import { AssetModule, ZERO_BYTES, parseTokenCollectModuleInitData } from "../core";
 
 export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
@@ -123,7 +123,7 @@ export function useCollectAsset() {
     setIsLoading(true);
     try {
       if (collectData && collectData.module !== ZeroAddress && hubInfo.feeCollectModule === collectData.module) {
-        const feeConfig = parseFeeCollectModuleInitData(collectData.initData);
+        const feeConfig = parseTokenCollectModuleInitData(collectData.initData);
         if (feeConfig && feeConfig.currency !== ZeroAddress && feeConfig.amount > 0) {
           const token = NewERC20(signer, feeConfig.currency);
           const allowance = await token.allowance(signer.getAddress(), hubInfo.feeCollectModule);
