@@ -1,1292 +1,1293 @@
 export const assethubAbi = [
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "target",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      }
     ],
-    name: "AddressEmptyCode",
-    type: "error",
+    "name": "AddressEmptyCode",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "AssetDoesNotExist",
-    type: "error",
+    "inputs": [],
+    "name": "AssetDoesNotExist",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "CallerNotCollectNFT",
-    type: "error",
+    "inputs": [],
+    "name": "CallerNotCollectNFT",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "CollectModuleNotWhitelisted",
-    type: "error",
+    "inputs": [],
+    "name": "CollectModuleNotWhitelisted",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
     ],
-    name: "ERC1967InvalidImplementation",
-    type: "error",
+    "name": "ERC1967InvalidImplementation",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "ERC1967NonPayable",
-    type: "error",
+    "inputs": [],
+    "name": "ERC1967NonPayable",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
       },
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
     ],
-    name: "ERC721IncorrectOwner",
-    type: "error",
+    "name": "ERC721IncorrectOwner",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "operator",
-        type: "address",
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "ERC721InsufficientApproval",
-    type: "error",
+    "name": "ERC721InsufficientApproval",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "approver",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "approver",
+        "type": "address"
+      }
     ],
-    name: "ERC721InvalidApprover",
-    type: "error",
+    "name": "ERC721InvalidApprover",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
     ],
-    name: "ERC721InvalidOperator",
-    type: "error",
+    "name": "ERC721InvalidOperator",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
     ],
-    name: "ERC721InvalidOwner",
-    type: "error",
+    "name": "ERC721InvalidOwner",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "receiver",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      }
     ],
-    name: "ERC721InvalidReceiver",
-    type: "error",
+    "name": "ERC721InvalidReceiver",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      }
     ],
-    name: "ERC721InvalidSender",
-    type: "error",
+    "name": "ERC721InvalidSender",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "ERC721NonexistentToken",
-    type: "error",
+    "name": "ERC721NonexistentToken",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "EnforcedPause",
-    type: "error",
+    "inputs": [],
+    "name": "EnforcedPause",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "ExpectedPause",
-    type: "error",
+    "inputs": [],
+    "name": "ExpectedPause",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "FailedInnerCall",
-    type: "error",
+    "inputs": [],
+    "name": "FailedInnerCall",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "InvalidCreateAssetModule",
-    type: "error",
+    "inputs": [],
+    "name": "InvalidCreateAssetModule",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "InvalidInitialization",
-    type: "error",
+    "inputs": [],
+    "name": "InvalidInitialization",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "NoAssetPublisher",
-    type: "error",
+    "inputs": [],
+    "name": "NoAssetPublisher",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "NotAssetPublisher",
-    type: "error",
+    "inputs": [],
+    "name": "NotAssetPublisher",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "NotInitializing",
-    type: "error",
+    "inputs": [],
+    "name": "NotInitializing",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
     ],
-    name: "OwnableInvalidOwner",
-    type: "error",
+    "name": "OwnableInvalidOwner",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
     ],
-    name: "OwnableUnauthorizedAccount",
-    type: "error",
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "UUPSUnauthorizedCallContext",
-    type: "error",
+    "inputs": [],
+    "name": "UUPSUnauthorizedCallContext",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "bytes32",
-        name: "slot",
-        type: "bytes32",
-      },
+        "internalType": "bytes32",
+        "name": "slot",
+        "type": "bytes32"
+      }
     ],
-    name: "UUPSUnsupportedProxiableUUID",
-    type: "error",
+    "name": "UUPSUnsupportedProxiableUUID",
+    "type": "error"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "owner",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "address",
-        name: "approved",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "approved",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "Approval",
-    type: "event",
+    "name": "Approval",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "owner",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "address",
-        name: "operator",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
       },
       {
-        indexed: false,
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
+        "indexed": false,
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
     ],
-    name: "ApprovalForAll",
-    type: "event",
+    "name": "ApprovalForAll",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        components: [
+        "components": [
           {
-            internalType: "address",
-            name: "collectModule",
-            type: "address",
+            "internalType": "address",
+            "name": "collectModule",
+            "type": "address"
           },
           {
-            internalType: "bytes",
-            name: "collectModuleInitData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "collectModuleInitData",
+            "type": "bytes"
           },
           {
-            internalType: "address",
-            name: "gatedModule",
-            type: "address",
+            "internalType": "address",
+            "name": "gatedModule",
+            "type": "address"
           },
           {
-            internalType: "bytes",
-            name: "gatedModuleInitData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "gatedModuleInitData",
+            "type": "bytes"
           },
           {
-            internalType: "string",
-            name: "contentURI",
-            type: "string",
-          },
+            "internalType": "string",
+            "name": "contentURI",
+            "type": "string"
+          }
         ],
-        indexed: false,
-        internalType: "struct DataTypes.AssetUpdateData",
-        name: "data",
-        type: "tuple",
-      },
+        "indexed": false,
+        "internalType": "struct DataTypes.AssetUpdateData",
+        "name": "data",
+        "type": "tuple"
+      }
     ],
-    name: "AssetUpdated",
-    type: "event",
+    "name": "AssetUpdated",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "_fromTokenId",
-        type: "uint256",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_fromTokenId",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "_toTokenId",
-        type: "uint256",
-      },
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_toTokenId",
+        "type": "uint256"
+      }
     ],
-    name: "BatchMetadataUpdate",
-    type: "event",
+    "name": "BatchMetadataUpdate",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "collectModule",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "collectModule",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "bool",
-        name: "whitelisted",
-        type: "bool",
+        "indexed": true,
+        "internalType": "bool",
+        "name": "whitelisted",
+        "type": "bool"
       },
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
     ],
-    name: "CollectModuleWhitelisted",
-    type: "event",
+    "name": "CollectModuleWhitelisted",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "publiser",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "publiser",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "collectNFTTokenId",
-        type: "uint256",
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "collectNFTTokenId",
+        "type": "uint256"
       },
       {
-        indexed: false,
-        internalType: "address",
-        name: "from",
-        type: "address",
+        "indexed": false,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        indexed: false,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        "indexed": false,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
     ],
-    name: "CollectNFTTransfered",
-    type: "event",
+    "name": "CollectNFTTransfered",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint64",
-        name: "version",
-        type: "uint64",
-      },
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
     ],
-    name: "Initialized",
-    type: "event",
+    "name": "Initialized",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "MetadataUpdate",
-    type: "event",
+    "name": "MetadataUpdate",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
-    name: "OwnershipTransferred",
-    type: "event",
+    "name": "OwnershipTransferred",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
     ],
-    name: "Paused",
-    type: "event",
+    "name": "Paused",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
-        indexed: true,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "Transfer",
-    type: "event",
+    "name": "Transfer",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "indexed": false,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
     ],
-    name: "Unpaused",
-    type: "event",
+    "name": "Unpaused",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
     ],
-    name: "Upgraded",
-    type: "event",
+    "name": "Upgraded",
+    "type": "event"
   },
   {
-    inputs: [],
-    name: "UPGRADE_INTERFACE_VERSION",
-    outputs: [
+    "inputs": [],
+    "name": "UPGRADE_INTERFACE_VERSION",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "approve",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "approve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
+      }
     ],
-    name: "assetCollectCount",
-    outputs: [
+    "name": "assetCollectCount",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
+      }
     ],
-    name: "assetCollectNFT",
-    outputs: [
+    "name": "assetCollectNFT",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
     ],
-    name: "assetGated",
-    outputs: [
+    "name": "assetGated",
+    "outputs": [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
+      }
     ],
-    name: "assetPublisher",
-    outputs: [
+    "name": "assetPublisher",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
     ],
-    name: "balanceOf",
-    outputs: [
+    "name": "balanceOf",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        internalType: "bytes",
-        name: "collectModuleData",
-        type: "bytes",
-      },
+        "internalType": "bytes",
+        "name": "collectModuleData",
+        "type": "bytes"
+      }
     ],
-    name: "collect",
-    outputs: [
+    "name": "collect",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    stateMutability: "payable",
-    type: "function",
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "collectModule",
-        type: "address",
+        "internalType": "address",
+        "name": "collectModule",
+        "type": "address"
       },
       {
-        internalType: "bool",
-        name: "whitelist",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "whitelist",
+        "type": "bool"
+      }
     ],
-    name: "collectModuleWhitelist",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "collectModuleWhitelist",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "publisher",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "publisher",
+        "type": "address"
+      }
     ],
-    name: "count",
-    outputs: [
+    "name": "count",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        components: [
+        "components": [
           {
-            internalType: "address",
-            name: "publisher",
-            type: "address",
+            "internalType": "address",
+            "name": "publisher",
+            "type": "address"
           },
           {
-            internalType: "string",
-            name: "contentURI",
-            type: "string",
+            "internalType": "string",
+            "name": "contentURI",
+            "type": "string"
           },
           {
-            internalType: "bytes",
-            name: "assetCreateModuleData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "assetCreateModuleData",
+            "type": "bytes"
           },
           {
-            internalType: "address",
-            name: "collectModule",
-            type: "address",
+            "internalType": "address",
+            "name": "collectModule",
+            "type": "address"
           },
           {
-            internalType: "bytes",
-            name: "collectModuleInitData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "collectModuleInitData",
+            "type": "bytes"
           },
           {
-            internalType: "address",
-            name: "gatedModule",
-            type: "address",
+            "internalType": "address",
+            "name": "gatedModule",
+            "type": "address"
           },
           {
-            internalType: "bytes",
-            name: "gatedModuleInitData",
-            type: "bytes",
-          },
+            "internalType": "bytes",
+            "name": "gatedModuleInitData",
+            "type": "bytes"
+          }
         ],
-        internalType: "struct DataTypes.AssetCreateData",
-        name: "data",
-        type: "tuple",
-      },
+        "internalType": "struct DataTypes.AssetCreateData",
+        "name": "data",
+        "type": "tuple"
+      }
     ],
-    name: "create",
-    outputs: [
+    "name": "create",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "publiser",
-        type: "address",
+        "internalType": "address",
+        "name": "publiser",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        internalType: "uint256",
-        name: "collectNFTId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "collectNFTId",
+        "type": "uint256"
       },
       {
-        internalType: "address",
-        name: "from",
-        type: "address",
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
     ],
-    name: "emitCollectNFTTransferEvent",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "emitCollectNFTTransferEvent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "getApproved",
-    outputs: [
+    "name": "getApproved",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "getCreateAssetModule",
-    outputs: [
+    "inputs": [],
+    "name": "getCreateAssetModule",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "hubOwner",
-    outputs: [
+    "inputs": [],
+    "name": "hubOwner",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
-        internalType: "string",
-        name: "symbol",
-        type: "string",
+        "internalType": "string",
+        "name": "symbol",
+        "type": "string"
       },
       {
-        internalType: "address",
-        name: "admin",
-        type: "address",
+        "internalType": "address",
+        "name": "admin",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "collectNFT",
-        type: "address",
+        "internalType": "address",
+        "name": "collectNFT",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "createAssetModule",
-        type: "address",
+        "internalType": "address",
+        "name": "createAssetModule",
+        "type": "address"
       },
       {
-        internalType: "address[]",
-        name: "whitelistedCollectModules",
-        type: "address[]",
-      },
+        "internalType": "address[]",
+        "name": "whitelistedCollectModules",
+        "type": "address[]"
+      }
     ],
-    name: "initialize",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
     ],
-    name: "isApprovedForAll",
-    outputs: [
+    "name": "isApprovedForAll",
+    "outputs": [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "followModule",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "followModule",
+        "type": "address"
+      }
     ],
-    name: "isCollectModuleWhitelisted",
-    outputs: [
+    "name": "isCollectModuleWhitelisted",
+    "outputs": [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "name",
-    outputs: [
+    "inputs": [],
+    "name": "name",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "owner",
-    outputs: [
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "ownerOf",
-    outputs: [
+    "name": "ownerOf",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "paused",
-    outputs: [
+    "inputs": [],
+    "name": "paused",
+    "outputs": [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "proxiableUUID",
-    outputs: [
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "from",
-        type: "address",
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "safeTransferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "from",
-        type: "address",
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
       },
       {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
     ],
-    name: "safeTransferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "safeTransferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "operator",
-        type: "address",
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
       },
       {
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "approved",
+        "type": "bool"
+      }
     ],
-    name: "setApprovalForAll",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "assetModule",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "assetModule",
+        "type": "address"
+      }
     ],
-    name: "setCreateAssetModule",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setCreateAssetModule",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        internalType: "string",
-        name: "contentURI",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "contentURI",
+        "type": "string"
+      }
     ],
-    name: "setTokenURI",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setTokenURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "bytes4",
-        name: "interfaceId",
-        type: "bytes4",
-      },
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
+      }
     ],
-    name: "supportsInterface",
-    outputs: [
+    "name": "supportsInterface",
+    "outputs": [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "symbol",
-    outputs: [
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "tokenURI",
-    outputs: [
+    "name": "tokenURI",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "from",
-        type: "address",
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
       },
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
-    name: "transferFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "transferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        components: [
+        "components": [
           {
-            internalType: "address",
-            name: "collectModule",
-            type: "address",
+            "internalType": "address",
+            "name": "collectModule",
+            "type": "address"
           },
           {
-            internalType: "bytes",
-            name: "collectModuleInitData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "collectModuleInitData",
+            "type": "bytes"
           },
           {
-            internalType: "address",
-            name: "gatedModule",
-            type: "address",
+            "internalType": "address",
+            "name": "gatedModule",
+            "type": "address"
           },
           {
-            internalType: "bytes",
-            name: "gatedModuleInitData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "gatedModuleInitData",
+            "type": "bytes"
           },
           {
-            internalType: "string",
-            name: "contentURI",
-            type: "string",
-          },
+            "internalType": "string",
+            "name": "contentURI",
+            "type": "string"
+          }
         ],
-        internalType: "struct DataTypes.AssetUpdateData",
-        name: "data",
-        type: "tuple",
-      },
+        "internalType": "struct DataTypes.AssetUpdateData",
+        "name": "data",
+        "type": "tuple"
+      }
     ],
-    name: "update",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "update",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "newImplementation",
-        type: "address",
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
       },
       {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
     ],
-    name: "upgradeToAndCall",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    "name": "upgradeToAndCall",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "uint256",
-        name: "assetId",
-        type: "uint256",
+        "internalType": "uint256",
+        "name": "assetId",
+        "type": "uint256"
       },
       {
-        internalType: "address",
-        name: "collector",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "collector",
+        "type": "address"
+      }
     ],
-    name: "userCollectCount",
-    outputs: [
+    "name": "userCollectCount",
+    "outputs": [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "version",
-    outputs: [
+    "inputs": [],
+    "name": "version",
+    "outputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-  },
+    "stateMutability": "view",
+    "type": "function"
+  }
 ]
+
 export const assethubManagerAbi = [
   {
     inputs: [

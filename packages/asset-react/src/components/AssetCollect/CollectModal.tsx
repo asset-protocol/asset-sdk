@@ -56,9 +56,7 @@ export function CollectModal(props: CollectModalProps) {
       const tokenId = await collect(
         asset.assetId,
         {
-          module: asset.collectModule ?? ZeroAddress,
-          initData: asset.collectModuleInitData ?? ZERO_BYTES,
-          collectData: new Uint8Array(0),
+          collectData: ZERO_BYTES,
         },
         options
       );

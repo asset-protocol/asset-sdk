@@ -3,7 +3,7 @@ import { DataTypes } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useCallback, useState } from "react";
 import { AssetHubDeployDataStruct } from "../client/assethub/abi/AssetHubManager";
-import { AssetModule, INGORED_ADDRESS, ZERO_BYTES } from "../core";
+import { INGORED_ADDRESS, ZERO_BYTES } from "../core";
 import { PayableOverrides } from "../client/assethub/abi";
 
 export function useDeployNewAssetHub() {
@@ -110,7 +110,7 @@ export function useUpdateAsset() {
 }
 
 
-export type CollectData = AssetModule & {
+export type CollectData = {
   collectData: BytesLike;
 }
 
@@ -124,9 +124,11 @@ export function useCollectAsset() {
     setIsLoading(true);
     try {
       const tokeNftId = await assetHub.collect.staticCall(assetId, collectData.collectData, options ?? {});
+      console.log("tokeNftId", tokeNftId)
       const res = await assetHub.collect(assetId, collectData.collectData, options ?? {});
       await res.wait();
       return tokeNftId;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } finally {
       setIsLoading(false);
     }
