@@ -1,9 +1,10 @@
 import { useAssetHub } from "../context/provider";
-import { DataTypes, NewERC20 } from '../client/assethub';
+import { DataTypes } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useCallback, useState } from "react";
-import { AssetHubDeployDataStruct } from "../client/assethub/typechain-types/AssetHubManager";
-import { AssetModule, ZERO_BYTES, parseTokenCollectModuleInitData } from "../core";
+import { AssetHubDeployDataStruct } from "../client/assethub/abi/AssetHubManager";
+import { AssetModule, INGORED_ADDRESS, ZERO_BYTES } from "../core";
+import { PayableOverrides } from "../client/assethub/abi";
 
 export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
@@ -78,9 +79,9 @@ export function useCreateAsset() {
 export type UpdateAssetInput = Partial<DataTypes.AssetUpdateDataStruct>;
 
 function checkUpdateData(data: UpdateAssetInput): DataTypes.AssetUpdateDataStruct {
-  data.collectModule = data.collectModule || ZeroAddress;
+  data.collectModule = data.collectModule || INGORED_ADDRESS;
   data.collectModuleInitData = data.collectModuleInitData || ZERO_BYTES;
-  data.gatedModule = data.gatedModule || ZeroAddress;
+  data.gatedModule = data.gatedModule || INGORED_ADDRESS;
   data.gatedModuleInitData = data.gatedModuleInitData || ZERO_BYTES;
   data.contentURI = data.contentURI || "";
   return data as DataTypes.AssetUpdateDataStruct;
@@ -114,28 +115,16 @@ export type CollectData = AssetModule & {
 }
 
 export function useCollectAsset() {
-  const { assetHub, hubInfo, signer } = useAssetHub();
+  const { assetHub, hubInfo } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
-  const collect = async (assetId: bigint, collectData: CollectData) => {
+  const collect = async (assetId: bigint, collectData: CollectData, options?: PayableOverrides) => {
     if (!assetHub || !hubInfo) {
       throw new Error("asset hub not set");
     }
     setIsLoading(true);
     try {
-      if (collectData && collectData.module !== ZeroAddress && hubInfo.feeCollectModule === collectData.module) {
-        const feeConfig = parseTokenCollectModuleInitData(collectData.initData);
-        if (feeConfig && feeConfig.currency !== ZeroAddress && feeConfig.amount > 0) {
-          const token = NewERC20(signer, feeConfig.currency);
-          const allowance = await token.allowance(signer.getAddress(), hubInfo.feeCollectModule);
-          if (allowance < feeConfig.amount) {
-            const tx = await token.approve(hubInfo.feeCollectModule, feeConfig.amount);
-            await tx.wait();
-          }
-        }
-      }
-
-      const tokeNftId = await assetHub.collect.staticCall(assetId, collectData.collectData);
-      const res = await assetHub.collect(assetId, collectData.collectData);
+      const tokeNftId = await assetHub.collect.staticCall(assetId, collectData.collectData, options ?? {});
+      const res = await assetHub.collect(assetId, collectData.collectData, options ?? {});
       await res.wait();
       return tokeNftId;
     } finally {

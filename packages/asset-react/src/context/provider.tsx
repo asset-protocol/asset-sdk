@@ -3,7 +3,7 @@ import { ApolloClient, ApolloProvider } from "@apollo/client";
 import { useContext, useState, createContext } from "react";
 import { Signer } from "ethers";
 import { IStorage, StorageScheme } from "../core/storage";
-import { AssetHubConfig, AssetHubPlugin, IAssetHub } from "../core/plugin";
+import { AssetHubConfig, AssetHubPlugin } from "../core/plugin";
 import { HubInfoContext, HubInfoProvider } from "./hub-info";
 
 export type AccountInfo = {
@@ -13,7 +13,7 @@ export type AccountInfo = {
 };
 
 export type AssetContextData = {
-  ctx: IAssetHub;
+  ctx: AssetHubConfig;
   storage: IStorage;
   setStorage: (storage: IStorage) => void;
   changeHub: (hub?: string) => void;
@@ -47,7 +47,7 @@ export function AssetProvider(props: AssetProviderProps) {
   if (props.plugins) {
     props.plugins.forEach((p) => p(config));
   }
-  const ctx = config.build();
+  const ctx = config;
   const [storage, setStorage] = useState<IStorage>(ctx.storages[props.storage]);
   if (!storage) throw new Error("storage not found: " + props.storage);
   const value = {

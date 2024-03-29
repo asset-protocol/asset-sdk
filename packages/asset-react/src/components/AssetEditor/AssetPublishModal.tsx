@@ -1,51 +1,27 @@
-import { Button, Modal, ModalProps, Select } from "antd";
+import { Button, Form, Modal, ModalProps } from "antd";
 import { AssetCard } from "../Assset/AssetCard";
 import { useAssetEditor } from "./AssetEditorContext";
 import { useAssetHub } from "../../context";
-import { useAssetPublish } from "./useAssetPublish";
 import {
-  CollectModuleInput,
-  CollectModuleItem,
-} from "../AssetCollect/CollectModuleInput";
-import { useMemo } from "react";
-import { FeeCollectModuleItem } from "../AssetCollect";
-import { TokenCollectModuleItem } from "../AssetCollect/TokenCollectModuleItem";
+  PublishFromDataType,
+  useAssetPublish,
+  usePublishFormValues,
+} from "./hook";
+import { CollectModuleInput } from "./CollectModuleInput";
 
 export function AssetPublishForm() {
-  const { account, ctx, storage, setStorage, hubInfo } = useAssetHub();
-  const { metadata, collectModule, setCollectModule, setPublished } =
-    useAssetEditor();
+  const { account } = useAssetHub();
+  const { metadata, setPublished } = useAssetEditor();
 
   const { publish, loading } = useAssetPublish();
+  const initialValues = usePublishFormValues();
 
-  const storageOptions = Object.values(ctx.storages).map((s) => ({
-    label: s.scheme.label,
-    value: s.scheme.name,
-  }));
-
-  const handlePublish = () => {
-    publish().then((assetId) => {
+  const handleSubmit = (values: PublishFromDataType) => {
+    console.log("values", values);
+    publish(values).then((assetId) => {
       setPublished(assetId);
     });
   };
-
-  const modules: CollectModuleItem[] = useMemo(() => {
-    if (!hubInfo) return [];
-    const res: CollectModuleItem[] = [
-      {
-        label: "Fee Collect Module",
-        module: hubInfo.feeCollectModule,
-        content: FeeCollectModuleItem,
-      },
-      {
-        label: "Token Collect Module",
-        module: hubInfo.tokenCollectModule,
-        content: TokenCollectModuleItem,
-      },
-    ];
-    console.log("options", res);
-    return res;
-  }, [hubInfo]);
 
   return (
     metadata &&
@@ -54,38 +30,33 @@ export function AssetPublishForm() {
         <div className="flex-[3] min-w-[100px] items-center">
           <AssetCard name={metadata.name} image={metadata.image} />
         </div>
-        <div className="flex-[4] items-start flex flex-col">
-          <div>
-            Storage:
+        <Form<PublishFromDataType>
+          className="flex-[4] items-start flex flex-col"
+          onFinish={handleSubmit}
+          initialValues={initialValues}
+        >
+          {/* <Form.Item label="Storage" name="storage">
             <Select
               style={{ width: 180, marginLeft: "6px" }}
-              value={storage.scheme.name}
               options={storageOptions}
-              onChange={(v) => {
-                setStorage(ctx.storages[v]);
-              }}
             />
-          </div>
-          <div className="w-full mt-2">
-            <CollectModuleInput
-              value={collectModule}
-              onChange={(v) => {
-                setCollectModule(v);
-              }}
-              moudles={modules}
-            />
-          </div>
+          </Form.Item> */}
+          <Form.Item noStyle className="w-full mt-2">
+            <CollectModuleInput />
+          </Form.Item>
           <div className="flex-1"></div>
-          <Button
-            loading={loading}
-            type="primary"
-            className="w-full my-2"
-            size="large"
-            onClick={handlePublish}
-          >
-            Publish
-          </Button>
-        </div>
+          <Form.Item>
+            <Button
+              loading={loading}
+              type="primary"
+              className="w-full my-2"
+              size="large"
+              htmlType="submit"
+            >
+              Publish
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     )
   );
@@ -96,6 +67,7 @@ export type AssetPublishModalProps = ModalProps & {
   open?: boolean;
   onCancel?: () => void;
 };
+
 export function AssetPublishModal(props: AssetPublishModalProps) {
   return (
     <Modal

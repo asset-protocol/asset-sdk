@@ -1,42 +1,28 @@
-import { AbiCoder, BytesLike } from "ethers";
+import { ReactElement, ReactNode } from "react";
+import { EtherAddress } from "./common";
+import { AssetModule } from "./asset";
+import { BytesLike } from "ethers";
+import { PayableOverrides } from "../client/assethub/abi";
 
-export type FeeConfig = {
-  currency: string;
-  recipient: string;
-  amount: number;
-};
+export type BeforeCollectFunc = (assetId: bigint, options: PayableOverrides) => boolean | Promise<boolean>;
 
-export function parseTokenCollectModuleInitData(data?: BytesLike): FeeConfig | undefined {
-  if (!data || data == "0x") {
-    return;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let res: any = []
-  try {
-    res = AbiCoder.defaultAbiCoder().decode(
-      ["address", "address", "uint256"],
-      data
-    );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    console.warn("decode data error: ", e.message, data);
-  }
-  if (res?.length !== 3) {
-    return;
-  }
-  return {
-    currency: res[0],
-    recipient: res[1],
-    amount: res[2],
-  };
+export type CollectModuleInputProps = {
+  value?: BytesLike;
+  onChange?: (v?: BytesLike) => void;
 }
 
-export function encodeFeeCollectModuleInitData(config?: FeeConfig) {
-  if (!config) {
-    return;
-  }
-  return AbiCoder.defaultAbiCoder().encode(
-    ["address", "address", "uint256"],
-    [config.currency, config.recipient, config.amount]
-  );
+export type UseCollectModule = {
+  viewNode?: ReactNode;
+  collectButtonText?: ReactNode;
+  errorText?: ReactNode;
+  beforeCollect?: BeforeCollectFunc;
+}
+
+export interface ICollectModule {
+  // module contract address
+  moduleContract: EtherAddress;
+  // module label
+  label: string;
+  inputNode: ReactElement<CollectModuleInputProps>;
+  useCollect(collectModule: AssetModule): UseCollectModule;
 }

@@ -2,13 +2,7 @@ import { ReactNode } from "react";
 import { IEditorProvider } from "./editor";
 import { IStorage } from "./storage";
 import { IViewerProvider } from "./viewer";
-
-export interface IAssetHub {
-  storages: { [key: string]: IStorage };
-  editorProviders: { [key: string]: IEditorProvider[] };
-  viewerProviders: { [key: string]: IViewerProvider[] };
-  configProviders: ((props: { children: ReactNode }) => ReactNode)[];
-}
+import { ICollectModule } from "./collect";
 
 export type AssetHubPlugin = (config: AssetHubConfig) => void;
 
@@ -17,6 +11,7 @@ export class AssetHubConfig {
   private _editorProviders: { [key: string]: IEditorProvider[] } = {}
   private _viewerProviders: { [key: string]: IViewerProvider[] } = {}
   private _configProviders: ((props: { children: ReactNode }) => ReactNode)[] = []
+  private _collectModules: ICollectModule[] = [];
 
   public get editorProviders() {
     return this._editorProviders;
@@ -34,6 +29,10 @@ export class AssetHubConfig {
     return this._configProviders;
   }
 
+  public get collectModules() {
+    return this._collectModules;
+  }
+
   registerStorage(storage: IStorage): AssetHubConfig {
     this._storages[storage.scheme.name] = storage;
     return this;
@@ -47,6 +46,7 @@ export class AssetHubConfig {
         this._editorProviders[t.value] = [provider];
       }
     })
+    return this;
   }
 
   public registerViewer(type: string, provider: IViewerProvider) {
@@ -55,13 +55,21 @@ export class AssetHubConfig {
     } else {
       this._viewerProviders[type] = [provider];
     }
+    return this;
   }
 
   public registerConfigProvider(provider: (props: { children: ReactNode }) => ReactNode) {
     this._configProviders.push(provider);
+    return this;
   }
 
-  public build(): IAssetHub {
+  public registerCollectModule(provider: ICollectModule) {
+    this._collectModules.push(provider);
+    return this;
+  }
+
+  public use(plugin: AssetHubPlugin) {
+    plugin(this);
     return this;
   }
 }

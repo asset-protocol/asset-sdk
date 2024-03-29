@@ -191,7 +191,14 @@ export interface AssetHubInterface extends Interface {
   encodeFunctionData(functionFragment: "hubOwner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string, AddressLike, AddressLike, AddressLike, AddressLike]
+    values: [
+      string,
+      string,
+      AddressLike,
+      AddressLike,
+      AddressLike,
+      AddressLike[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -672,7 +679,7 @@ export interface AssetHub extends BaseContract {
   collect: TypedContractMethod<
     [assetId: BigNumberish, collectModuleData: BytesLike],
     [bigint],
-    "nonpayable"
+    "payable"
   >;
 
   collectModuleWhitelist: TypedContractMethod<
@@ -714,7 +721,7 @@ export interface AssetHub extends BaseContract {
       admin: AddressLike,
       collectNFT: AddressLike,
       createAssetModule: AddressLike,
-      whitelistedCollectModule: AddressLike
+      whitelistedCollectModules: AddressLike[]
     ],
     [void],
     "nonpayable"
@@ -859,7 +866,7 @@ export interface AssetHub extends BaseContract {
   ): TypedContractMethod<
     [assetId: BigNumberish, collectModuleData: BytesLike],
     [bigint],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "collectModuleWhitelist"
@@ -909,7 +916,7 @@ export interface AssetHub extends BaseContract {
       admin: AddressLike,
       collectNFT: AddressLike,
       createAssetModule: AddressLike,
-      whitelistedCollectModule: AddressLike
+      whitelistedCollectModules: AddressLike[]
     ],
     [void],
     "nonpayable"

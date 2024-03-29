@@ -6,11 +6,29 @@ import {
   useEditorProvider,
   useUpdateAsset,
 } from "../../hook";
-import { ZERO_BYTES } from "../../core";
-import { useState } from "react";
+import { AssetModule, ZERO_BYTES } from "../../core";
+import { useMemo, useState } from "react";
+
+export type PublishFromDataType = {
+  // storage: StorageScheme;
+  useCollect: boolean;
+  collectModule?: AssetModule;
+  gatedModule?: AssetModule;
+};
+
+export function usePublishFormValues() {
+  const { collectModule } = useAssetEditor();
+  const initialValues: PublishFromDataType = useMemo(() => {
+    return {
+      useCollect: !!collectModule,
+      collectModule,
+    };
+  }, [collectModule]);
+  return initialValues;
+}
 
 export function useAssetPublish() {
-  const { metadata, collectModule, gatedModule, content, type, asset } =
+  const { metadata, setCollectModule, setGatedModule, content, type, asset } =
     useAssetEditor();
   const { storage } = useAssetHub();
   const { create } = useCreateAsset();
@@ -20,7 +38,7 @@ export function useAssetPublish() {
 
   const [loading, setLoading] = useState(false);
 
-  const publish = async () => {
+  const publish = async (values: PublishFromDataType) => {
     setLoading(true);
     let assetId = asset?.assetId;
     try {
@@ -42,13 +60,15 @@ export function useAssetPublish() {
           data: newMetadata,
         });
       }
+      const collectModule = values.collectModule;
       if (
-        collectModule?.module !== asset?.collectModule ||
+        values.collectModule?.module !== asset?.collectModule ||
         collectModule?.initData !== asset?.collectModuleInitData
       ) {
         newData.collectModule = collectModule?.module;
         newData.collectModuleInitData = collectModule?.initData;
       }
+      const gatedModule = values.gatedModule;
       if (
         gatedModule?.module !== asset?.gatedModule ||
         gatedModule?.initData !== asset?.gatedModuleInitData
@@ -65,6 +85,8 @@ export function useAssetPublish() {
           assetCreateModuleData: ZERO_BYTES,
         });
       }
+      setCollectModule(values.collectModule);
+      setGatedModule(values.gatedModule);
     } finally {
       setLoading(false);
     }

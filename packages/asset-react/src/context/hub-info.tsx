@@ -1,8 +1,8 @@
 import { useEffect, useState, createContext } from "react";
-import { AssetHub as AssethubContract } from "../client/assethub/typechain-types";
+import { AssetHub as AssethubContract } from "../client/assethub/abi";
 import { NewAssetHub, NewAssetHubManager } from "../client/assethub";
 import { Signer } from "ethers";
-import { AssetHubManager } from "../client/assethub/typechain-types/AssetHubManager";
+import { AssetHubManager } from "../client/assethub/abi/AssetHubManager";
 import { AssetHubInfo } from "../client/core";
 import { useGetAssetHubByNameOrId } from "..";
 

@@ -27,11 +27,9 @@ export function AssetCard(props: AssetCardProps) {
           className="mr-2 bg-[#87d068]"
           size={32}
           icon={<UserOutlined />}
-          src={account?.avatar}
+          src={replaceUri(account?.avatar)}
         />
-        <AddressLink
-          address={account?.name ?? account?.name}
-        />
+        <AddressLink address={account?.name ?? account?.address} />
       </div>
       <div className="mt-4"></div>
     </div>

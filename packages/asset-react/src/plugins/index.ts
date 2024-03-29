@@ -28,3 +28,5 @@ export const allAssetTypePlugin = (config: AssetHubConfig) => {
 export { default as ipfsPinataPlugin, STORAGE_SCHEMA_IPFS } from './storage-ipfs-pinata';
 export { default as arwaveStoragePlugin } from './storage-arwave';
 export { default as arwaveAkordStoragePlugin } from './storage-arwave-akord';
+export { default as FeeCollectModulePlugin } from './module-fee-collect';
+export { default as TokenCollectModulePlugin } from './module-token-collect';
