@@ -67,9 +67,6 @@ export function CollectModal(props: CollectModalProps) {
       setLoading(false);
     }
   };
-
-  console.log("errorText", collectModule?.errorText);
-
   return (
     <Modal
       destroyOnClose

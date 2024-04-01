@@ -8,6 +8,7 @@ import {
 } from "../../hook";
 import { AssetModule, ZERO_BYTES } from "../../core";
 import { useMemo, useState } from "react";
+import { ZeroAddress } from "ethers";
 
 export type PublishFromDataType = {
   // storage: StorageScheme;
@@ -20,7 +21,7 @@ export function usePublishFormValues() {
   const { collectModule } = useAssetEditor();
   const initialValues: PublishFromDataType = useMemo(() => {
     return {
-      useCollect: !!collectModule,
+      useCollect: (collectModule && collectModule.module !== ZeroAddress) ?? false,
       collectModule,
     };
   }, [collectModule]);

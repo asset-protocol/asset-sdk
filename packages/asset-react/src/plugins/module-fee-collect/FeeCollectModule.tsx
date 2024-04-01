@@ -4,6 +4,7 @@ import { EtherAddress } from "../../core/common";
 import { FeeCollectModuleItem } from "./components/FeeCollectModuleItem";
 import { parseFeeInitData } from "./parsedata";
 import { PayableOverrides } from "../../client/assethub/abi";
+import { formatEther } from "ethers";
 
 function CollectView(props: AssetModule) {
   return <div>Fee Collect,{props.module}</div>;
@@ -27,7 +28,7 @@ function useFeeCollect(collectModule: AssetModule): UseCollectModule {
   return {
     beforeCollect: func,
     viewNode: <CollectView {...collectModule} />,
-    collectButtonText: `Collect for ${data?.amount} Matic`,
+    collectButtonText: data ? `Collect for ${formatEther(data.amount)} Matic` : undefined
   };
 }
 

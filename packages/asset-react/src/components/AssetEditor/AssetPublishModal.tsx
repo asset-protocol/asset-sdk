@@ -8,6 +8,8 @@ import {
   usePublishFormValues,
 } from "./hook";
 import { CollectModuleInput } from "./CollectModuleInput";
+import { ZeroAddress } from "ethers";
+import { ZERO_BYTES } from "../../core";
 
 export function AssetPublishForm() {
   const { account } = useAssetHub();
@@ -18,6 +20,12 @@ export function AssetPublishForm() {
 
   const handleSubmit = (values: PublishFromDataType) => {
     console.log("values", values);
+    if (!values.useCollect) {
+      values.collectModule = {
+        module: ZeroAddress,
+        initData: ZERO_BYTES
+      };
+    }
     publish(values).then((assetId) => {
       setPublished(assetId);
     });
