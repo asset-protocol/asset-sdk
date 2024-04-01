@@ -1,12 +1,12 @@
 import { Addressable, Contract, Signer } from "ethers";
-import { IERC20Abi, assethubAbi, assethubManagerAbi } from "./abi";
-import { AssetHub } from "./typechain-types/AssetHub";
-import { AssetHubManager } from "./typechain-types/AssetHubManager";
+import { IERC20Abi, assethubAbi, assethubManagerAbi } from "./abi/abi";
+import { AssetHub } from "./abi/AssetHub";
+import { AssetHubManager } from "./abi/AssetHubManager";
 
-import { IERC20 } from "./typechain-types/IERC20";
-export * from './typechain-types/AssetHub';
-export * as AssetHubManager from './typechain-types/AssetHubManager';
-export * as IERC20 from './typechain-types/IERC20';
+import { IERC20 } from "./abi/IERC20";
+export * from './abi/AssetHub';
+export * as AssetHubManager from './abi/AssetHubManager';
+export * as IERC20 from './abi/IERC20';
 
 
 export function NewAssetHub(signer: Signer, hub: string | Addressable) {

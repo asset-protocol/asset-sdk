@@ -108,7 +108,11 @@ export default function ImageComponent({
   const handleWidthChange = (w: number | string) => {
     editor.update(() => {
       const node = $getNodeByKey<ImageNode>(nodeKey);
-      node?.setWidthAndHeight(w, height);
+      if (w === "auto") {
+        node?.setWidthAndHeight(w, "auto");
+      } else {
+        node?.setWidthAndHeight(w, height);
+      }
     });
     setWidth(w);
   };

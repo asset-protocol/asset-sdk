@@ -24,25 +24,25 @@ import type {
 } from "./common";
 
 export type AssetHubInfoStruct = {
-  assetHub: AddressLike;
-  feeCollectModule: AddressLike;
+  collectNFT: AddressLike;
   nftGatedModule: AddressLike;
   assetCreateModule: AddressLike;
-  collectNFT: AddressLike;
+  tokenCollectModule: AddressLike;
+  feeCollectModule: AddressLike;
 };
 
 export type AssetHubInfoStructOutput = [
-  assetHub: string,
-  feeCollectModule: string,
+  collectNFT: string,
   nftGatedModule: string,
   assetCreateModule: string,
-  collectNFT: string
+  tokenCollectModule: string,
+  feeCollectModule: string
 ] & {
-  assetHub: string;
-  feeCollectModule: string;
+  collectNFT: string;
   nftGatedModule: string;
   assetCreateModule: string;
-  collectNFT: string;
+  tokenCollectModule: string;
+  feeCollectModule: string;
 };
 
 export type AssetHubDeployDataStruct = {
@@ -66,24 +66,27 @@ export type AssetHubDeployDataStructOutput = [
 
 export type AssetHubImplDataStruct = {
   assetHubFactory: AddressLike;
-  feeCollectModuleFactory: AddressLike;
+  tokenCollectModuleFactory: AddressLike;
   nftGatedModuleFactory: AddressLike;
-  feeCreateAssetModuleFactory: AddressLike;
+  tokenAssetCreateModuleFactory: AddressLike;
   collectNFTFactory: AddressLike;
+  feeCollectModuleFactory: AddressLike;
 };
 
 export type AssetHubImplDataStructOutput = [
   assetHubFactory: string,
-  feeCollectModuleFactory: string,
+  tokenCollectModuleFactory: string,
   nftGatedModuleFactory: string,
-  feeCreateAssetModuleFactory: string,
-  collectNFTFactory: string
+  tokenAssetCreateModuleFactory: string,
+  collectNFTFactory: string,
+  feeCollectModuleFactory: string
 ] & {
   assetHubFactory: string;
-  feeCollectModuleFactory: string;
+  tokenCollectModuleFactory: string;
   nftGatedModuleFactory: string;
-  feeCreateAssetModuleFactory: string;
+  tokenAssetCreateModuleFactory: string;
   collectNFTFactory: string;
+  feeCollectModuleFactory: string;
 };
 
 export interface AssetHubManagerInterface extends Interface {
@@ -92,10 +95,11 @@ export interface AssetHubManagerInterface extends Interface {
       | "UPGRADE_INTERFACE_VERSION"
       | "assetHubInfo"
       | "assetHubInfoByName"
-      | "createFeeAssetCreateModule"
       | "createFeeCollectModuleImpl"
       | "createHubImpl"
       | "createNftAssetGatedModuleImpl"
+      | "createTokenAssetCreateModule"
+      | "createTokenCollectModuleImpl"
       | "deploy"
       | "exitsName"
       | "factories"
@@ -133,10 +137,6 @@ export interface AssetHubManagerInterface extends Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "createFeeAssetCreateModule",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "createFeeCollectModuleImpl",
     values: [AddressLike, BytesLike]
   ): string;
@@ -146,6 +146,14 @@ export interface AssetHubManagerInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "createNftAssetGatedModuleImpl",
+    values: [AddressLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createTokenAssetCreateModule",
+    values: [AddressLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createTokenCollectModuleImpl",
     values: [AddressLike, BytesLike]
   ): string;
   encodeFunctionData(
@@ -202,10 +210,6 @@ export interface AssetHubManagerInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "createFeeAssetCreateModule",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "createFeeCollectModuleImpl",
     data: BytesLike
   ): Result;
@@ -215,6 +219,14 @@ export interface AssetHubManagerInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "createNftAssetGatedModuleImpl",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createTokenAssetCreateModule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createTokenCollectModuleImpl",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "deploy", data: BytesLike): Result;
@@ -258,25 +270,19 @@ export namespace AssetHubDeployedEvent {
     admin: AddressLike,
     name: string,
     assetHub: AddressLike,
-    feeCollectModule: AddressLike,
-    nftGatedModule: AddressLike,
-    assetCreateModule: AddressLike
+    data: AssetHubInfoStruct
   ];
   export type OutputTuple = [
     admin: string,
     name: string,
     assetHub: string,
-    feeCollectModule: string,
-    nftGatedModule: string,
-    assetCreateModule: string
+    data: AssetHubInfoStructOutput
   ];
   export interface OutputObject {
     admin: string;
     name: string;
     assetHub: string;
-    feeCollectModule: string;
-    nftGatedModule: string;
-    assetCreateModule: string;
+    data: AssetHubInfoStructOutput;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -391,12 +397,6 @@ export interface AssetHubManager extends BaseContract {
     "view"
   >;
 
-  createFeeAssetCreateModule: TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
   createFeeCollectModuleImpl: TypedContractMethod<
     [hub: AddressLike, initData: BytesLike],
     [string],
@@ -410,6 +410,18 @@ export interface AssetHubManager extends BaseContract {
   >;
 
   createNftAssetGatedModuleImpl: TypedContractMethod<
+    [hub: AddressLike, initData: BytesLike],
+    [string],
+    "nonpayable"
+  >;
+
+  createTokenAssetCreateModule: TypedContractMethod<
+    [hub: AddressLike, initData: BytesLike],
+    [string],
+    "nonpayable"
+  >;
+
+  createTokenCollectModuleImpl: TypedContractMethod<
     [hub: AddressLike, initData: BytesLike],
     [string],
     "nonpayable"
@@ -483,13 +495,6 @@ export interface AssetHubManager extends BaseContract {
     nameOrSignature: "assetHubInfoByName"
   ): TypedContractMethod<[name: string], [AssetHubInfoStructOutput], "view">;
   getFunction(
-    nameOrSignature: "createFeeAssetCreateModule"
-  ): TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
     nameOrSignature: "createFeeCollectModuleImpl"
   ): TypedContractMethod<
     [hub: AddressLike, initData: BytesLike],
@@ -501,6 +506,20 @@ export interface AssetHubManager extends BaseContract {
   ): TypedContractMethod<[initData: BytesLike], [string], "nonpayable">;
   getFunction(
     nameOrSignature: "createNftAssetGatedModuleImpl"
+  ): TypedContractMethod<
+    [hub: AddressLike, initData: BytesLike],
+    [string],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "createTokenAssetCreateModule"
+  ): TypedContractMethod<
+    [hub: AddressLike, initData: BytesLike],
+    [string],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "createTokenCollectModuleImpl"
   ): TypedContractMethod<
     [hub: AddressLike, initData: BytesLike],
     [string],
@@ -595,7 +614,7 @@ export interface AssetHubManager extends BaseContract {
   >;
 
   filters: {
-    "AssetHubDeployed(address,string,address,address,address,address)": TypedContractEvent<
+    "AssetHubDeployed(address,string,address,tuple)": TypedContractEvent<
       AssetHubDeployedEvent.InputTuple,
       AssetHubDeployedEvent.OutputTuple,
       AssetHubDeployedEvent.OutputObject

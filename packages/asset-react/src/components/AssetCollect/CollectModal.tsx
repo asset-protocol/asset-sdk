@@ -4,10 +4,10 @@ import { UserOutlined } from "@ant-design/icons";
 import { ZeroAddress } from "ethers";
 import { Asset } from "../../client/core";
 import { useReplaceUri } from "../../lib/utils";
-import { ZERO_BYTES, parseFeeCollectModuleInitData } from "../../core";
+import { ZERO_BYTES } from "../../core";
 import { useCollectAsset } from "../../hook/assethub";
-import { useERC20BalanceOf } from "../../hook";
-import { useEffect, useMemo, useState } from "react";
+import { useAssetHub } from "../..";
+import { useState } from "react";
 export type CollectModalProps = Omit<ModalProps, "onOk"> & {
   asset: Asset;
   account?: string;
@@ -22,53 +22,51 @@ export function hasCollectModule(asset: Asset) {
 
 export function CollectModal(props: CollectModalProps) {
   const { asset, onCollected, ...resProps } = props;
-
+  const { ctx } = useAssetHub();
   const replaceUri = useReplaceUri();
-  const { collect, isLoading } = useCollectAsset();
+  const { collect } = useCollectAsset();
 
-  const [balance, setBalance] = useState<bigint>();
+  const [loading, setLoading] = useState(false);
 
-  const useCollectModule = hasCollectModule(asset);
-  const collectModuleData = parseFeeCollectModuleInitData(
-    asset.collectModuleInitData
-  );
-  const erc20BalanceOf = useERC20BalanceOf(
-    collectModuleData?.currency ?? ZeroAddress
-  );
-
-  const hasNoBalance = useMemo(
-    () =>
-      (useCollectModule &&
-        balance &&
-        balance < BigInt(collectModuleData?.amount ?? 0)) ??
-      false,
-    [balance, collectModuleData?.amount, useCollectModule]
-  );
-
-  useEffect(() => {
-    if (props.account) {
-      erc20BalanceOf(props.account).then((b) =>
-        setBalance(b === undefined ? b : BigInt(b))
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [erc20BalanceOf, props.account]);
+  const collectModule =
+    asset.collectModule !== undefined
+      ? ctx.collectModules
+          .find((m) => m.moduleContract === asset.collectModule)
+          ?.useCollect({
+            module: asset.collectModule,
+            initData: asset.collectModuleInitData,
+          })
+      : undefined;
 
   const handleCollect = async () => {
     if (!props.account) {
       props.requestLogin?.();
       return;
     }
-    const tokenId = await collect(asset.assetId, {
-      module: asset.collectModule ?? ZeroAddress,
-      initData: asset.collectModuleInitData ?? ZERO_BYTES,
-      collectData: "0x",
-    });
-    if (tokenId) {
-      onCollected?.(tokenId);
+    setLoading(true);
+    try {
+      const options = {};
+      if (collectModule?.beforeCollect) {
+        const success = await collectModule.beforeCollect(
+          asset.assetId,
+          options
+        );
+        if (!success) return;
+      }
+      const tokenId = await collect(
+        asset.assetId,
+        {
+          collectData: ZERO_BYTES,
+        },
+        options
+      );
+      if (tokenId) {
+        onCollected?.(tokenId);
+      }
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <Modal
       destroyOnClose
@@ -124,45 +122,21 @@ export function CollectModal(props: CollectModalProps) {
               <div className="font-bold">Polygon mumbai</div>
             </div>
           </div>
-          {collectModuleData && (
-            <>
-              <div className="my-1">
-                Token Contract:
-                <AddressLink
-                  address={collectModuleData.currency}
-                  to=""
-                  className="mx-2"
-                />
-              </div>
-              <div className="my-1">
-                Token Recipient:
-                <AddressLink
-                  address={collectModuleData.recipient}
-                  to=""
-                  className="mx-2"
-                />
-              </div>
-            </>
-          )}
+          {collectModule && collectModule.viewNode}
           <div className="flex-1"></div>
           <Button
             type="primary"
             className="w-full my-2"
             size="large"
-            loading={isLoading}
+            loading={loading}
             onClick={handleCollect}
+            // disabled={!!collectModule?.errorText}
           >
-            {!useCollectModule && "Collect for Free"}
-            {useCollectModule &&
-              `Collect for ${collectModuleData?.amount.toString()} Token`}
+            {(collectModule && collectModule.collectButtonText) ||
+              "Collect for Free"}
           </Button>
-          {hasNoBalance ? (
-            <div className="text-red-400">
-              {`Requires a minimum token balance of ${collectModuleData?.amount.toString()}, current: ${balance?.toString()}`}
-            </div>
-          ) : (
+          {collectModule?.errorText || (
             <div className="text-gray-500">
-              {" "}
               Mint this asset as an NFT to add it to your collection.
             </div>
           )}

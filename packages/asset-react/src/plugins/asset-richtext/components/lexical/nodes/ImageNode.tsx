@@ -45,7 +45,7 @@ function convertImageElement(domNode: Node): null | DOMConversionOutput {
     altText: img.alt,
     src: img.src,
     width: img.width,
-    height: img.height,
+    // height: img.height, // auto
   };
   const node = $createImageNode(payload);
   ImageNode.onConvertImageElement?.(payload, node);

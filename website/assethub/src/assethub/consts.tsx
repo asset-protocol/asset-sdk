@@ -4,7 +4,7 @@
 // export const admin = "0x4845Af017fc4A19B0D053806B7288bB269de05b3"
 
 // export const AssetHubManager = "0x4cDbA49Bf17b40D7BAd9fBB70D4f45Dc66d7b651";
-export const AssetHubManager = "0xEE6573E044154CC1eDe627030f0eD798A1E203f5";
+export const ManagerContract = "0x0470D94415389c7284EB29aD3AA758bF570D858b";
 // export const TestToken = "0x559D36b5b23D039197ee2d72FCb11ADFEd673B0D";
 // export const AssetHub = "0x770D004B00d34B9efc8103cC8c4efBa66EFb8724";
 // export const FeeAssetModule = "0x3bD69890e180d2c81764858420a608653526e1Af";

@@ -211,7 +211,6 @@ export function BlockFormatDropDown({
       onClick: formatCode,
     },
   ];
-  console.log("blocktype", blockType);
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>
       <Button className="px-1">

@@ -4,4 +4,4 @@ export * from './AssetMetadataEditor';
 export * from './AssetEditorHeader';
 export * from './AssetEditorContext';
 export * from './AssetEnditorPanel';
-export * from './useAssetPublish';
+export * from './hook';
