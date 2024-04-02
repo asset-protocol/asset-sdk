@@ -35,11 +35,11 @@ export function AssetPublishForm() {
     metadata &&
     account && (
       <div className="flex flex-wrap gap-6 text-base">
-        <div className="flex-[3] min-w-[100px] items-center">
+        <div className="flex-1 min-w-[100px] items-center">
           <AssetCard name={metadata.name} image={metadata.image} />
         </div>
         <Form<PublishFromDataType>
-          className="flex-[4] items-start flex flex-col"
+          className="flex-1 items-start flex flex-col"
           onFinish={handleSubmit}
           initialValues={initialValues}
         >

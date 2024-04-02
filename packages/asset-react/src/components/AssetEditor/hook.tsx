@@ -48,7 +48,9 @@ export function useAssetPublish() {
       let newConent = content;
       setTip("Saving content...");
       if (content && beforePublish) {
-        newConent = await beforePublish(content, asset?.content);
+        newConent = await beforePublish(content, asset?.content, p => {
+          setTip(`Saving content(${p})...`);
+        });
       }
       const data = { ...metadata, type, content: newConent };
       setTip("Saving image...");
@@ -59,6 +61,9 @@ export function useAssetPublish() {
         });
       }
       setTip("Saving metadata...");
+      if (data.description !== asset?.description) {
+        data.tags = data.description?.match(/#\w+/g)?.map(t => t.slice(1)) || undefined;
+      }
       const newMetadata = JSON.stringify(data);
       if (newMetadata !== asset?.metadata) {
         newData.contentURI = await storage.upload({

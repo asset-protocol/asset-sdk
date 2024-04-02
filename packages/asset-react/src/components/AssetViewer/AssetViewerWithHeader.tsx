@@ -11,6 +11,7 @@ import {
 import { useAssetHub } from "../../context";
 import { useMemo } from "react";
 import { useAssetViewer } from "./AssetViewerContext";
+import { AssetDescription } from "./AssetDescription";
 
 export function AssetViewerWithHeader(props: {
   showCover?: boolean;
@@ -122,7 +123,7 @@ export function AssetViewerWithHeader(props: {
         <div className={`${showCover ? "-mt-24" : ""}`}>
           {showDescription && (
             <div className="m-auto text-gray-500 my-4 text-base bg-gray-100 rounded-md py-6 px-6 mx-4">
-              {asset?.description}
+              <AssetDescription text={asset?.description} linkSelector={() => ""} />
             </div>
           )}
         </div>

@@ -4,6 +4,7 @@ import {
   InitialConfigType,
 } from "@lexical/react/LexicalComposer";
 import { EditorState } from "lexical";
+// import 'material-symbols';
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";

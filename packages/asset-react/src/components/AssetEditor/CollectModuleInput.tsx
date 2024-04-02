@@ -32,9 +32,10 @@ export function CollectModuleInput() {
   return (
     <>
       <Form.Item
-        className="flex justify-between w-full mb-2"
+        className="w-full mb-2 flex-1"
         label="Collect Setting"
         name="useCollect"
+        wrapperCol={{ flex: 1, className: "text-right" }}
       >
         <Switch />
       </Form.Item>

@@ -61,7 +61,7 @@ export function TokenCollectModuleItem(props: TokenCollectModuleItemProps) {
         <span className="w-[64px]">Token</span>
         <Select
           options={tokenOptions}
-          style={{ width: 170 }}
+          style={{ width: 140 }}
           value={selectedToken}
           onChange={(v) => setSelectedToken(v)}
         ></Select>

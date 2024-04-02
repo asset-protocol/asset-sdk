@@ -62,7 +62,7 @@ export function AssetItem(props: {
         <div className="line-clamp-1">{value.description}</div>
         <div className="flex-1 flex gap-2">
           {value.tags ? (
-            value.tags.split(",").map((t: string) => (
+            JSON.parse(value.tags).map?.((t: string) => (
               <Tag
                 key={t}
                 color={

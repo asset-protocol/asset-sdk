@@ -1,6 +1,5 @@
 window.global ||= window;
 import "./index.css";
-import 'material-symbols';
 export * from './core';
 export * from './context';
 export * from "./components";

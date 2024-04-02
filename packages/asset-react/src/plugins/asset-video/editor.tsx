@@ -10,11 +10,12 @@ const videoEditor = (config: AssetHubConfig) => {
     editor: (props) => <VideoEditor {...props} />,
     useBeforePublish: () => {
       const { storage } = useAssetHub();
-      return async (cur: string) => {
+      return async (cur, _, onProgress) => {
         if (cur.startsWith("blob:")) {
           const b = await fetch(cur).then((res) => res.blob());
           const url = await storage.upload({
             data: b,
+            onProgress
           });
           return url;
         }

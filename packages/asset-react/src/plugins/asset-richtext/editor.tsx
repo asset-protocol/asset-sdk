@@ -1,4 +1,5 @@
 import { SerializedLexicalNode, SerializedRootNode } from "lexical";
+import 'material-symbols/outlined.css';
 import { AssetHubConfig } from "../../core/plugin";
 import AssetRichTextEditor from "./components/RichTextEditor";
 import { TYPE_RICH_TEXT } from "./consts";
