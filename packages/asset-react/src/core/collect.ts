@@ -3,6 +3,7 @@ import { EtherAddress } from "./common";
 import { AssetModule } from "./asset";
 import { BytesLike } from "ethers";
 import { PayableOverrides } from "../client/assethub/abi";
+import { Asset } from "../client/core";
 
 export type BeforeCollectFunc = (assetId: bigint, options: PayableOverrides) => boolean | Promise<boolean>;
 
@@ -24,5 +25,5 @@ export interface ICollectModule {
   // module label
   label: string;
   inputNode: ReactElement<CollectModuleInputProps>;
-  useCollect(collectModule: AssetModule): UseCollectModule;
+  useCollect(asset: Asset, collectModule: AssetModule): UseCollectModule;
 }
