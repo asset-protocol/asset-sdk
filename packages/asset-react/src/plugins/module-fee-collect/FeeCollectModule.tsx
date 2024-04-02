@@ -1,16 +1,28 @@
-import { AssetModule, useAssetHub } from "../..";
 import { ICollectModule, UseCollectModule } from "../../core/collect";
 import { EtherAddress } from "../../core/common";
 import { FeeCollectModuleItem } from "./components/FeeCollectModuleItem";
-import { parseFeeInitData } from "./parsedata";
+import { FeeConfig, parseFeeInitData } from "./parsedata";
 import { PayableOverrides } from "../../client/assethub/abi";
-import { formatEther } from "ethers";
+import { ZeroAddress, formatEther } from "ethers";
+import { Asset } from "../../client/core";
+import { AssetModule } from "../../core";
+import { useAssetHub } from "../../context";
+import { AddressLink } from "../../components";
 
-function CollectView(props: AssetModule) {
-  return <div>Fee Collect,{props.module}</div>;
+export type FeeCollectViewProps = {
+  config?: FeeConfig;
+  publisher: EtherAddress;
 }
 
-function useFeeCollect(collectModule: AssetModule): UseCollectModule {
+function FeeCollectView({ config, publisher }: FeeCollectViewProps) {
+  const recipient = config?.recipient === ZeroAddress ? publisher : config?.recipient;
+  return <div className="my-1">
+    Recipient:
+    <AddressLink address={recipient} to="" className="mx-2" />
+  </div>
+}
+
+function useFeeCollect(asset: Asset, collectModule: AssetModule): UseCollectModule {
   const { signer, account } = useAssetHub();
   const data = parseFeeInitData(collectModule.initData);
   async function func(_: bigint, options: PayableOverrides) {
@@ -27,8 +39,8 @@ function useFeeCollect(collectModule: AssetModule): UseCollectModule {
   }
   return {
     beforeCollect: func,
-    viewNode: <CollectView {...collectModule} />,
-    collectButtonText: data ? `Collect for ${formatEther(data.amount)} Matic` : undefined
+    viewNode: <FeeCollectView config={data} publisher={asset.publisher} />,
+    collectButtonText: data ? `Collect for ${formatEther(data.amount)} MATIC` : undefined
   };
 }
 

@@ -6,11 +6,13 @@ import {
   TokenCollectModuleItem,
 } from "./components/TokenCollectModuleItem";
 import { parseTokenCollectInitData } from "./parsedata";
-import { CollectView, NoBalanceText } from "./components/TokenCollectView";
+import { TokenCollectView, NoBalanceText } from "./components/TokenCollectView";
 import { NewERC20 } from "../../client/assethub";
 import { formatEther } from "ethers";
+import { Asset } from "../../client/core";
 
 function useTokenCollect(
+  asset: Asset,
   collectModule: AssetModule,
   tokens: Erc20Token[]
 ): UseCollectModule {
@@ -35,10 +37,9 @@ function useTokenCollect(
   }
   return {
     beforeCollect: func,
-    viewNode: data && <CollectView config={data} />,
-    collectButtonText: `Collect for ${formatEther(data!.amount)} ${
-      tokenInfo?.name ? "$" + tokenInfo.name : "Token"
-    }`,
+    viewNode: data && <TokenCollectView config={data} tokenInfo={tokenInfo} publisher={asset.publisher} />,
+    collectButtonText: `Collect for ${formatEther(data!.amount)} ${tokenInfo?.name ? "$" + tokenInfo.name : "Token"
+      }`,
     errorText: data && <NoBalanceText config={data} />,
   };
 }
@@ -60,6 +61,6 @@ export function TokenCollectModule(
         tokens={opts.tokens}
       />
     ),
-    useCollect: (module) => useTokenCollect(module, opts.tokens),
+    useCollect: (asset, module) => useTokenCollect(asset, module, opts.tokens),
   };
 }

@@ -1,6 +1,6 @@
 import { AbiCoder, BytesLike } from "ethers";
 
-type FeeConfig = {
+export type FeeConfig = {
   recipient: string;
   amount: bigint;
 };

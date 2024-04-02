@@ -31,11 +31,11 @@ export function CollectModal(props: CollectModalProps) {
   const collectModule =
     asset.collectModule !== undefined
       ? ctx.collectModules
-          .find((m) => m.moduleContract === asset.collectModule)
-          ?.useCollect({
-            module: asset.collectModule,
-            initData: asset.collectModuleInitData,
-          })
+        .find((m) => m.moduleContract === asset.collectModule)
+        ?.useCollect(asset, {
+          module: asset.collectModule,
+          initData: asset.collectModuleInitData,
+        })
       : undefined;
 
   const handleCollect = async () => {
@@ -130,7 +130,7 @@ export function CollectModal(props: CollectModalProps) {
             size="large"
             loading={loading}
             onClick={handleCollect}
-            // disabled={!!collectModule?.errorText}
+          // disabled={!!collectModule?.errorText}
           >
             {(collectModule && collectModule.collectButtonText) ||
               "Collect for Free"}

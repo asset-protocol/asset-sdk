@@ -4,20 +4,35 @@ import { TokenCollectConfig } from "../parsedata";
 import { useEffect, useMemo, useState } from "react";
 import { useAssetHub } from "../../../context";
 import { AddressLink } from "../../../components";
+import { Erc20Token } from "./TokenCollectModuleItem";
+import { EtherAddress } from "../../../core";
 
-export function CollectView({ config }: { config: TokenCollectConfig }) {
+export type TokenCollectViewProps = {
+  config: TokenCollectConfig;
+  tokenInfo?: Erc20Token;
+  publisher: EtherAddress;
+}
+
+export function TokenCollectView({ config, tokenInfo, publisher }: TokenCollectViewProps) {
   // <div className="text-red-400">
   //   {`Requires a minimum token balance of ${collectModuleData?.amount.toString()}, current: ${balance?.toString()}`}
   // </div>
+  const recipient = useMemo(() => {
+    if (config.recipient === ZeroAddress) {
+      return publisher;
+    }
+    return config.recipient;
+  }, [config.recipient])
+
   return (
     <>
       <div className="my-1">
-        Token Contract:
+        {tokenInfo && `${tokenInfo.label}($${tokenInfo.name})`}:
         <AddressLink address={config.currency} to="" className="mx-2" />
       </div>
       <div className="my-1">
-        Token Recipient:
-        <AddressLink address={config.recipient} to="" className="mx-2" />
+        Recipient:
+        <AddressLink address={recipient} to="" className="mx-2" />
       </div>
     </>
   );
@@ -32,9 +47,6 @@ export function NoBalanceText({ config }: { config: TokenCollectConfig }) {
     () => (balance && balance < config.amount) ?? false,
     [balance, config]
   );
-
-  console.log("hasNoBalance", hasNoBalance);
-
   useEffect(() => {
     if (account) {
       erc20BalanceOf(account.address).then((b) =>
