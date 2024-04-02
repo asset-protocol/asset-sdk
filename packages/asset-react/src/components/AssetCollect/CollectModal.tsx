@@ -10,8 +10,6 @@ import { useAssetHub } from "../..";
 import { useState } from "react";
 export type CollectModalProps = Omit<ModalProps, "onOk"> & {
   asset: Asset;
-  account?: string;
-  requestLogin?: () => void;
   onCollected?: (tokenId: bigint) => void;
 };
 
@@ -22,7 +20,7 @@ export function hasCollectModule(asset: Asset) {
 
 export function CollectModal(props: CollectModalProps) {
   const { asset, onCollected, ...resProps } = props;
-  const { ctx } = useAssetHub();
+  const { ctx, account, requireLogin } = useAssetHub();
   const replaceUri = useReplaceUri();
   const { collect } = useCollectAsset();
 
@@ -39,8 +37,8 @@ export function CollectModal(props: CollectModalProps) {
       : undefined;
 
   const handleCollect = async () => {
-    if (!props.account) {
-      props.requestLogin?.();
+    if (!account) {
+      requireLogin?.();
       return;
     }
     setLoading(true);

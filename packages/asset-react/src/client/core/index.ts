@@ -12,6 +12,7 @@ export type Asset = {
   publisher: string;
   contentUri?: string;
   timestamp: bigint;
+  lastUpdatedAt: bigint;
   hash: string;
   tags: string;
   metadata?: string;
@@ -21,6 +22,8 @@ export type Asset = {
   collectCount?: bigint;
   gatedModule?: string
   gatedModuleInitData?: string
+  query1?: string;
+  query2?: string;
 }
 
 export type AssetHubInfo = {

@@ -32,7 +32,7 @@ export function CollectModuleInput() {
   return (
     <>
       <Form.Item
-        className="flex justify-between"
+        className="flex justify-between w-full mb-2"
         label="Collect Setting"
         name="useCollect"
       >
@@ -42,7 +42,7 @@ export function CollectModuleInput() {
         {({ getFieldValue }) =>
           getFieldValue("useCollect") && (
             <>
-              <Form.Item name={["collectModule", "module"]}>
+              <Form.Item name={["collectModule", "module"]} label="Collect Module" className="mb-2">
                 <Select style={{ width: 170 }} options={opts}></Select>
               </Form.Item>
               <Form.Item noStyle dependencies={[["collectModule", "module"]]}>
@@ -53,7 +53,7 @@ export function CollectModuleInput() {
                   )?.inputNode;
                   return (
                     content && (
-                      <Form.Item name={["collectModule", "initData"]}>
+                      <Form.Item name={["collectModule", "initData"]} className="mb-2 ml- bg-gray-50 rounded-md w-full px-2">
                         {content}
                       </Form.Item>
                     )

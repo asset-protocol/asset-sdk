@@ -5,7 +5,6 @@ import { Asset } from "../../client/core";
 
 export type CollectButtonProps = {
   asset: Asset;
-  account?: string;
   requestLOgin?: () => void;
   collectedCount?: number;
   multiCollect?: boolean;
@@ -32,7 +31,6 @@ export function CollectButton(props: CollectButtonProps) {
       </Button>
       <CollectModal
         open={isOpen}
-        account={props.account}
         maskClosable={false}
         onCollected={(tokenId) => {
           setIsOpen(false);

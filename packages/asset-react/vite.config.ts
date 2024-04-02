@@ -1,12 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from "path";
-import svgr from '@svgr/rollup';
 const resolvePath = (str: string) => path.resolve(__dirname, str);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svgr(), react()],
+  plugins: [react()],
   build: {
     outDir: resolvePath("dist"),
     lib: {

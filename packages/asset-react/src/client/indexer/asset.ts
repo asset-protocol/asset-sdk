@@ -33,6 +33,7 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
           publisher
           contentUri
           timestamp
+          lastUpdatedAt
           hash
           collectModule
           collectModuleInitData
@@ -40,6 +41,8 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
           collectCount
           gatedModule
           gatedModuleInitData
+          query1
+          query2
         }
       }
       pageInfo {
@@ -111,6 +114,7 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
           publisher
           contentUri
           timestamp
+          lastUpdatedAt
           metadata
           hash
           collectModule
@@ -119,6 +123,8 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
           collectCount
           gatedModule
           gatedModuleInitData
+          query1
+          query2
         }
       }
       pageInfo {

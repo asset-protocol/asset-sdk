@@ -1,7 +1,7 @@
 import { InputNumber, Select } from "antd";
 import { CollectModuleContentProps } from "../../../components/AssetEditor/CollectModuleInput";
 import { AddressLink } from "../../../components/Address/AddressLink";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ZeroAddress, formatEther, parseEther } from "ethers";
 import { useAssetHub } from "../../../context";
 import {
@@ -32,6 +32,13 @@ export function TokenCollectModuleItem(props: TokenCollectModuleItemProps) {
   const [amount, setAmount] = useState<string | null>(
     data?.amount ? formatEther(data.amount) : "0"
   );
+
+  const recipient = useMemo(() => {
+    if (data?.recipient === ZeroAddress) {
+      return account?.address;
+    }
+    return data?.recipient;
+  }, [data])
 
   useEffect(() => {
     const recipient = data?.recipient ?? ZeroAddress;
@@ -68,7 +75,7 @@ export function TokenCollectModuleItem(props: TokenCollectModuleItemProps) {
         />
       </div>
       Funds will be sent to
-      <AddressLink address={data?.recipient ?? account?.address} />
+      <AddressLink address={recipient} />
     </div>
   );
 }

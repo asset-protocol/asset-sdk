@@ -15,7 +15,7 @@ export function AssetPublishForm() {
   const { account } = useAssetHub();
   const { metadata, setPublished } = useAssetEditor();
 
-  const { publish, loading } = useAssetPublish();
+  const { publish, loading, tip } = useAssetPublish();
   const initialValues = usePublishFormValues();
 
   const handleSubmit = (values: PublishFromDataType) => {
@@ -49,11 +49,12 @@ export function AssetPublishForm() {
               options={storageOptions}
             />
           </Form.Item> */}
-          <Form.Item noStyle className="w-full mt-2">
+          <Form.Item noStyle className="w-full my-2">
             <CollectModuleInput />
           </Form.Item>
           <div className="flex-1"></div>
-          <Form.Item>
+          {<span className="text-gray-400">{tip}</span>}
+          <Form.Item className="w-full my-2">
             <Button
               loading={loading}
               type="primary"

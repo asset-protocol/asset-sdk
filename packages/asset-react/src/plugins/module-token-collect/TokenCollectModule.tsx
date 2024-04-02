@@ -19,7 +19,7 @@ function useTokenCollect(
   const { signer, account } = useAssetHub();
   const data = parseTokenCollectInitData(collectModule.initData);
   const tokenInfo = tokens.find((t) => t.contract === data?.currency);
-  const amount = data!.amount;
+  const amount = data?.amount ?? 0;
   async function func() {
     if (data && signer.provider && account) {
       const token = NewERC20(signer, data.currency);
@@ -38,7 +38,7 @@ function useTokenCollect(
   return {
     beforeCollect: func,
     viewNode: data && <TokenCollectView config={data} tokenInfo={tokenInfo} publisher={asset.publisher} />,
-    collectButtonText: `Collect for ${formatEther(data!.amount)} ${tokenInfo?.name ? "$" + tokenInfo.name : "Token"
+    collectButtonText: data && `Collect for ${formatEther(data.amount)} ${tokenInfo?.name ? "$" + tokenInfo.name : "Token"
       }`,
     errorText: data && <NoBalanceText config={data} />,
   };

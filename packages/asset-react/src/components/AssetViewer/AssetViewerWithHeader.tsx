@@ -4,7 +4,6 @@ import { Avatar, Dropdown, message } from "antd";
 import { AddressLink } from "../Address/AddressLink";
 import { fromNow } from "../../lib/date";
 import { CollectButton } from "../AssetCollect";
-import { ZeroAddress } from "ethers";
 import {
   useGetAssetCollectors,
   useRefreshAssetMetadata,
@@ -29,7 +28,7 @@ export function AssetViewerWithHeader(props: {
     asset.assetId.toString(),
     account
   );
-  const { refresh: refreshMetadata, loading: refreshing } =
+  const { refresh: refreshMetadata } =
     useRefreshAssetMetadata();
 
   const collectCount = useMemo(() => data.collectors.length, [data]);
@@ -54,7 +53,6 @@ export function AssetViewerWithHeader(props: {
           );
         },
         disabled: !isPublisher,
-        loading: refreshing,
       },
     ],
   };
@@ -72,11 +70,9 @@ export function AssetViewerWithHeader(props: {
         </div>
       )}
       <div
-        className={`${
-          showCover ? "px-4 " : ""
-        }border-gray-300 border-solid border-0 border-b-[1px]${
-          showCover ? " -translate-y-28" : ""
-        }`}
+        className={`${showCover ? "px-4 " : ""
+          }border-gray-300 border-solid border-0 border-b-[1px]${showCover ? " -translate-y-28" : ""
+          }`}
       >
         <h1 className="text-3xl font-bold">{asset.name}</h1>
         <div className="flex items-center flex-wrap  text-base pb-2">
@@ -84,7 +80,7 @@ export function AssetViewerWithHeader(props: {
             <Avatar size={22} icon={<UserOutlined />} />
             <AddressLink address={asset.publisher} />
             <div className="text-gray-500">
-              {fromNow(Number.parseInt(asset.timestamp.toString()))} published
+              Updated at {fromNow(Number.parseInt((asset.lastUpdatedAt ?? asset.timestamp).toString()))}
             </div>
             {/* AssetId:
                 <Button
@@ -102,7 +98,6 @@ export function AssetViewerWithHeader(props: {
             </span>
             <CollectButton
               asset={asset}
-              account={account ?? ZeroAddress}
               requestLOgin={requestLogin}
               collectedCount={collectCount}
               multiCollect

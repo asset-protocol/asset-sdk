@@ -38,6 +38,7 @@ export function useAssetPublish() {
   const beforePublish = editor.useBeforePublish?.();
 
   const [loading, setLoading] = useState(false);
+  const [tip, setTip] = useState<string>();
 
   const publish = async (values: PublishFromDataType) => {
     setLoading(true);
@@ -45,16 +46,19 @@ export function useAssetPublish() {
     try {
       const newData: UpdateAssetInput = {};
       let newConent = content;
+      setTip("Saving content...");
       if (content && beforePublish) {
         newConent = await beforePublish(content, asset?.content);
       }
       const data = { ...metadata, type, content: newConent };
+      setTip("Saving image...");
       if (metadata?.image?.startsWith("blob:")) {
         const image = await fetch(metadata.image).then((res) => res.blob());
         data.image = await storage.upload({
           data: image,
         });
       }
+      setTip("Saving metadata...");
       const newMetadata = JSON.stringify(data);
       if (newMetadata !== asset?.metadata) {
         newData.contentURI = await storage.upload({
@@ -79,8 +83,10 @@ export function useAssetPublish() {
       }
       if (asset) {
         assetId = asset.assetId;
+        setTip("Updating asset...");
         await update(asset.assetId, newData);
       } else {
+        setTip("Ceating asset...");
         assetId = await create({
           ...newData,
           assetCreateModuleData: ZERO_BYTES,
@@ -88,10 +94,12 @@ export function useAssetPublish() {
       }
       setCollectModule(values.collectModule);
       setGatedModule(values.gatedModule);
+      setTip("Asset Published");
     } finally {
       setLoading(false);
+      setTip(undefined);
     }
     return assetId;
   };
-  return { publish, loading };
+  return { publish, loading, tip };
 }
