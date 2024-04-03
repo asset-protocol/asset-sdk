@@ -4,7 +4,7 @@ import Vditor from "deschool-vditor";
 import React from "react";
 import { useReplaceUri } from "../../../lib/utils";
 import { Asset } from "../../../client/core";
-import { AssetViewerWithHeader } from "../../../components";
+import { AssetViewerHeader } from "../../../components";
 
 export default function MarkdownViewer({ value }: { value: Asset }) {
   const editorRef = React.useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ export default function MarkdownViewer({ value }: { value: Asset }) {
 
   return (
     <div className="max-w-[1080px] mx-auto">
-      <AssetViewerWithHeader></AssetViewerWithHeader>
+      <AssetViewerHeader></AssetViewerHeader>
       <div ref={editorRef}></div>
     </div>
   );

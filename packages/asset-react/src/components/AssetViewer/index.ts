@@ -1,3 +1,3 @@
 export * from './AssetViewer';
 export * from "./AssetViewerContext";
-export * from "./AssetViewerWithHeader";
+export * from "./AssetViewerHeader";

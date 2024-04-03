@@ -1,5 +1,5 @@
 import { Asset } from "../../../client/core";
-import { AssetViewerWithHeader } from "../../../components";
+import { AssetViewerHeader } from "../../../components";
 import { useReplaceUri } from "../../../lib/utils";
 import ReactPlayer from "react-player";
 
@@ -20,7 +20,7 @@ export default function VideoViewer({
           height={"100%"}
         ></ReactPlayer>
       </div>
-      <AssetViewerWithHeader showCover={false}></AssetViewerWithHeader>
+      <AssetViewerHeader showCover={false}></AssetViewerHeader>
     </div>
   );
 }

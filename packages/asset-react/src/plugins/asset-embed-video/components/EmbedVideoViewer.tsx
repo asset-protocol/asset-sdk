@@ -1,5 +1,5 @@
 import { Asset } from "../../../client/core";
-import { AssetViewerWithHeader } from "../../../components";
+import { AssetViewerHeader } from "../../../components";
 import { VideoPlayer } from "../../../components/VideoPlayer/VideoPalyer";
 import { useReplaceUri } from "../../../lib/utils";
 
@@ -18,7 +18,7 @@ export default function EmbedVideoViewer({
           controls
         ></VideoPlayer>
       </div>
-      <AssetViewerWithHeader showCover={false}></AssetViewerWithHeader>
+      <AssetViewerHeader showCover={false}></AssetViewerHeader>
     </div>
   );
 }

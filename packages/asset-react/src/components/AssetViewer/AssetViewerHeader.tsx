@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useAssetViewer } from "./AssetViewerContext";
 import { AssetDescription } from "./AssetDescription";
 
-export function AssetViewerWithHeader(props: {
+export function AssetViewerHeader(props: {
   showCover?: boolean;
   showDescription?: boolean;
   className?: string;

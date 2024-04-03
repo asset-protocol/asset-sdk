@@ -1,10 +1,10 @@
 import { Asset } from "../../../client/core";
-import { AssetViewerWithHeader } from "../../../components";
+import { AssetViewerHeader } from "../../../components";
 
 export default function UnknownViewer({ value }: { value: Asset }) {
   return (
     <div className="mx-w-[1080px] mx-auto">
-      <AssetViewerWithHeader></AssetViewerWithHeader>
+      <AssetViewerHeader></AssetViewerHeader>
       <div>UnknownViewer{value.name}</div>
     </div>
   );
