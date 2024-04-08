@@ -2184,7 +2184,7 @@ export const IERC20Abi = [
   },
 ] as const;
 
-export const TokenGlobalModuleAbi = [
+export const TokenGlobalModuleAbi =[
   {
     "inputs": [
       {
@@ -2336,14 +2336,9 @@ export const TokenGlobalModuleAbi = [
       {
         "components": [
           {
-            "internalType": "bool",
-            "name": "exist",
-            "type": "bool"
-          },
-          {
-            "internalType": "uint256",
-            "name": "collectFee",
-            "type": "uint256"
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
           },
           {
             "internalType": "uint256",
@@ -2354,9 +2349,14 @@ export const TokenGlobalModuleAbi = [
             "internalType": "uint256",
             "name": "updateFee",
             "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectFee",
+            "type": "uint256"
           }
         ],
-        "internalType": "struct TokenFeeConfigData",
+        "internalType": "struct HubTokenFeeConfig",
         "name": "",
         "type": "tuple"
       }
@@ -2380,17 +2380,17 @@ export const TokenGlobalModuleAbi = [
         "components": [
           {
             "internalType": "uint256",
-            "name": "collectFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
             "name": "createFee",
             "type": "uint256"
           },
           {
             "internalType": "uint256",
             "name": "updateFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectFee",
             "type": "uint256"
           }
         ],
@@ -2585,17 +2585,17 @@ export const TokenGlobalModuleAbi = [
         "components": [
           {
             "internalType": "uint256",
-            "name": "collectFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
             "name": "createFee",
             "type": "uint256"
           },
           {
             "internalType": "uint256",
             "name": "updateFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectFee",
             "type": "uint256"
           }
         ],
@@ -2620,17 +2620,17 @@ export const TokenGlobalModuleAbi = [
         "components": [
           {
             "internalType": "uint256",
-            "name": "collectFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
             "name": "createFee",
             "type": "uint256"
           },
           {
             "internalType": "uint256",
             "name": "updateFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectFee",
             "type": "uint256"
           }
         ],

@@ -11,24 +11,14 @@ import { CollectModuleInput } from "./CollectModuleInput";
 import { ZeroAddress, formatEther } from "ethers";
 import { ZERO_BYTES } from "../../core";
 import { useGetHubGlobalModuleConfig } from "../../hook";
-import { useEffect, useState } from "react";
-import { TokenFeeConfigDataStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
 
 export function AssetPublishForm() {
   const { account } = useAssetHub();
   const { metadata, setPublished, asset } = useAssetEditor();
 
-  const { publish, loading, tip } = useAssetPublish();
   const initialValues = usePublishFormValues();
-  const { getConfig } = useGetHubGlobalModuleConfig();
-
-  const [globalTokenConfig, SetGlobalTokenConfig] = useState<TokenFeeConfigDataStructOutput>();
-
-  useEffect(() => {
-    getConfig().then(c => {
-      SetGlobalTokenConfig(c);
-    })
-  }, [])
+  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig();
+  const { publish, loading, tip } = useAssetPublish();
 
   const handleSubmit = (values: PublishFromDataType) => {
     console.log("values", values);
@@ -38,7 +28,7 @@ export function AssetPublishForm() {
         initData: ZERO_BYTES
       };
     }
-    publish(values).then((assetId) => {
+    publish(values, globalTokenConfig).then((assetId) => {
       setPublished(assetId);
     });
   };

@@ -6,9 +6,8 @@ import { Asset } from "../../client/core";
 import { useReplaceUri } from "../../lib/utils";
 import { ZERO_BYTES } from "../../core";
 import { useCollectAsset, useGetHubGlobalModuleConfig } from "../../hook/assethub";
-import { useAssetHub } from "../..";
-import { useEffect, useState } from "react";
-import { TokenFeeConfigDataStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
+import { useAssetHub, useHubERC20Approve } from "../..";
+import { useState } from "react";
 export type CollectModalProps = Omit<ModalProps, "onOk"> & {
   asset: Asset;
   onCollected?: (tokenId: bigint) => void;
@@ -26,14 +25,8 @@ export function CollectModal(props: CollectModalProps) {
   const { collect } = useCollectAsset();
 
   const [loading, setLoading] = useState(false);
-  const { getConfig } = useGetHubGlobalModuleConfig();
-
-  const [globalTokenConfig, SetGlobalTokenConfig] = useState<TokenFeeConfigDataStructOutput>();
-  useEffect(() => {
-    getConfig().then(c => {
-      SetGlobalTokenConfig(c);
-    })
-  }, [])
+  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig();
+  const { approve } = useHubERC20Approve();
 
   const collectModule =
     asset.collectModule !== undefined
@@ -59,6 +52,10 @@ export function CollectModal(props: CollectModalProps) {
           options
         );
         if (!success) return;
+      }
+      if (globalTokenConfig) {
+        console.log("globalTokenConfig", globalTokenConfig);
+        await approve(globalTokenConfig.token, globalTokenConfig.collectFee);
       }
       const tokenId = await collect(
         asset.assetId,
@@ -133,8 +130,7 @@ export function CollectModal(props: CollectModalProps) {
           <div className="flex-1"></div>
           {
             globalTokenConfig &&
-            globalTokenConfig.createFee > 0 &&
-            <div>Token Fee {formatEther(globalTokenConfig.collectFee)}</div>
+            <div>Token Fee: {formatEther(globalTokenConfig.collectFee)}</div>
           }
           <Button
             type="primary"
@@ -145,7 +141,8 @@ export function CollectModal(props: CollectModalProps) {
           // disabled={!!collectModule?.errorText}
           >
             {(collectModule && collectModule.collectButtonText) ||
-              "Collect for Free"}
+              "Collect"
+            }
           </Button>
           {collectModule?.errorText || (
             <div className="text-gray-500">

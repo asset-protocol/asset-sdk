@@ -3,12 +3,14 @@ import { useAssetHub } from "../../context";
 import {
   UpdateAssetInput,
   useCreateAsset,
+  useHubERC20Approve,
   useEditorProvider,
   useUpdateAsset,
 } from "../../hook";
 import { AssetModule, ZERO_BYTES } from "../../core";
 import { useMemo, useState } from "react";
 import { ZeroAddress } from "ethers";
+import { HubTokenFeeConfigStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
 
 export type PublishFromDataType = {
   // storage: StorageScheme;
@@ -36,11 +38,12 @@ export function useAssetPublish() {
   const { update } = useUpdateAsset();
   const editor = useEditorProvider()(type);
   const beforePublish = editor.useBeforePublish?.();
+  const { approve } = useHubERC20Approve();
 
   const [loading, setLoading] = useState(false);
   const [tip, setTip] = useState<string>();
 
-  const publish = async (values: PublishFromDataType) => {
+  const publish = async (values: PublishFromDataType, config?: HubTokenFeeConfigStructOutput) => {
     setLoading(true);
     let assetId = asset?.assetId;
     try {
@@ -86,12 +89,19 @@ export function useAssetPublish() {
         newData.gatedModule = gatedModule?.module;
         newData.gatedModuleInitData = gatedModule?.initData;
       }
+
       if (asset) {
         assetId = asset.assetId;
         setTip("Updating asset...");
+        if (config) {
+          await approve(config.token, config.updateFee)
+        }
         await update(asset.assetId, newData);
       } else {
         setTip("Ceating asset...");
+        if (config) {
+          await approve(config.token, config.createFee)
+        }
         assetId = await create({
           ...newData,
           assetCreateModuleData: ZERO_BYTES,

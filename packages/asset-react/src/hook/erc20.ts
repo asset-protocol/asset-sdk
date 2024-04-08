@@ -15,3 +15,26 @@ export function useERC20BalanceOf(contract: string) {
   }, [contract, signer]);
   return balanceOf;
 }
+
+export function useHubERC20Approve() {
+  const { signer, account, hubManagerInfo } = useAssetHub();
+  const approve = useCallback(async (contract: string, amount: bigint) => {
+    console.log("erc20", contract);
+    if (signer.provider && account && amount > 0n && hubManagerInfo) {
+      const token = NewERC20(signer, contract);
+      const allowance = await token.allowance(
+        signer.getAddress(),
+        hubManagerInfo.globalModule
+      );
+      if (allowance < amount) {
+        const tx = await token.approve(hubManagerInfo.globalModule, amount);
+        await tx.wait();
+      }
+      return true;
+    }
+    return false;
+  }, [signer])
+
+  return { approve };
+
+}

@@ -1,10 +1,11 @@
 import { useAssetHub } from "../context/provider";
 import { DataTypes, NewTokenGlobalModule } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AssetHubDeployDataStruct } from "../client/assethub/abi/AssetHubManager";
 import { INGORED_ADDRESS, ZERO_BYTES } from "../core";
 import { PayableOverrides } from "../client/assethub/abi";
+import { HubTokenFeeConfigStructOutput } from "../client/assethub/abi/TokenGlobalModule";
 
 export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
@@ -139,6 +140,14 @@ export function useCollectAsset() {
 export function useGetHubGlobalModuleConfig() {
   const { hubManagerInfo, hubInfo, signer } = useAssetHub();
   const [loading, setLoading] = useState(false);
+  const [config, setConfig] = useState<HubTokenFeeConfigStructOutput>();
+
+  useEffect(() => {
+    getConfig().then((res) => {
+      setConfig(res);
+    })
+  }, []);
+
   const getConfig = async () => {
     if (!hubManagerInfo || !hubInfo) {
       return;
@@ -150,12 +159,11 @@ export function useGetHubGlobalModuleConfig() {
       setLoading(true);
       const module = NewTokenGlobalModule(signer, hubManagerInfo.globalModule);
       const res = await module.config(hubInfo.id);
+      console.log("config", res);
       return res;
     } finally {
       setLoading(false);
     }
-
-
   }
-  return { getConfig, loading }
+  return { config, loading }
 }

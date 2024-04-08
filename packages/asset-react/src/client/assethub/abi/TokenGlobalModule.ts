@@ -23,36 +23,31 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export type TokenFeeConfigDataStruct = {
-  exist: boolean;
-  collectFee: BigNumberish;
+export type HubTokenFeeConfigStruct = {
+  token: AddressLike;
   createFee: BigNumberish;
   updateFee: BigNumberish;
+  collectFee: BigNumberish;
 };
 
-export type TokenFeeConfigDataStructOutput = [
-  exist: boolean,
-  collectFee: bigint,
+export type HubTokenFeeConfigStructOutput = [
+  token: string,
   createFee: bigint,
-  updateFee: bigint
-] & {
-  exist: boolean;
-  collectFee: bigint;
-  createFee: bigint;
-  updateFee: bigint;
-};
+  updateFee: bigint,
+  collectFee: bigint
+] & { token: string; createFee: bigint; updateFee: bigint; collectFee: bigint };
 
 export type TokenFeeConfigStruct = {
-  collectFee: BigNumberish;
   createFee: BigNumberish;
   updateFee: BigNumberish;
+  collectFee: BigNumberish;
 };
 
 export type TokenFeeConfigStructOutput = [
-  collectFee: bigint,
   createFee: bigint,
-  updateFee: bigint
-] & { collectFee: bigint; createFee: bigint; updateFee: bigint };
+  updateFee: bigint,
+  collectFee: bigint
+] & { createFee: bigint; updateFee: bigint; collectFee: bigint };
 
 export declare namespace DataTypes {
   export type AssetCreateDataStruct = {
@@ -321,7 +316,7 @@ export interface TokenGlobalModule extends BaseContract {
 
   config: TypedContractMethod<
     [hub: AddressLike],
-    [TokenFeeConfigDataStructOutput],
+    [HubTokenFeeConfigStructOutput],
     "view"
   >;
 
@@ -427,7 +422,7 @@ export interface TokenGlobalModule extends BaseContract {
     nameOrSignature: "config"
   ): TypedContractMethod<
     [hub: AddressLike],
-    [TokenFeeConfigDataStructOutput],
+    [HubTokenFeeConfigStructOutput],
     "view"
   >;
   getFunction(
