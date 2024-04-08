@@ -9,7 +9,6 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useEthersSigner } from "../context/ether";
 import { useAccount } from "wagmi";
 import { useMemo } from "react";
-import { ManagerContract } from "./consts";
 import { FeeCollectModule } from "./plugins/FeeCollectModule";
 import { TokenCollectModule } from "./plugins/TokenCollectModule";
 
@@ -47,7 +46,6 @@ export function AssetHub(props: { children: React.ReactNode }) {
       plugins={plugins}
       account={account}
       requireLogin={() => openConnectModal?.()}
-      assetHubManager={ManagerContract}
     >
       <FeeCollectModule />
       <TokenCollectModule />

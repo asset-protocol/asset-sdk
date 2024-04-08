@@ -1,5 +1,5 @@
 import { useAssetHub } from "../context/provider";
-import { DataTypes } from '../client/assethub';
+import { DataTypes, NewTokenGlobalModule } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
 import { useCallback, useState } from "react";
 import { AssetHubDeployDataStruct } from "../client/assethub/abi/AssetHubManager";
@@ -8,9 +8,6 @@ import { PayableOverrides } from "../client/assethub/abi";
 
 export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
-  if (!assetHubManager) {
-    throw new Error("AssetHubManager not found");
-  }
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<string>();
   const zeroAssetHubCreateData: Partial<AssetHubDeployDataStruct> = {
@@ -20,6 +17,9 @@ export function useDeployNewAssetHub() {
     assetCreateModule: ZeroAddress,
   }
   const deploy = async (data: AssetHubDeployDataStruct) => {
+    if (!assetHubManager) {
+      throw new Error("AssetHubManager not found");
+    }
     setIsLoading(true);
     try {
       if (!data.name) {
@@ -134,4 +134,28 @@ export function useCollectAsset() {
     }
   }
   return { collect, isLoading };
+}
+
+export function useGetHubGlobalModuleConfig() {
+  const { hubManagerInfo, hubInfo, signer } = useAssetHub();
+  const [loading, setLoading] = useState(false);
+  const getConfig = async () => {
+    if (!hubManagerInfo || !hubInfo) {
+      return;
+    }
+    if (hubManagerInfo.globalModule === ZeroAddress) {
+      return;
+    }
+    try {
+      setLoading(true);
+      const module = NewTokenGlobalModule(signer, hubManagerInfo.globalModule);
+      const res = await module.config(hubInfo.id);
+      return res;
+    } finally {
+      setLoading(false);
+    }
+
+
+  }
+  return { getConfig, loading }
 }

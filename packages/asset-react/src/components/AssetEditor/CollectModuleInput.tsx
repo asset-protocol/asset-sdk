@@ -1,7 +1,7 @@
 import { Form, Select, Switch } from "antd";
 import { ReactNode, useMemo } from "react";
 import { AssetModule } from "../../core";
-import { BytesLike } from "ethers";
+import { BytesLike, ZeroAddress } from "ethers";
 import { useAssetHub } from "../../context";
 
 export type CollectModuleInputProps = {
@@ -47,11 +47,13 @@ export function CollectModuleInput() {
                 <Select style={{ width: 170 }} options={opts}></Select>
               </Form.Item>
               <Form.Item noStyle dependencies={[["collectModule", "module"]]}>
-                {({ getFieldValue }) => {
-                  const content = ctx.collectModules.find(
-                    (m) =>
-                      m.moduleContract === getFieldValue(["collectModule", "module"])
-                  )?.inputNode;
+                {({ getFieldValue, setFieldValue }) => {
+                  const module = getFieldValue(["collectModule", "module"]);
+                  if (!module || module === ZeroAddress) {
+                    setFieldValue(["collectModule", "module"], opts[0].value);
+                    return;
+                  }
+                  const content = ctx.collectModules.find((m) => m.moduleContract === module)?.inputNode;
                   return (
                     content && (
                       <Form.Item name={["collectModule", "initData"]} className="mb-2 ml- bg-gray-50 rounded-md w-full px-2">

@@ -8,15 +8,27 @@ import {
   usePublishFormValues,
 } from "./hook";
 import { CollectModuleInput } from "./CollectModuleInput";
-import { ZeroAddress } from "ethers";
+import { ZeroAddress, formatEther } from "ethers";
 import { ZERO_BYTES } from "../../core";
+import { useGetHubGlobalModuleConfig } from "../../hook";
+import { useEffect, useState } from "react";
+import { TokenFeeConfigDataStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
 
 export function AssetPublishForm() {
   const { account } = useAssetHub();
-  const { metadata, setPublished } = useAssetEditor();
+  const { metadata, setPublished, asset } = useAssetEditor();
 
   const { publish, loading, tip } = useAssetPublish();
   const initialValues = usePublishFormValues();
+  const { getConfig } = useGetHubGlobalModuleConfig();
+
+  const [globalTokenConfig, SetGlobalTokenConfig] = useState<TokenFeeConfigDataStructOutput>();
+
+  useEffect(() => {
+    getConfig().then(c => {
+      SetGlobalTokenConfig(c);
+    })
+  }, [])
 
   const handleSubmit = (values: PublishFromDataType) => {
     console.log("values", values);
@@ -49,10 +61,25 @@ export function AssetPublishForm() {
               options={storageOptions}
             />
           </Form.Item> */}
+
           <Form.Item noStyle className="w-full my-2">
             <CollectModuleInput />
           </Form.Item>
           <div className="flex-1"></div>
+          {
+            globalTokenConfig && !asset &&
+            globalTokenConfig.createFee > 0 &&
+            <Form.Item noStyle label="Token Fee">
+              <div>Token Fee: {formatEther(globalTokenConfig.createFee)}</div>
+            </Form.Item>
+          }
+          {
+            globalTokenConfig && asset &&
+            globalTokenConfig.updateFee > 0 &&
+            <Form.Item noStyle label="Token Fee">
+              <div>Token Fee: {formatEther(globalTokenConfig.updateFee)}</div>
+            </Form.Item>
+          }
           {<span className="text-gray-400">{tip}</span>}
           <Form.Item className="w-full my-2">
             <Button

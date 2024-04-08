@@ -1,13 +1,14 @@
 import { Avatar, Button, Modal, ModalProps } from "antd";
 import { AddressLink } from "../Address/AddressLink";
 import { UserOutlined } from "@ant-design/icons";
-import { ZeroAddress } from "ethers";
+import { ZeroAddress, formatEther } from "ethers";
 import { Asset } from "../../client/core";
 import { useReplaceUri } from "../../lib/utils";
 import { ZERO_BYTES } from "../../core";
-import { useCollectAsset } from "../../hook/assethub";
+import { useCollectAsset, useGetHubGlobalModuleConfig } from "../../hook/assethub";
 import { useAssetHub } from "../..";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { TokenFeeConfigDataStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
 export type CollectModalProps = Omit<ModalProps, "onOk"> & {
   asset: Asset;
   onCollected?: (tokenId: bigint) => void;
@@ -25,6 +26,14 @@ export function CollectModal(props: CollectModalProps) {
   const { collect } = useCollectAsset();
 
   const [loading, setLoading] = useState(false);
+  const { getConfig } = useGetHubGlobalModuleConfig();
+
+  const [globalTokenConfig, SetGlobalTokenConfig] = useState<TokenFeeConfigDataStructOutput>();
+  useEffect(() => {
+    getConfig().then(c => {
+      SetGlobalTokenConfig(c);
+    })
+  }, [])
 
   const collectModule =
     asset.collectModule !== undefined
@@ -122,6 +131,11 @@ export function CollectModal(props: CollectModalProps) {
           </div>
           {collectModule && collectModule.viewNode}
           <div className="flex-1"></div>
+          {
+            globalTokenConfig &&
+            globalTokenConfig.createFee > 0 &&
+            <div>Token Fee {formatEther(globalTokenConfig.collectFee)}</div>
+          }
           <Button
             type="primary"
             className="w-full my-2"

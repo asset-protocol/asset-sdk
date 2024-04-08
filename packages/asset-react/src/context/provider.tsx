@@ -29,7 +29,6 @@ const queryClient = new QueryClient();
 export type AssetProviderProps = {
   hub?: string;
   storage: StorageScheme;
-  assetHubManager?: string;
   plugins?: AssetHubPlugin[];
 
   grapqlClient: ApolloClient<unknown>;
@@ -69,7 +68,6 @@ export function AssetProvider(props: AssetProviderProps) {
           <HubInfoProvider
             signer={props.signer}
             hub={hub}
-            assetHubManager={props.assetHubManager}
             children={children}
           />
         </ApolloProvider>
