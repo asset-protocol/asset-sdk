@@ -15,8 +15,8 @@
     "build": "lerna run build --stream",
     "dev:demo": "pnpm -r --filter react-app run dev",
     "version:up": "lerna version patch --yes",
-    "build:packages": "lerna run build --stream --scope @deschool-protocol/*",
-    "build:react": "lerna run build --stream --scope @deschool-protocol/react",
+    "build:packages": "lerna run build --stream --scope @asset-protocol/*",
+    "build:react": "lerna run build --stream --scope @asset-protocol/react",
     "publish": "lerna publish from-package --yes"
   }
 }
