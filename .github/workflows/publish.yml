@@ -39,7 +39,7 @@ jobs:
       - name: set identity
         run: pnpm set "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}"
 
-      - name: "Version and publish" # Interesting step
+      - name: Update Version # Interesting step
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -52,4 +52,8 @@ jobs:
             npx lerna version patch --yes
           fi
 
-          npx lerna publish from-git --yes
+      - name: Build packages
+        run: pnpm run build:packages
+
+      - name: Publish to npm
+        run: pnpm run publish
