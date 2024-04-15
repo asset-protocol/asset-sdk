@@ -13,7 +13,7 @@ export function TokenCollectModule() {
             {
               label: "TestToken",
               name: "TST",
-              contract: "0xc2ADF187D9B064F68FcD8183195cddDB33E10E8F",
+              contract: "0x36536674237634Dd5e1F4C32804567F611e88602",
             },
           ],
         })
