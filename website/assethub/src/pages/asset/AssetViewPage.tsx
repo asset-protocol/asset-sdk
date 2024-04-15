@@ -10,7 +10,7 @@ export function AssetViewPage() {
   const { openConnectModal } = useConnectModal();
   const navigate = useNavigateAssetHub();
 
-  const resAssetId = assetId && BigInt(assetId);
+  const resAssetId = assetId ? BigInt(assetId) : undefined;
 
   const config: Omit<AssetViewerProps, "assetId"> = {
     account: address,
@@ -22,7 +22,7 @@ export function AssetViewPage() {
 
   return (
     <div className="flex flex-col m-auto">
-      {resAssetId ? (
+      {resAssetId !== undefined ? (
         <div className="mt-8">
           <AssetViewer assetId={resAssetId} {...config} />
         </div>
