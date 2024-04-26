@@ -72,10 +72,9 @@ export function Home() {
     try {
       if (hubName) {
         const address = await deploy({
-          name: hubName,
           admin: ZeroAddress,
-          collectNft: true,
-          assetCreateModule: ZeroAddress,
+          name: hubName,
+          createModule: ZeroAddress,
         });
         message.success(`Deployed AssetHub: ${address}`);
       }
