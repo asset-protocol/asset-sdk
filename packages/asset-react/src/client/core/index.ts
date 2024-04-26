@@ -1,3 +1,5 @@
+import { AssetMetadata } from "../../core";
+
 export type AssetType = "image" | "video" | "audio" | "markdown" | string;
 
 export type Asset = {
@@ -14,8 +16,8 @@ export type Asset = {
   timestamp: bigint;
   lastUpdatedAt: bigint;
   hash: string;
-  tags: string;
-  metadata?: string;
+  tags?: { name: string }[];
+  metadata?: AssetMetadata;
   collectModule?: string;
   collectModuleInitData?: string;
   collectNft?: string;

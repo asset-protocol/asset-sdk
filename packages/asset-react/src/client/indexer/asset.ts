@@ -29,7 +29,9 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
           name
           image
           description
-          tags
+          tags {
+            name
+          }
           publisher
           contentUri
           timestamp
@@ -110,7 +112,9 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
           image
           description
           content
-          tags
+          tags{
+            name
+          }
           publisher
           contentUri
           timestamp

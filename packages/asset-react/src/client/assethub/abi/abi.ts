@@ -1239,763 +1239,692 @@ export const assethubAbi = [
 
 export const assethubManagerAbi = [
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "target",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      }
     ],
-    name: "AddressEmptyCode",
-    type: "error",
+    "name": "AddressEmptyCode",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "AssetHubNotExisted",
-    type: "error",
+    "inputs": [],
+    "name": "AssetHubNotExisted",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
     ],
-    name: "ERC1967InvalidImplementation",
-    type: "error",
+    "name": "BeaconInvalidImplementation",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "ERC1967NonPayable",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "FailedInnerCall",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InvalidInitialization",
-    type: "error",
-  },
-  {
-    inputs: [
+    "inputs": [
       {
-        internalType: "string",
-        name: "hubName",
-        type: "string",
-      },
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
     ],
-    name: "NameHubExisted",
-    type: "error",
+    "name": "ERC1967InvalidImplementation",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "NotInitializing",
-    type: "error",
+    "inputs": [],
+    "name": "ERC1967NonPayable",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "FailedInnerCall",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidInitialization",
+    "type": "error"
+  },
+  {
+    "inputs": [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "internalType": "string",
+        "name": "hubName",
+        "type": "string"
+      }
     ],
-    name: "NotWhitelisted",
-    type: "error",
+    "name": "NameHubExisted",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
+        "internalType": "string",
+        "name": "hubName",
+        "type": "string"
+      }
     ],
-    name: "OwnableInvalidOwner",
-    type: "error",
+    "name": "NameHubExisted",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "NoAssetHubImplementation",
+    "type": "error"
+  },
+  {
+    "inputs": [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    name: "OwnableUnauthorizedAccount",
-    type: "error",
+    "name": "NotCreator",
+    "type": "error"
   },
   {
-    inputs: [],
-    name: "UUPSUnauthorizedCallContext",
-    type: "error",
+    "inputs": [],
+    "name": "NotInitializing",
+    "type": "error"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "bytes32",
-        name: "slot",
-        type: "bytes32",
-      },
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
     ],
-    name: "UUPSUnsupportedProxiableUUID",
-    type: "error",
+    "name": "OwnableInvalidOwner",
+    "type": "error"
   },
   {
-    anonymous: false,
-    inputs: [
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "admin",
-        type: "address",
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UUPSUnauthorizedCallContext",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "slot",
+        "type": "bytes32"
+      }
+    ],
+    "name": "UUPSUnsupportedProxiableUUID",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "admin",
+        "type": "address"
       },
       {
-        indexed: false,
-        internalType: "string",
-        name: "name",
-        type: "string",
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
       },
       {
-        indexed: false,
-        internalType: "address",
-        name: "assetHub",
-        type: "address",
+        "indexed": false,
+        "internalType": "address",
+        "name": "assetHub",
+        "type": "address"
       },
       {
-        components: [
+        "components": [
           {
-            internalType: "address",
-            name: "collectNFT",
-            type: "address",
+            "internalType": "address",
+            "name": "createModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "nftGatedModule",
-            type: "address",
+            "internalType": "address",
+            "name": "tokenCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "assetCreateModule",
-            type: "address",
+            "internalType": "address",
+            "name": "feeCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "tokenCollectModule",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "feeCollectModule",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "nftGatedModule",
+            "type": "address"
+          }
         ],
-        indexed: false,
-        internalType: "struct AssetHubInfo",
-        name: "data",
-        type: "tuple",
-      },
+        "indexed": false,
+        "internalType": "struct LiteHubInfo",
+        "name": "data",
+        "type": "tuple"
+      }
     ],
-    name: "AssetHubDeployed",
-    type: "event",
+    "name": "AssetHubDeployed",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: false,
-        internalType: "uint64",
-        name: "version",
-        type: "uint64",
-      },
+        "indexed": false,
+        "internalType": "address",
+        "name": "curation",
+        "type": "address"
+      }
     ],
-    name: "Initialized",
-    type: "event",
+    "name": "CurationUpdated",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
+        "indexed": false,
+        "internalType": "address",
+        "name": "globalModule",
+        "type": "address"
+      }
     ],
-    name: "OwnershipTransferred",
-    type: "event",
+    "name": "GlobalModuleChanged",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
+        "indexed": false,
+        "internalType": "address",
+        "name": "creatorNFT",
+        "type": "address"
+      }
     ],
-    name: "Upgraded",
-    type: "event",
+    "name": "HubCreatorNFTChanged",
+    "type": "event"
   },
   {
-    anonymous: false,
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "bool",
-        name: "isWhitelisted",
-        type: "bool",
-      },
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
     ],
-    name: "Whitelisted",
-    type: "event",
+    "name": "Initialized",
+    "type": "event"
   },
   {
-    inputs: [],
-    name: "UPGRADE_INTERFACE_VERSION",
-    outputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
       },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "name": "MultipleUpgraded",
+    "type": "event"
   },
   {
-    inputs: [
+    "anonymous": false,
+    "inputs": [
       {
-        internalType: "address",
-        name: "hub",
-        type: "address",
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
       },
-    ],
-    name: "assetHubInfo",
-    outputs: [
       {
-        components: [
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "implementation",
+        "type": "address"
+      }
+    ],
+    "name": "Upgraded",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "UPGRADE_INTERFACE_VERSION",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "assetHubImpl",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "hub",
+        "type": "address"
+      }
+    ],
+    "name": "assetHubInfo",
+    "outputs": [
+      {
+        "components": [
           {
-            internalType: "address",
-            name: "collectNFT",
-            type: "address",
+            "internalType": "address",
+            "name": "createModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "nftGatedModule",
-            type: "address",
+            "internalType": "address",
+            "name": "tokenCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "assetCreateModule",
-            type: "address",
+            "internalType": "address",
+            "name": "feeCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "tokenCollectModule",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "feeCollectModule",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "nftGatedModule",
+            "type": "address"
+          }
         ],
-        internalType: "struct AssetHubInfo",
-        name: "",
-        type: "tuple",
-      },
+        "internalType": "struct LiteHubInfo",
+        "name": "",
+        "type": "tuple"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      }
     ],
-    name: "assetHubInfoByName",
-    outputs: [
+    "name": "assetHubInfoByName",
+    "outputs": [
       {
-        components: [
+        "components": [
           {
-            internalType: "address",
-            name: "collectNFT",
-            type: "address",
+            "internalType": "address",
+            "name": "createModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "nftGatedModule",
-            type: "address",
+            "internalType": "address",
+            "name": "tokenCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "assetCreateModule",
-            type: "address",
+            "internalType": "address",
+            "name": "feeCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "tokenCollectModule",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "feeCollectModule",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "nftGatedModule",
+            "type": "address"
+          }
         ],
-        internalType: "struct AssetHubInfo",
-        name: "",
-        type: "tuple",
-      },
+        "internalType": "struct LiteHubInfo",
+        "name": "",
+        "type": "tuple"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "creatorNFT",
+    "outputs": [
       {
-        internalType: "address",
-        name: "hub",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "initData",
-        type: "bytes",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    name: "createFeeCollectModuleImpl",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "curation",
+    "outputs": [
       {
-        internalType: "bytes",
-        name: "initData",
-        type: "bytes",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    name: "createHubImpl",
-    outputs: [
-      {
-        internalType: "address",
-        name: "hubImpl",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "hub",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "initData",
-        type: "bytes",
-      },
-    ],
-    name: "createNftAssetGatedModuleImpl",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "hub",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "initData",
-        type: "bytes",
-      },
-    ],
-    name: "createTokenAssetCreateModule",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "hub",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "initData",
-        type: "bytes",
-      },
-    ],
-    name: "createTokenCollectModuleImpl",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
+        "components": [
           {
-            internalType: "address",
-            name: "admin",
-            type: "address",
+            "internalType": "address",
+            "name": "admin",
+            "type": "address"
           },
           {
-            internalType: "string",
-            name: "name",
-            type: "string",
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
           },
           {
-            internalType: "bool",
-            name: "collectNft",
-            type: "bool",
-          },
-          {
-            internalType: "address",
-            name: "assetCreateModule",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "createModule",
+            "type": "address"
+          }
         ],
-        internalType: "struct AssetHubDeployData",
-        name: "data",
-        type: "tuple",
-      },
+        "internalType": "struct HubCreateData",
+        "name": "data",
+        "type": "tuple"
+      }
     ],
-    name: "deploy",
-    outputs: [
+    "name": "deploy",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "globalModule",
+    "outputs": [
       {
-        internalType: "string",
-        name: "name",
-        type: "string",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    name: "exitsName",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "factories",
-    outputs: [
+    "inputs": [
       {
-        components: [
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "implementation",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
           {
-            internalType: "address",
-            name: "assetHubFactory",
-            type: "address",
+            "internalType": "address",
+            "name": "assetHubImpl",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "tokenCollectModuleFactory",
-            type: "address",
+            "internalType": "address",
+            "name": "tokenCreateModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "nftGatedModuleFactory",
-            type: "address",
+            "internalType": "address",
+            "name": "collectNFT",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "tokenAssetCreateModuleFactory",
-            type: "address",
+            "internalType": "address",
+            "name": "feeCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "collectNFTFactory",
-            type: "address",
+            "internalType": "address",
+            "name": "tokenCollectModule",
+            "type": "address"
           },
           {
-            internalType: "address",
-            name: "feeCollectModuleFactory",
-            type: "address",
-          },
+            "internalType": "address",
+            "name": "nftGatedModule",
+            "type": "address"
+          }
         ],
-        internalType: "struct AssetHubImplData",
-        name: "",
-        type: "tuple",
+        "internalType": "struct MangerInitData",
+        "name": "data",
+        "type": "tuple"
       },
+      {
+        "internalType": "address",
+        "name": "creatorNFT_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "globalModule_",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "curation_",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        components: [
-          {
-            internalType: "address",
-            name: "assetHubFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenCollectModuleFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "nftGatedModuleFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenAssetCreateModuleFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "collectNFTFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "feeCollectModuleFactory",
-            type: "address",
-          },
-        ],
-        internalType: "struct AssetHubImplData",
-        name: "data",
-        type: "tuple",
-      },
+        "internalType": "address",
+        "name": "hub",
+        "type": "address"
+      }
     ],
-    name: "initialize",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "isHub",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "owner",
-    outputs: [
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "proxiableUUID",
-    outputs: [
+    "inputs": [],
+    "name": "proxiableUUID",
+    "outputs": [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "stateMutability": "view",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        components: [
-          {
-            internalType: "address",
-            name: "assetHubFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenCollectModuleFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "nftGatedModuleFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenAssetCreateModuleFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "collectNFTFactory",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "feeCollectModuleFactory",
-            type: "address",
-          },
-        ],
-        internalType: "struct AssetHubImplData",
-        name: "data",
-        type: "tuple",
-      },
+        "internalType": "address",
+        "name": "curation_",
+        "type": "address"
+      }
     ],
-    name: "setFactories",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setCuration",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "bool",
-        name: "whitelist",
-        type: "bool",
-      },
+        "internalType": "address",
+        "name": "gm",
+        "type": "address"
+      }
     ],
-    name: "setWhitelist",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setGlobalModule",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
+        "internalType": "address",
+        "name": "creatorNFT_",
+        "type": "address"
+      }
     ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    "name": "setHubCreatorNFT",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [
       {
-        internalType: "address",
-        name: "newImplementation",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
-    name: "upgradeToAndCall",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
-    inputs: [],
-    name: "version",
-    outputs: [
+    "inputs": [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
+        "internalType": "address",
+        "name": "newImplementation",
+        "type": "address"
       },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    "name": "upgradeToAndCall",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   },
   {
-    inputs: [
+    "inputs": [],
+    "name": "version",
+    "outputs": [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
     ],
-    name: "whitelisted",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
+    "stateMutability": "view",
+    "type": "function"
+  }
 ]
 
 export const IERC20Abi = [
