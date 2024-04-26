@@ -37,7 +37,7 @@ export type AssetEditorProviderProps = {
 
 function useAsetMeataData(asset?: Asset) {
   return useState<AssetMetadataEditData | undefined>(() => {
-    return asset && asset.metadata && JSON.parse(asset.metadata);
+    return asset && asset.metadata;
   });
 }
 

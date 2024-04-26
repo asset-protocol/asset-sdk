@@ -1,11 +1,11 @@
 import { Addressable, Contract, Signer } from "ethers";
 import { IERC20Abi, TokenGlobalModuleAbi, assethubAbi, assethubManagerAbi } from "./abi/abi";
 import { AssetHub } from "./abi/AssetHub";
-import { AssetHubManager } from "./abi/AssetHubManager";
+import { LiteAssetHubManager as AssetHubManager } from "./abi/LiteAssetHubManager";
 import { IERC20 } from "./abi/IERC20";
 import { TokenGlobalModule } from "./abi/TokenGlobalModule";
 export * from './abi/AssetHub';
-export * as AssetHubManager from './abi/AssetHubManager';
+export * as AssetHubManager from './abi/LiteAssetHubManager';
 export * as IERC20 from './abi/IERC20';
 
 

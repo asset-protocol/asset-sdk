@@ -23,7 +23,8 @@ export function usePublishFormValues() {
   const { collectModule } = useAssetEditor();
   const initialValues: PublishFromDataType = useMemo(() => {
     return {
-      useCollect: (collectModule && collectModule.module !== ZeroAddress) ?? false,
+      useCollect:
+        (collectModule && collectModule.module !== ZeroAddress) ?? false,
       collectModule,
     };
   }, [collectModule]);
@@ -43,7 +44,10 @@ export function useAssetPublish() {
   const [loading, setLoading] = useState(false);
   const [tip, setTip] = useState<string>();
 
-  const publish = async (values: PublishFromDataType, config?: HubTokenFeeConfigStructOutput) => {
+  const publish = async (
+    values: PublishFromDataType,
+    config?: HubTokenFeeConfigStructOutput
+  ) => {
     setLoading(true);
     let assetId = asset?.assetId;
     try {
@@ -51,7 +55,7 @@ export function useAssetPublish() {
       let newConent = content;
       setTip("Saving content...");
       if (content && beforePublish) {
-        newConent = await beforePublish(content, asset?.content, p => {
+        newConent = await beforePublish(content, asset?.content, (p) => {
           setTip(`Saving content(${p})...`);
         });
       }
@@ -65,10 +69,11 @@ export function useAssetPublish() {
       }
       setTip("Saving metadata...");
       if (data.description !== asset?.description) {
-        data.tags = data.description?.match(/#\w+/g)?.map(t => t.slice(1)) || undefined;
+        data.tags =
+          data.description?.match(/#\w+/g)?.map((t) => t.slice(1)) || undefined;
       }
       const newMetadata = JSON.stringify(data);
-      if (newMetadata !== asset?.metadata) {
+      if (newMetadata !== JSON.stringify(asset?.metadata)) {
         newData.contentURI = await storage.upload({
           data: newMetadata,
         });
@@ -94,13 +99,13 @@ export function useAssetPublish() {
         assetId = asset.assetId;
         setTip("Updating asset...");
         if (config) {
-          await approve(config.token, config.updateFee)
+          await approve(config.token, config.updateFee);
         }
         await update(asset.assetId, newData);
       } else {
         setTip("Ceating asset...");
         if (config) {
-          await approve(config.token, config.createFee)
+          await approve(config.token, config.createFee);
         }
         assetId = await create({
           ...newData,

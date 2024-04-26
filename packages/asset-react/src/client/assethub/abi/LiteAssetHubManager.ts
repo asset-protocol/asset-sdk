@@ -23,109 +23,105 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export type AssetHubInfoStruct = {
-  collectNFT: AddressLike;
-  nftGatedModule: AddressLike;
-  assetCreateModule: AddressLike;
+export type LiteHubInfoStruct = {
+  createModule: AddressLike;
   tokenCollectModule: AddressLike;
   feeCollectModule: AddressLike;
+  nftGatedModule: AddressLike;
 };
 
-export type AssetHubInfoStructOutput = [
-  collectNFT: string,
-  nftGatedModule: string,
-  assetCreateModule: string,
+export type LiteHubInfoStructOutput = [
+  createModule: string,
   tokenCollectModule: string,
-  feeCollectModule: string
+  feeCollectModule: string,
+  nftGatedModule: string
 ] & {
-  collectNFT: string;
-  nftGatedModule: string;
-  assetCreateModule: string;
+  createModule: string;
   tokenCollectModule: string;
   feeCollectModule: string;
+  nftGatedModule: string;
 };
 
-export type AssetHubDeployDataStruct = {
+export type HubCreateDataStruct = {
   admin: AddressLike;
   name: string;
-  collectNft: boolean;
-  assetCreateModule: AddressLike;
+  createModule: AddressLike;
 };
 
-export type AssetHubDeployDataStructOutput = [
+export type HubCreateDataStructOutput = [
   admin: string,
   name: string,
-  collectNft: boolean,
-  assetCreateModule: string
+  createModule: string
+] & { admin: string; name: string; createModule: string };
+
+export type MangerInitDataStruct = {
+  assetHubImpl: AddressLike;
+  tokenCreateModule: AddressLike;
+  collectNFT: AddressLike;
+  feeCollectModule: AddressLike;
+  tokenCollectModule: AddressLike;
+  nftGatedModule: AddressLike;
+};
+
+export type MangerInitDataStructOutput = [
+  assetHubImpl: string,
+  tokenCreateModule: string,
+  collectNFT: string,
+  feeCollectModule: string,
+  tokenCollectModule: string,
+  nftGatedModule: string
 ] & {
-  admin: string;
-  name: string;
-  collectNft: boolean;
-  assetCreateModule: string;
+  assetHubImpl: string;
+  tokenCreateModule: string;
+  collectNFT: string;
+  feeCollectModule: string;
+  tokenCollectModule: string;
+  nftGatedModule: string;
 };
 
-export type AssetHubImplDataStruct = {
-  assetHubFactory: AddressLike;
-  tokenCollectModuleFactory: AddressLike;
-  nftGatedModuleFactory: AddressLike;
-  tokenAssetCreateModuleFactory: AddressLike;
-  collectNFTFactory: AddressLike;
-  feeCollectModuleFactory: AddressLike;
-};
-
-export type AssetHubImplDataStructOutput = [
-  assetHubFactory: string,
-  tokenCollectModuleFactory: string,
-  nftGatedModuleFactory: string,
-  tokenAssetCreateModuleFactory: string,
-  collectNFTFactory: string,
-  feeCollectModuleFactory: string
-] & {
-  assetHubFactory: string;
-  tokenCollectModuleFactory: string;
-  nftGatedModuleFactory: string;
-  tokenAssetCreateModuleFactory: string;
-  collectNFTFactory: string;
-  feeCollectModuleFactory: string;
-};
-
-export interface AssetHubManagerInterface extends Interface {
+export interface LiteAssetHubManagerInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "UPGRADE_INTERFACE_VERSION"
+      | "assetHubImpl"
       | "assetHubInfo"
       | "assetHubInfoByName"
-      | "createFeeCollectModuleImpl"
-      | "createHubImpl"
-      | "createNftAssetGatedModuleImpl"
-      | "createTokenAssetCreateModule"
-      | "createTokenCollectModuleImpl"
+      | "creatorNFT"
+      | "curation"
       | "deploy"
-      | "exitsName"
-      | "factories"
+      | "globalModule"
+      | "implementation"
       | "initialize"
+      | "isHub"
       | "owner"
       | "proxiableUUID"
       | "renounceOwnership"
-      | "setFactories"
-      | "setWhitelist"
+      | "setCuration"
+      | "setGlobalModule"
+      | "setHubCreatorNFT"
       | "transferOwnership"
       | "upgradeToAndCall"
       | "version"
-      | "whitelisted"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
       | "AssetHubDeployed"
+      | "CurationUpdated"
+      | "GlobalModuleChanged"
+      | "HubCreatorNFTChanged"
       | "Initialized"
+      | "MultipleUpgraded"
       | "OwnershipTransferred"
       | "Upgraded"
-      | "Whitelisted"
   ): EventFragment;
 
   encodeFunctionData(
     functionFragment: "UPGRADE_INTERFACE_VERSION",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "assetHubImpl",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -137,35 +133,27 @@ export interface AssetHubManagerInterface extends Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "createFeeCollectModuleImpl",
-    values: [AddressLike, BytesLike]
+    functionFragment: "creatorNFT",
+    values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "createHubImpl",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "createNftAssetGatedModuleImpl",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "createTokenAssetCreateModule",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "createTokenCollectModuleImpl",
-    values: [AddressLike, BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "curation", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "deploy",
-    values: [AssetHubDeployDataStruct]
+    values: [HubCreateDataStruct]
   ): string;
-  encodeFunctionData(functionFragment: "exitsName", values: [string]): string;
-  encodeFunctionData(functionFragment: "factories", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "globalModule",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "implementation",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [AssetHubImplDataStruct]
+    values: [MangerInitDataStruct, AddressLike, AddressLike, AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "isHub", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
@@ -176,12 +164,16 @@ export interface AssetHubManagerInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setFactories",
-    values: [AssetHubImplDataStruct]
+    functionFragment: "setCuration",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "setWhitelist",
-    values: [AddressLike, boolean]
+    functionFragment: "setGlobalModule",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setHubCreatorNFT",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
@@ -192,13 +184,13 @@ export interface AssetHubManagerInterface extends Interface {
     values: [AddressLike, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "whitelisted",
-    values: [AddressLike]
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "UPGRADE_INTERFACE_VERSION",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "assetHubImpl",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -209,30 +201,19 @@ export interface AssetHubManagerInterface extends Interface {
     functionFragment: "assetHubInfoByName",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "createFeeCollectModuleImpl",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "createHubImpl",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "createNftAssetGatedModuleImpl",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "createTokenAssetCreateModule",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "createTokenCollectModuleImpl",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "creatorNFT", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "curation", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deploy", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "exitsName", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "factories", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "globalModule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "implementation",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isHub", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
@@ -243,11 +224,15 @@ export interface AssetHubManagerInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setFactories",
+    functionFragment: "setCuration",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setWhitelist",
+    functionFragment: "setGlobalModule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setHubCreatorNFT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -259,10 +244,6 @@ export interface AssetHubManagerInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "whitelisted",
-    data: BytesLike
-  ): Result;
 }
 
 export namespace AssetHubDeployedEvent {
@@ -270,19 +251,55 @@ export namespace AssetHubDeployedEvent {
     admin: AddressLike,
     name: string,
     assetHub: AddressLike,
-    data: AssetHubInfoStruct
+    data: LiteHubInfoStruct
   ];
   export type OutputTuple = [
     admin: string,
     name: string,
     assetHub: string,
-    data: AssetHubInfoStructOutput
+    data: LiteHubInfoStructOutput
   ];
   export interface OutputObject {
     admin: string;
     name: string;
     assetHub: string;
-    data: AssetHubInfoStructOutput;
+    data: LiteHubInfoStructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace CurationUpdatedEvent {
+  export type InputTuple = [curation: AddressLike];
+  export type OutputTuple = [curation: string];
+  export interface OutputObject {
+    curation: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace GlobalModuleChangedEvent {
+  export type InputTuple = [globalModule: AddressLike];
+  export type OutputTuple = [globalModule: string];
+  export interface OutputObject {
+    globalModule: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace HubCreatorNFTChangedEvent {
+  export type InputTuple = [creatorNFT: AddressLike];
+  export type OutputTuple = [creatorNFT: string];
+  export interface OutputObject {
+    creatorNFT: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -295,6 +312,19 @@ export namespace InitializedEvent {
   export type OutputTuple = [version: bigint];
   export interface OutputObject {
     version: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace MultipleUpgradedEvent {
+  export type InputTuple = [index: BigNumberish, implementation: AddressLike];
+  export type OutputTuple = [index: bigint, implementation: string];
+  export interface OutputObject {
+    index: bigint;
+    implementation: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -327,24 +357,11 @@ export namespace UpgradedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace WhitelistedEvent {
-  export type InputTuple = [account: AddressLike, isWhitelisted: boolean];
-  export type OutputTuple = [account: string, isWhitelisted: boolean];
-  export interface OutputObject {
-    account: string;
-    isWhitelisted: boolean;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export interface AssetHubManager extends BaseContract {
-  connect(runner?: ContractRunner | null): AssetHubManager;
+export interface LiteAssetHubManager extends BaseContract {
+  connect(runner?: ContractRunner | null): LiteAssetHubManager;
   waitForDeployment(): Promise<this>;
 
-  interface: AssetHubManagerInterface;
+  interface: LiteAssetHubManagerInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -385,63 +402,46 @@ export interface AssetHubManager extends BaseContract {
 
   UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], "view">;
 
+  assetHubImpl: TypedContractMethod<[], [string], "view">;
+
   assetHubInfo: TypedContractMethod<
     [hub: AddressLike],
-    [AssetHubInfoStructOutput],
+    [LiteHubInfoStructOutput],
     "view"
   >;
 
   assetHubInfoByName: TypedContractMethod<
     [name: string],
-    [AssetHubInfoStructOutput],
+    [LiteHubInfoStructOutput],
     "view"
   >;
 
-  createFeeCollectModuleImpl: TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
+  creatorNFT: TypedContractMethod<[], [string], "view">;
 
-  createHubImpl: TypedContractMethod<
-    [initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  createNftAssetGatedModuleImpl: TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  createTokenAssetCreateModule: TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-
-  createTokenCollectModuleImpl: TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
+  curation: TypedContractMethod<[], [string], "view">;
 
   deploy: TypedContractMethod<
-    [data: AssetHubDeployDataStruct],
+    [data: HubCreateDataStruct],
     [string],
     "nonpayable"
   >;
 
-  exitsName: TypedContractMethod<[name: string], [boolean], "view">;
+  globalModule: TypedContractMethod<[], [string], "view">;
 
-  factories: TypedContractMethod<[], [AssetHubImplDataStructOutput], "view">;
+  implementation: TypedContractMethod<[index: BigNumberish], [string], "view">;
 
   initialize: TypedContractMethod<
-    [data: AssetHubImplDataStruct],
+    [
+      data: MangerInitDataStruct,
+      creatorNFT_: AddressLike,
+      globalModule_: AddressLike,
+      curation_: AddressLike
+    ],
     [void],
     "nonpayable"
   >;
+
+  isHub: TypedContractMethod<[hub: AddressLike], [boolean], "view">;
 
   owner: TypedContractMethod<[], [string], "view">;
 
@@ -449,14 +449,16 @@ export interface AssetHubManager extends BaseContract {
 
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
-  setFactories: TypedContractMethod<
-    [data: AssetHubImplDataStruct],
+  setCuration: TypedContractMethod<
+    [curation_: AddressLike],
     [void],
     "nonpayable"
   >;
 
-  setWhitelist: TypedContractMethod<
-    [account: AddressLike, whitelist: boolean],
+  setGlobalModule: TypedContractMethod<[gm: AddressLike], [void], "nonpayable">;
+
+  setHubCreatorNFT: TypedContractMethod<
+    [creatorNFT_: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -475,8 +477,6 @@ export interface AssetHubManager extends BaseContract {
 
   version: TypedContractMethod<[], [string], "view">;
 
-  whitelisted: TypedContractMethod<[account: AddressLike], [boolean], "view">;
-
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -485,62 +485,44 @@ export interface AssetHubManager extends BaseContract {
     nameOrSignature: "UPGRADE_INTERFACE_VERSION"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "assetHubImpl"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
     nameOrSignature: "assetHubInfo"
-  ): TypedContractMethod<
-    [hub: AddressLike],
-    [AssetHubInfoStructOutput],
-    "view"
-  >;
+  ): TypedContractMethod<[hub: AddressLike], [LiteHubInfoStructOutput], "view">;
   getFunction(
     nameOrSignature: "assetHubInfoByName"
-  ): TypedContractMethod<[name: string], [AssetHubInfoStructOutput], "view">;
+  ): TypedContractMethod<[name: string], [LiteHubInfoStructOutput], "view">;
   getFunction(
-    nameOrSignature: "createFeeCollectModuleImpl"
-  ): TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
+    nameOrSignature: "creatorNFT"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "createHubImpl"
-  ): TypedContractMethod<[initData: BytesLike], [string], "nonpayable">;
-  getFunction(
-    nameOrSignature: "createNftAssetGatedModuleImpl"
-  ): TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "createTokenAssetCreateModule"
-  ): TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "createTokenCollectModuleImpl"
-  ): TypedContractMethod<
-    [hub: AddressLike, initData: BytesLike],
-    [string],
-    "nonpayable"
-  >;
+    nameOrSignature: "curation"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "deploy"
+  ): TypedContractMethod<[data: HubCreateDataStruct], [string], "nonpayable">;
+  getFunction(
+    nameOrSignature: "globalModule"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "implementation"
+  ): TypedContractMethod<[index: BigNumberish], [string], "view">;
+  getFunction(
+    nameOrSignature: "initialize"
   ): TypedContractMethod<
-    [data: AssetHubDeployDataStruct],
-    [string],
+    [
+      data: MangerInitDataStruct,
+      creatorNFT_: AddressLike,
+      globalModule_: AddressLike,
+      curation_: AddressLike
+    ],
+    [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "exitsName"
-  ): TypedContractMethod<[name: string], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "factories"
-  ): TypedContractMethod<[], [AssetHubImplDataStructOutput], "view">;
-  getFunction(
-    nameOrSignature: "initialize"
-  ): TypedContractMethod<[data: AssetHubImplDataStruct], [void], "nonpayable">;
+    nameOrSignature: "isHub"
+  ): TypedContractMethod<[hub: AddressLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
@@ -551,15 +533,14 @@ export interface AssetHubManager extends BaseContract {
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "setFactories"
-  ): TypedContractMethod<[data: AssetHubImplDataStruct], [void], "nonpayable">;
+    nameOrSignature: "setCuration"
+  ): TypedContractMethod<[curation_: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "setWhitelist"
-  ): TypedContractMethod<
-    [account: AddressLike, whitelist: boolean],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "setGlobalModule"
+  ): TypedContractMethod<[gm: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "setHubCreatorNFT"
+  ): TypedContractMethod<[creatorNFT_: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
@@ -573,9 +554,6 @@ export interface AssetHubManager extends BaseContract {
   getFunction(
     nameOrSignature: "version"
   ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "whitelisted"
-  ): TypedContractMethod<[account: AddressLike], [boolean], "view">;
 
   getEvent(
     key: "AssetHubDeployed"
@@ -585,11 +563,39 @@ export interface AssetHubManager extends BaseContract {
     AssetHubDeployedEvent.OutputObject
   >;
   getEvent(
+    key: "CurationUpdated"
+  ): TypedContractEvent<
+    CurationUpdatedEvent.InputTuple,
+    CurationUpdatedEvent.OutputTuple,
+    CurationUpdatedEvent.OutputObject
+  >;
+  getEvent(
+    key: "GlobalModuleChanged"
+  ): TypedContractEvent<
+    GlobalModuleChangedEvent.InputTuple,
+    GlobalModuleChangedEvent.OutputTuple,
+    GlobalModuleChangedEvent.OutputObject
+  >;
+  getEvent(
+    key: "HubCreatorNFTChanged"
+  ): TypedContractEvent<
+    HubCreatorNFTChangedEvent.InputTuple,
+    HubCreatorNFTChangedEvent.OutputTuple,
+    HubCreatorNFTChangedEvent.OutputObject
+  >;
+  getEvent(
     key: "Initialized"
   ): TypedContractEvent<
     InitializedEvent.InputTuple,
     InitializedEvent.OutputTuple,
     InitializedEvent.OutputObject
+  >;
+  getEvent(
+    key: "MultipleUpgraded"
+  ): TypedContractEvent<
+    MultipleUpgradedEvent.InputTuple,
+    MultipleUpgradedEvent.OutputTuple,
+    MultipleUpgradedEvent.OutputObject
   >;
   getEvent(
     key: "OwnershipTransferred"
@@ -605,13 +611,6 @@ export interface AssetHubManager extends BaseContract {
     UpgradedEvent.OutputTuple,
     UpgradedEvent.OutputObject
   >;
-  getEvent(
-    key: "Whitelisted"
-  ): TypedContractEvent<
-    WhitelistedEvent.InputTuple,
-    WhitelistedEvent.OutputTuple,
-    WhitelistedEvent.OutputObject
-  >;
 
   filters: {
     "AssetHubDeployed(address,string,address,tuple)": TypedContractEvent<
@@ -625,6 +624,39 @@ export interface AssetHubManager extends BaseContract {
       AssetHubDeployedEvent.OutputObject
     >;
 
+    "CurationUpdated(address)": TypedContractEvent<
+      CurationUpdatedEvent.InputTuple,
+      CurationUpdatedEvent.OutputTuple,
+      CurationUpdatedEvent.OutputObject
+    >;
+    CurationUpdated: TypedContractEvent<
+      CurationUpdatedEvent.InputTuple,
+      CurationUpdatedEvent.OutputTuple,
+      CurationUpdatedEvent.OutputObject
+    >;
+
+    "GlobalModuleChanged(address)": TypedContractEvent<
+      GlobalModuleChangedEvent.InputTuple,
+      GlobalModuleChangedEvent.OutputTuple,
+      GlobalModuleChangedEvent.OutputObject
+    >;
+    GlobalModuleChanged: TypedContractEvent<
+      GlobalModuleChangedEvent.InputTuple,
+      GlobalModuleChangedEvent.OutputTuple,
+      GlobalModuleChangedEvent.OutputObject
+    >;
+
+    "HubCreatorNFTChanged(address)": TypedContractEvent<
+      HubCreatorNFTChangedEvent.InputTuple,
+      HubCreatorNFTChangedEvent.OutputTuple,
+      HubCreatorNFTChangedEvent.OutputObject
+    >;
+    HubCreatorNFTChanged: TypedContractEvent<
+      HubCreatorNFTChangedEvent.InputTuple,
+      HubCreatorNFTChangedEvent.OutputTuple,
+      HubCreatorNFTChangedEvent.OutputObject
+    >;
+
     "Initialized(uint64)": TypedContractEvent<
       InitializedEvent.InputTuple,
       InitializedEvent.OutputTuple,
@@ -634,6 +666,17 @@ export interface AssetHubManager extends BaseContract {
       InitializedEvent.InputTuple,
       InitializedEvent.OutputTuple,
       InitializedEvent.OutputObject
+    >;
+
+    "MultipleUpgraded(uint256,address)": TypedContractEvent<
+      MultipleUpgradedEvent.InputTuple,
+      MultipleUpgradedEvent.OutputTuple,
+      MultipleUpgradedEvent.OutputObject
+    >;
+    MultipleUpgraded: TypedContractEvent<
+      MultipleUpgradedEvent.InputTuple,
+      MultipleUpgradedEvent.OutputTuple,
+      MultipleUpgradedEvent.OutputObject
     >;
 
     "OwnershipTransferred(address,address)": TypedContractEvent<
@@ -656,17 +699,6 @@ export interface AssetHubManager extends BaseContract {
       UpgradedEvent.InputTuple,
       UpgradedEvent.OutputTuple,
       UpgradedEvent.OutputObject
-    >;
-
-    "Whitelisted(address,bool)": TypedContractEvent<
-      WhitelistedEvent.InputTuple,
-      WhitelistedEvent.OutputTuple,
-      WhitelistedEvent.OutputObject
-    >;
-    Whitelisted: TypedContractEvent<
-      WhitelistedEvent.InputTuple,
-      WhitelistedEvent.OutputTuple,
-      WhitelistedEvent.OutputObject
     >;
   };
 }

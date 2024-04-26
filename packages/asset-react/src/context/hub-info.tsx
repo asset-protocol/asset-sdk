@@ -2,7 +2,7 @@ import { useEffect, useState, createContext } from "react";
 import { AssetHub as AssethubContract } from "../client/assethub/abi";
 import { NewAssetHub, NewAssetHubManager } from "../client/assethub";
 import { Signer } from "ethers";
-import { AssetHubManager } from "../client/assethub/abi/AssetHubManager";
+import { LiteAssetHubManager as AssetHubManager } from "../client/assethub/abi/LiteAssetHubManager";
 import { AssetHubInfo } from "../client/core";
 import { AssetHubManagerInfo, useGetAssetHubByNameOrId, useGetHubManager } from "..";
 
