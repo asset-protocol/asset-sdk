@@ -3,7 +3,7 @@ import { ApolloClient, ApolloProvider } from "@apollo/client";
 import { useContext, useState, createContext } from "react";
 import { Signer } from "ethers";
 import { IStorage, StorageScheme } from "../core/storage";
-import { AssetHubConfig, AssetHubPlugin } from "../core/plugin";
+import { AssetHubConfig, AssetHubPlugin, globalConfig } from "../core/plugin";
 import { HubInfoContext, HubInfoProvider } from "./hub-info";
 
 export type AccountInfo = {
@@ -42,7 +42,7 @@ export type AssetProviderProps = {
 
 export function AssetProvider(props: AssetProviderProps) {
   const [hub, setHub] = useState<string | undefined>(props.hub);
-  const config = new AssetHubConfig();
+  const config = globalConfig;
   if (props.plugins) {
     props.plugins.forEach((p) => p(config));
   }

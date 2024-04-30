@@ -2,6 +2,7 @@
   "name": "root",
   "private": false,
   "devDependencies": {
+    "@welldone-software/why-did-you-render": "^8.0.1",
     "lerna": "^8.1.2"
   },
   "publishConfig": {

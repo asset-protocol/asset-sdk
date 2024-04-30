@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import { AssetMetadata, AssetModule } from "../../core";
 import { Asset } from "../../client/core";
 
@@ -75,15 +81,18 @@ export function AssetEditorProvider(props: AssetEditorProviderProps) {
   const value: AssetEditorContextData = {
     asset: asset,
     type,
-    setType: (t) => {
-      const cachedContent = localStorage.getItem("asset:conent:" + t);
-      if (cachedContent) {
-        setContent(cachedContent);
-      } else {
-        setContent(undefined);
-      }
-      setType(t);
-    },
+    setType: useCallback(
+      (t) => {
+        const cachedContent = localStorage.getItem("asset:conent:" + t);
+        if (cachedContent) {
+          setContent(cachedContent);
+        } else {
+          setContent(undefined);
+        }
+        setType(t);
+      },
+      [setType, setContent]
+    ),
     metadata,
     setMetadata,
     content,

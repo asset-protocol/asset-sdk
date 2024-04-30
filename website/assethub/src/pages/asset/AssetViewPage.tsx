@@ -23,7 +23,7 @@ export function AssetViewPage() {
   return (
     <div className="flex flex-col m-auto">
       {resAssetId !== undefined ? (
-        <div className="mt-8">
+        <div className="max-w-[900px] mt-8 mx-auto">
           <AssetViewer assetId={resAssetId} {...config} />
         </div>
       ) : (

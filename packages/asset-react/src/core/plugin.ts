@@ -73,3 +73,5 @@ export class AssetHubConfig {
     return this;
   }
 }
+
+export const globalConfig = new AssetHubConfig();

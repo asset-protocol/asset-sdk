@@ -42,7 +42,7 @@ export function AssetHub(props: { children: React.ReactNode }) {
     <AssetProvider
       signer={signer!}
       grapqlClient={client}
-      storage={"ipfs"}
+      storage={"ar"}
       plugins={plugins}
       account={account}
       requireLogin={() => openConnectModal?.()}

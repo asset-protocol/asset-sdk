@@ -22,7 +22,7 @@ export function AssetEditPage() {
     return <div>Loading...</div>;
   }
   return (
-    <div className="max-w-[1080px] mx-auto">
+    <div className="max-w-[900px] mx-auto">
       <AssetEditor asset={asset} onPublished={handleSubmited}></AssetEditor>
     </div>
   );
