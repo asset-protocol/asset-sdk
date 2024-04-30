@@ -2,6 +2,7 @@ import "quill/dist/quill.snow.css";
 import "../styles/snow.css";
 import {
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useRef,
@@ -41,11 +42,11 @@ const QuillEditor = forwardRef<Quill | null, QuillEditorProps>((props, ref) => {
     [quill]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     quill.current?.enable(!readOnly);
   }, [quill, readOnly]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!quill.current) return;
     console.log("quill value changed");
     if (typeof value === "string") {
@@ -76,7 +77,7 @@ const QuillEditor = forwardRef<Quill | null, QuillEditorProps>((props, ref) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div ref={containerRef} id="test"></div>;
+  return <div ref={containerRef}></div>;
 });
 QuillEditor.displayName = "QuillEditor";
 export default QuillEditor;
