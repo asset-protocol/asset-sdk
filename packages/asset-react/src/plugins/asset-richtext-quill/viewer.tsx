@@ -7,7 +7,7 @@ const Viewer = lazy(() => import("./components/RichTextViewer"));
 
 const richtextViewer = (config: AssetHubConfig) => {
   config.registerViewer(TYPE_RICH_TEXT, {
-    selector: (v: Asset) => v.type === TYPE_RICH_TEXT,
+    selector: (v: Asset) => v.type === TYPE_RICH_TEXT || v.type === "q-richtext",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     viewer: (props: any) => (
       <Suspense>
