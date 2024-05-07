@@ -143,11 +143,14 @@ export function Home() {
       </div>
       <Divider className="my-2 bg-gray-300" />
       Assets List:
-      <AssetList
-        grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
-        onAssetClick={hanldeClickAsset}
-        // itemClassName="w-[240px]"
-      ></AssetList>
+      {hubInfo?.id && (
+        <AssetList
+          hub={hubInfo.id}
+          grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
+          onAssetClick={hanldeClickAsset}
+          // itemClassName="w-[240px]"
+        ></AssetList>
+      )}
     </div>
   );
 }

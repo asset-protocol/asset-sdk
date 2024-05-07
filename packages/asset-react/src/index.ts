@@ -10,6 +10,6 @@ export * from './hook';
 
 export * from './plugins';
 
-export { useReplaceUri } from './lib/utils'
 export * from './lib/date'
+export * from './lib/utils'
 

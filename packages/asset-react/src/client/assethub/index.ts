@@ -1,9 +1,10 @@
 import { Addressable, Contract, Signer } from "ethers";
-import { IERC20Abi, TokenGlobalModuleAbi, assethubAbi, assethubManagerAbi } from "./abi/abi";
+import { CurationAbi, IERC20Abi, TokenGlobalModuleAbi, assethubAbi, assethubManagerAbi } from "./abi/abi";
 import { AssetHub } from "./abi/AssetHub";
 import { LiteAssetHubManager as AssetHubManager } from "./abi/LiteAssetHubManager";
 import { IERC20 } from "./abi/IERC20";
 import { TokenGlobalModule } from "./abi/TokenGlobalModule";
+import { Curation } from "./abi/Curation";
 export * from './abi/AssetHub';
 export * as AssetHubManager from './abi/LiteAssetHubManager';
 export * as IERC20 from './abi/IERC20';
@@ -26,4 +27,9 @@ export function NewERC20(signer: Signer, addr: string) {
 export function NewTokenGlobalModule(signer: Signer, addr: string) {
   const ct = new Contract(addr, TokenGlobalModuleAbi, signer) as unknown;
   return ct as TokenGlobalModule;
+}
+
+export function NewCuration(signer: Signer, addr: string) {
+  const ct = new Contract(addr, CurationAbi, signer) as unknown;
+  return ct as Curation;
 }

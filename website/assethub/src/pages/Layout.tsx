@@ -1,14 +1,61 @@
 import { useAssetHub } from "@asset-protocol/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Divider } from "antd";
+import { Button, Dropdown, Layout, Menu, MenuProps } from "antd";
 import { Outlet, useParams } from "react-router-dom";
-import { useGoHome } from "../utils/route";
+import { useGoAsset, useGoCuration, useGoHome } from "../utils/route";
 import { useEffect } from "react";
+import { Content, Header } from "antd/es/layout/layout";
+import { MenuItemType } from "antd/es/menu/hooks/useItems";
 
 export function Layerout() {
-  const { hubInfo, changeHub } = useAssetHub();
+  const { changeHub, hubInfo } = useAssetHub();
+  const { goAssets, goCreate: goCreateAsset } = useGoAsset();
+  const { goCurations, goCreate: goCreateCuration } = useGoCuration();
   const goHome = useGoHome();
   const { hub } = useParams();
+
+  const menuItems: MenuItemType[] = [
+    {
+      key: "assets",
+      label: "Assets",
+      onClick: () => {
+        goAssets();
+      },
+    },
+    {
+      key: "curations",
+      label: "Curations",
+      onClick: () => {
+        goCurations();
+      },
+    },
+  ];
+
+  const createMenu: MenuProps = {
+    items: [
+      {
+        key: "asset",
+        label: "Create Asset",
+        onClick: () => {
+          if (hubInfo) {
+            goCreateAsset(hubInfo.id);
+          }
+        },
+        disabled: !hubInfo,
+      },
+      {
+        key: "curation",
+        label: "Create Curation",
+        onClick: () => {
+          goCreateCuration();
+        },
+      },
+      {
+        key: "hub",
+        label: "Create Hub",
+      },
+    ],
+  };
 
   useEffect(() => {
     if (hub) {
@@ -17,24 +64,37 @@ export function Layerout() {
   }, [changeHub, hub]);
 
   return (
-    <div>
-      <div className="flex items-end px-2">
+    <Layout className="bg-transparent">
+      <Header className="flex items-center px-2 gap-2">
         <div
           className="flex items-end cursor-pointer"
           onClick={() => {
             goHome();
           }}
         >
-          <div className="text-xl font-bold">{hubInfo?.name}</div>
+          <div className="text-xl font-bold">CreatorNetwork</div>
           {/* <div className="ml-2 text-base font-normal">AssetHub</div> */}
         </div>
-        <div className="flex-1"></div>
+        <Menu
+          mode="horizontal"
+          defaultSelectedKeys={["2"]}
+          items={menuItems}
+          style={{ flex: 1, minWidth: 0 }}
+        />
+        <Dropdown
+          menu={createMenu}
+          trigger={["click"]}
+          placement="bottomCenter"
+        >
+          <Button type="primary">Create</Button>
+        </Dropdown>
         <ConnectButton />
-      </div>
-      <Divider className="bg-gray-300 mt-3 mb-0" />
-      <div className="m-auto">
-        <Outlet />
-      </div>
-    </div>
+      </Header>
+      <Content>
+        <div>
+          <Outlet />
+        </div>
+      </Content>
+    </Layout>
   );
 }

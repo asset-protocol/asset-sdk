@@ -145,6 +145,7 @@ export function useGetHubGlobalModuleConfig() {
     getConfig().then((res) => {
       setConfig(res);
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getConfig = async () => {

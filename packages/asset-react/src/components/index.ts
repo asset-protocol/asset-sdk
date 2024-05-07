@@ -1,5 +1,5 @@
 export * from './AssetEditor';
-export * from './AssetList/AssetList';
+export * from './AssetList';
 export * from './AssetViewer';
 export * from './BlobUpload/ImageBlobUpload';
 export * from './BlobUpload/VideoBlobUpload';

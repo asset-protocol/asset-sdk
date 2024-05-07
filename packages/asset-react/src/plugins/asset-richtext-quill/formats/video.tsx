@@ -1,5 +1,10 @@
 import { EmbedBlot } from "parchment";
 import { replaceUri } from "../../../lib/utils";
+import {
+  BlotVideoPlayer,
+  BlotVideoPlayerProps,
+} from "../components/BlotVideoPlayer";
+import ReactDOM from "react-dom";
 
 const ATTRIBUTES = ["height", "width"];
 
@@ -9,13 +14,13 @@ class Video extends EmbedBlot {
   static tagName = "VIDEO";
 
   static create(value: string) {
-    const node = super.create(value) as HTMLVideoElement;
-    node.setAttribute("frameborder", "0");
-    node.setAttribute("allowfullscreen", "true");
-    node.setAttribute("src", this.sanitize(value));
-    node.setAttribute("orgin-src", value);
-    node.setAttribute("controls", "true");
-    return node;
+    const cp = createVideoComponent(this.sanitize(value));
+    const container = document.createElement("div");
+    container.classList.add(Video.className);
+    container.setAttribute("orgin-src", value);
+    container.setAttribute("width", "100%");
+    ReactDOM.render(cp, container);
+    return container;
   }
 
   static formats(domNode: Element) {
@@ -52,5 +57,8 @@ class Video extends EmbedBlot {
     }
   }
 }
-
+function createVideoComponent(url: string) {
+  const props: BlotVideoPlayerProps = { url };
+  return <BlotVideoPlayer {...props}></BlotVideoPlayer>;
+}
 export default Video;

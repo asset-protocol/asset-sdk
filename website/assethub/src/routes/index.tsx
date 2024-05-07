@@ -5,6 +5,10 @@ import { AssetEditPage } from "../pages/asset/AssetEditPage";
 import { AssetCreatePage } from "../pages/asset/AssetCreatePage";
 import { Layerout } from "../pages/Layout";
 import { DemoPage } from "../pages/asset/DemoPage";
+import { AssetsPage } from "../pages/asset/AssetsPage";
+import { CurationsPage } from "../pages/curation/CurationsPage";
+import { CurationDetailPage } from "../pages/curation/CurationDetailPage";
+import { CreatorPage } from "../pages/creator/CreatorPage";
 
 const root = createBrowserRouter([
   {
@@ -18,6 +22,27 @@ const root = createBrowserRouter([
       {
         path: "demo",
         element: <DemoPage />,
+      },
+      {
+        path: "assets",
+        element: <AssetsPage />,
+      },
+      {
+        path: "curations",
+        children: [
+          {
+            path: "",
+            element: <CurationsPage />,
+          },
+          {
+            path: ":curationId",
+            element: <CurationDetailPage />,
+          },
+        ],
+      },
+      {
+        path: "creator",
+        element: <CreatorPage />,
       },
       {
         path: ":hub",

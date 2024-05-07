@@ -5,6 +5,7 @@ export type AssetType = "image" | "video" | "audio" | "markdown" | string;
 export type Asset = {
   id: string;
   assetId: bigint;
+  hub: string;
   type: AssetType;
   name: string;
   image: string;

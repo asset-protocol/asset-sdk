@@ -5,6 +5,7 @@ import { baseSepolia } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import {} from "@asset-protocol/react";
+import { ConfigProvider, ConfigProviderProps } from "antd";
 
 const queryClient = new QueryClient();
 const config = getDefaultConfig({
@@ -13,12 +14,24 @@ const config = getDefaultConfig({
   chains: [baseSepolia],
 });
 
+const antConfig: ConfigProviderProps = {
+  theme: {
+    components: {
+      Layout: {
+        headerBg: "transparent",
+      },
+    },
+  },
+};
+
 export function AppProvider(props: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{props.children}</RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <ConfigProvider {...antConfig}>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>{props.children}</RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </ConfigProvider>
   );
 }
