@@ -11,6 +11,14 @@ export function useGoHome() {
   }, [hubInfo])
 }
 
+export function useGoHub() {
+  const navigate = useNavigate();
+  const goHub = (hub: string) => {
+    navigate(`/${hub}`)
+  }
+  return { goHub }
+}
+
 export function useNavigateAssetHub() {
   const { hubInfo } = useAssetHub();
   const navigate = useNavigate();

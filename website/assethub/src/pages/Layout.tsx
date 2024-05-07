@@ -2,17 +2,21 @@ import { useAssetHub } from "@asset-protocol/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button, Dropdown, Layout, Menu, MenuProps } from "antd";
 import { Outlet, useParams } from "react-router-dom";
-import { useGoAsset, useGoCuration, useGoHome } from "../utils/route";
-import { useEffect } from "react";
+import { useGoAsset, useGoCuration, useGoHome, useGoHub } from "../utils/route";
+import { useEffect, useState } from "react";
 import { Content, Header } from "antd/es/layout/layout";
 import { MenuItemType } from "antd/es/menu/hooks/useItems";
+import { CreateHubModal } from "./hub/CreateHub";
 
 export function Layerout() {
   const { changeHub, hubInfo } = useAssetHub();
   const { goAssets, goCreate: goCreateAsset } = useGoAsset();
+  const { goHub } = useGoHub();
   const { goCurations, goCreate: goCreateCuration } = useGoCuration();
   const goHome = useGoHome();
   const { hub } = useParams();
+
+  const [createHubModalVisible, setCreateHubModalVisible] = useState(false);
 
   const menuItems: MenuItemType[] = [
     {
@@ -53,6 +57,9 @@ export function Layerout() {
       {
         key: "hub",
         label: "Create Hub",
+        onClick: () => {
+          setCreateHubModalVisible(true);
+        },
       },
     ],
   };
@@ -95,6 +102,14 @@ export function Layerout() {
           <Outlet />
         </div>
       </Content>
+      <CreateHubModal
+        onCancel={() => setCreateHubModalVisible(false)}
+        open={createHubModalVisible}
+        onFinish={(hub) => {
+          setCreateHubModalVisible(false);
+          goHub(hub.name);
+        }}
+      />
     </Layout>
   );
 }

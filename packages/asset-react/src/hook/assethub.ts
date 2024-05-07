@@ -34,11 +34,30 @@ export function useDeployNewAssetHub() {
       await res.wait();
       console.log("asset hub created: ", hub);
       setData(hub);
+      return hub;
     } finally {
       setIsLoading(false);
     }
   }
   return { deploy, data, isLoading };
+}
+
+export function useHasNamedHub() {
+  const { assetHubManager } = useAssetHub();
+  const [loading, setLoading] = useState(false);
+  const hasNamedHub = async (hubId: string) => {
+    if (!assetHubManager) {
+      throw new Error("AssetHubManager not found");
+    }
+    setLoading(true);
+    try {
+      const exists = await assetHubManager.assetHubInfoByName(hubId);
+      return exists.feeCollectModule !== ZeroAddress;
+    } finally {
+      setLoading(false);
+    }
+  }
+  return { hasNamedHub, isLoading: loading };
 }
 
 export type AssetCreateData = Partial<DataTypes.AssetCreateDataStruct>;
@@ -145,7 +164,7 @@ export function useGetHubGlobalModuleConfig() {
     getConfig().then((res) => {
       setConfig(res);
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getConfig = async () => {
