@@ -6,7 +6,7 @@ export function TokenCollectModule() {
 
   useEffect(() => {
     if (hubInfo?.tokenCollectModule) {
-      ctx.use(
+      return ctx.use(
         TokenCollectModulePlugin({
           moduleContract: hubInfo.tokenCollectModule,
           tokens: [

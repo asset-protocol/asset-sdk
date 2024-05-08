@@ -3,7 +3,7 @@ import { FeeCollectModule } from "./FeeCollectModule";
 
 export default function FeeCollectModulePlugin(feeCollectContract: EtherAddress) {
   return (config: AssetHubConfig) => {
-    config.registerCollectModule(FeeCollectModule(feeCollectContract));
+    return config.registerCollectModule(FeeCollectModule(feeCollectContract));
   };
 }
 

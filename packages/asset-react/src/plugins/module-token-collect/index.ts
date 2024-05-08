@@ -3,7 +3,7 @@ import { TokenCollectModule, TokenCollectModuleOptions } from './TokenCollectMod
 
 export default function TokenCollectModulePlugin(opts: TokenCollectModuleOptions) {
   return (config: AssetHubConfig) => {
-    config.registerCollectModule(TokenCollectModule(opts));
+    return config.registerCollectModule(TokenCollectModule(opts));
   };
 }
 export * from './TokenCollectModule';

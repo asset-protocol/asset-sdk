@@ -4,7 +4,7 @@ import { IStorage } from "./storage";
 import { IViewerProvider } from "./viewer";
 import { ICollectModule } from "./collect";
 
-export type AssetHubPlugin = (config: AssetHubConfig) => void;
+export type AssetHubPlugin = (config: AssetHubConfig) => ((() => void) | void);
 
 export class AssetHubConfig {
   private _storages: { [key: string]: IStorage } = {}
@@ -33,9 +33,15 @@ export class AssetHubConfig {
     return this._collectModules;
   }
 
-  registerStorage(storage: IStorage): AssetHubConfig {
-    this._storages[storage.scheme.name] = storage;
-    return this;
+  registerStorage(storage: IStorage) {
+    const stoarges = this._storages;
+    const pre = stoarges[storage.scheme.name];
+    stoarges[storage.scheme.name] = storage;
+    if (pre) {
+      return () => stoarges[storage.scheme.name] = pre;
+    } else {
+      return () => delete stoarges[storage.scheme.name];
+    }
   }
 
   public registerEditor(provider: IEditorProvider) {
@@ -50,27 +56,29 @@ export class AssetHubConfig {
   }
 
   public registerViewer(type: string, provider: IViewerProvider) {
-    if (this._viewerProviders[type]) {
-      this._viewerProviders[type].push(provider);
+    const providers = this._viewerProviders;
+    let length = -1;
+    if (providers[type]) {
+      length = providers[type].push(provider);
     } else {
-      this._viewerProviders[type] = [provider];
+      providers[type] = [provider];
+      length = 0;
     }
-    return this;
+    return () => { providers[type].splice(length - 1, 1) };
   }
 
   public registerConfigProvider(provider: (props: { children: ReactNode }) => ReactNode) {
-    this._configProviders.push(provider);
-    return this;
+    const length = this._configProviders.push(provider);
+    return () => { this._configProviders.splice(length - 1, 1) };
   }
 
   public registerCollectModule(provider: ICollectModule) {
-    this._collectModules.push(provider);
-    return this;
+    const length = this._collectModules.push(provider);
+    return () => { this._collectModules.splice(length - 1, 1) };
   }
 
   public use(plugin: AssetHubPlugin) {
-    plugin(this);
-    return this;
+    return plugin(this);
   }
 }
 

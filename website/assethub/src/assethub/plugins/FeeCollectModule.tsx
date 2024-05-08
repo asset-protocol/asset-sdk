@@ -6,7 +6,7 @@ export function FeeCollectModule() {
 
   useEffect(() => {
     if (hubInfo?.feeCollectModule) {
-      ctx.use(FeeCollectModulePlugin(hubInfo.feeCollectModule));
+      return ctx.use(FeeCollectModulePlugin(hubInfo.feeCollectModule));
     }
   }, [ctx, hubInfo]);
 
