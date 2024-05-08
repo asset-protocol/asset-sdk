@@ -18,46 +18,6 @@ const AssetRichTextEditor = (props: RichTextEditorProps) => {
   return (
     <div className="border-[1px] border-solid border-gray-300">
       <AssetEditorHeader descriptonPlaceholder="Input Summary" />
-      {/* <div id="toolbar-toolbar" className="toolbar">
-        <span className="ql-formats">
-          <select className="ql-font" defaultValue="">
-            <option value=""></option>
-            <option value="serif"></option>
-            <option value="monospace"></option>
-          </select>
-          <select className="ql-size" defaultValue="">
-            <option value="small"></option>
-            <option value=""></option>
-            <option value="large"></option>
-            <option value="huge"></option>
-          </select>
-        </span>
-        <span className="ql-formats">
-          <button className="ql-bold"></button>
-          <button className="ql-italic"></button>
-          <button className="ql-underline"></button>
-          <button className="ql-strike"></button>
-        </span>
-        <span className="ql-formats">
-          <select className="ql-color"></select>
-          <select className="ql-background"></select>
-        </span>
-        <span className="ql-formats">
-          <button className="ql-list" value="ordered"></button>
-          <button className="ql-list" value="bullet"></button>
-          <select className="ql-align" defaultValue="">
-            <option value=""></option>
-            <option value="center"></option>
-            <option value="right"></option>
-            <option value="justify"></option>
-          </select>
-        </span>
-        <span className="ql-formats">
-          <button className="ql-link"></button>
-          <button className="ql-image"></button>
-          <button className="ql-video"></button>
-        </span>
-      </div> */}
       <QuillEditor
         {...props}
         ref={editor}
@@ -81,11 +41,9 @@ const AssetRichTextEditor = (props: RichTextEditorProps) => {
             ],
             handlers: {
               image: () => {
-                console.log("handle image");
                 selectFile("image/*").then((file) => {
                   if (file) {
                     const blobURL = URL.createObjectURL(file);
-                    console.log(blobURL);
                     editor.current?.format(
                       "image",
                       blobURL,
@@ -95,11 +53,9 @@ const AssetRichTextEditor = (props: RichTextEditorProps) => {
                 });
               },
               video: () => {
-                console.log("handle video");
                 selectFile("video/*,.mov,.mkv").then((file) => {
                   if (file) {
                     const blobURL = URL.createObjectURL(file);
-                    console.log(blobURL);
                     editor.current?.format(
                       "video",
                       blobURL,
@@ -114,7 +70,6 @@ const AssetRichTextEditor = (props: RichTextEditorProps) => {
         theme="snow"
         value={content}
         onChange={(v) => {
-          console.log(v);
           setContent(v);
         }}
         className="min-h-[600px]"

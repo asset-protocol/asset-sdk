@@ -1,10 +1,10 @@
 import { Asset } from "../..";
-import { useGetAssets } from "../../client/indexer";
+import { GetAssetHubAssetsInput, useGetAssets } from "../../client/indexer";
 import { AssetItem } from "./AssetItem";
 import List, { ListGridType } from "antd/es/list";
 
 export type AssetListProps = {
-  hub?: string;
+  query?: GetAssetHubAssetsInput;
   onAssetClick?: (asset: Asset) => void;
   grid?: ListGridType;
   classname?: string;
@@ -12,12 +12,7 @@ export type AssetListProps = {
 };
 
 export function AssetList(props: AssetListProps) {
-  const { data, loading } = useGetAssets({
-    hub: props.hub,
-    first: 9999,
-    fetchPolicy: "no-cache",
-    orderBy: ["timestamp_DESC"],
-  });
+  const { data, loading } = useGetAssets(props.query);
   return (
     <List
       className={props.classname}

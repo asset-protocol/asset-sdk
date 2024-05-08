@@ -145,7 +145,13 @@ export function Home() {
       Assets List:
       {hubInfo?.id && (
         <AssetList
-          hub={hubInfo.id}
+          query={{
+            hub: hubInfo.id,
+            first: 9999,
+            fetchPolicy: "no-cache",
+            orderBy: ["timestamp_DESC"],
+            skipFunc: (args) => !args.hub,
+          }}
           grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
           onAssetClick={hanldeClickAsset}
           // itemClassName="w-[240px]"

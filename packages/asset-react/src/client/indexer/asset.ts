@@ -2,6 +2,7 @@
 import { WatchQueryFetchPolicy, gql, useApolloClient, useQuery } from '@apollo/client'
 import { Asset } from '../core'
 import { useMemo, useState } from 'react'
+import { ASSET_FIELDS } from './fragments'
 
 export type GqlAssetList<T> = {
   assetsConnection: {
@@ -15,37 +16,17 @@ export type GqlAssetList<T> = {
   }
 }
 
-const GET_HUb_ASSETS = gql`
-query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
+const GET_HUb_ASSETS = (tags?: string[]) => gql`
+${ASSET_FIELDS}
+query GetAssets($hub: String, $publisher: String, $assetId: BigInt${tags?.length ? ", $tags: [String!]" : ""}, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
   assetsConnection(
     first: $first,
     after: $after,
     orderBy: $orderBy,
-    where: { hub_eq: $hub, publisher_eq: $publisher, assetId_eq: $assetId }){
+    where: { hub_eq: $hub, publisher_eq: $publisher, assetId_eq: $assetId${tags?.length ? ", tags_some: {normalizedName_in: $tags}" : ""} }){
       edges {
         node {
-          assetId
-          hub
-          type
-          name
-          image
-          description
-          tags {
-            name
-          }
-          publisher
-          contentUri
-          timestamp
-          lastUpdatedAt
-          hash
-          collectModule
-          collectModuleInitData
-          collectNft
-          collectCount
-          gatedModule
-          gatedModuleInitData
-          query1
-          query2
+          ...AssetFields
         }
       }
       pageInfo {
@@ -64,6 +45,7 @@ export type GetAssetHubAssetsInput = {
   hub?: string,
   publisher?: string,
   assetId?: string,
+  tags?: string[],
   first?: number,
   after?: string,
   orderBy?: AssetsOrderBy[]
@@ -75,11 +57,12 @@ const defaultInput: GetAssetHubAssetsInput = {
   orderBy: ["timestamp_DESC"]
 }
 
-export function useGetAssets(args: GetAssetHubAssetsInput) {
-  const { data, ...res } = useQuery<GqlAssetList<Asset>>(GET_HUb_ASSETS, {
-    variables: { ...defaultInput, ...args, hub: args.hub },
-    fetchPolicy: args.fetchPolicy,
-    skip: args.skipFunc?.(args)
+export function useGetAssets(args?: GetAssetHubAssetsInput) {
+  const gqlText = useMemo(() => GET_HUb_ASSETS(args?.tags), [args])
+  const { data, ...res } = useQuery<GqlAssetList<Asset>>(gqlText, {
+    variables: { ...defaultInput, ...args },
+    fetchPolicy: args?.fetchPolicy,
+    skip: args?.skipFunc?.(args)
   })
   const newData = useMemo(() => ({
     assets: data?.assetsConnection.edges.map(a => {
@@ -127,6 +110,7 @@ export function useSearchAssets(keyword: string) {
 
 
 const GET_HUb_ASSETS_BY_ID = gql`
+${ASSET_FIELDS}
 query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int, $after: String, $orderBy: [AssetOrderByInput!]!){
   assetsConnection(
     first: $first,
@@ -135,30 +119,9 @@ query GetAssets($hub: String, $publisher: String, $assetId: BigInt, $first: Int,
     where: { hub_eq: $hub, publisher_eq: $publisher, assetId_eq: $assetId }){
       edges {
         node {
-          assetId
-          hub
-          type
-          name
-          image
-          description
           content
-          tags{
-            name
-          }
-          publisher
-          contentUri
-          timestamp
-          lastUpdatedAt
           metadata
-          hash
-          collectModule
-          collectModuleInitData
-          collectNft
-          collectCount
-          gatedModule
-          gatedModuleInitData
-          query1
-          query2
+          ...AssetFields
         }
       }
       pageInfo {
@@ -204,4 +167,20 @@ export function useRefreshAssetMetadata() {
     }
   }
   return { refresh, loading }
+}
+
+const GET_ASSET_TAG_NAMES = gql`
+query GetAssetTagNames($keyword: String, $limit: Float){
+  assetTagNames(keyword: $keyword, limit: $limit) {
+    name
+    count
+  }
+}
+`;
+export function useGetAssetTagNames(keyword?: string, limit?: number) {
+  const { data, ...res } = useQuery<{ assetTagNames: { name: string, count: number }[] }>(GET_ASSET_TAG_NAMES, {
+    variables: { keyword, limit },
+    fetchPolicy: "no-cache",
+  })
+  return { ...res, data: data?.assetTagNames }
 }

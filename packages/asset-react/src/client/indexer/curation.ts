@@ -161,3 +161,19 @@ export function useGetCurationAssets(publisher: string, status?: AssetApprovalSt
   });
   return { ...res, data: data?.curations };
 }
+
+const GET_CURATION_TAG_NAMES = gql`
+query GetAssetTagNames($keyword: String, $limit: Int){
+  assetTagNames(keyword: $keyword, limit: $limit) {
+    name
+    count
+  }
+}
+`;
+export function useGetCurationTagNames(keyword?: string, limit?: number) {
+  const { data, ...res } = useQuery<{ curationTagNames: { name: string, count: number }[] }>(GET_CURATION_TAG_NAMES, {
+    variables: { keyword, limit },
+    fetchPolicy: "no-cache",
+  })
+  return { ...res, data: data?.curationTagNames }
+}
