@@ -11,7 +11,7 @@ export const AssetRichTextEditor = lazy(
 
 const richtextEditor = (config: AssetHubConfig) => {
   config.registerEditor({
-    types: [{ value: TYPE_RICH_TEXT, label: "Quill Rich Text" }],
+    types: [{ value: TYPE_RICH_TEXT, label: "Rich Text" }],
     selector: (t) => t === TYPE_RICH_TEXT,
     editor: (props) => (
       <Suspense>
