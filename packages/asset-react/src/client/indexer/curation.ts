@@ -150,6 +150,8 @@ query GetCurationAssets($publisher: String, $status: AssetApproveStatus) {
       order
     }
     name
+    description
+    image
     id
     publisher
     timestamp

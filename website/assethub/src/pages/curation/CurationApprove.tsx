@@ -28,7 +28,9 @@ export function CurationApprove({ account }: { account: string }) {
         loading={loading}
         dataSource={data}
         renderItem={(item) => (
-          <CurationApproveItem key={item.id} curation={item} />
+          <>
+            <CurationApproveItem key={item.id} curation={item} />
+          </>
         )}
       />
     </div>
@@ -91,15 +93,16 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
   };
   return (
     <div>
-      <div className="flex items-center flex-wrap">
-        <div className="flex-1">
+      <div className="flex flex-wrap">
+        <div className="flex-1 ml-2">
           <Checkbox
+            className="mr-2"
             indeterminate={indeterminate}
             onChange={onCheckAllChange}
             checked={checkAll}
-          >
-            <span className="font-bold">{curation.name}</span>
-          </Checkbox>
+          ></Checkbox>
+          <span className="font-bold text-lg">{curation.name}</span>
+          <div className="ml-6 text-gray-500">{curation.description}</div>
         </div>
         <div>
           <ApproveAssetButton
@@ -114,45 +117,50 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
       </div>
       <Divider className="my-2" />
       <div className="flex flex-col gap-2">
-        {curation.assets.map((a) => (
-          <div className="flex items-center ml-4 gap-2">
-            <Checkbox
-              key={a.asset.id}
-              onChange={(e) => onChange(a.asset, e.target.checked)}
-              checked={checkedList.includes(a.asset)}
-            ></Checkbox>
-            <div className="flex gap-2 flex-1">
-              <Image
-                src={replaceUri(a.asset.image)}
-                width={160}
-                alt={a.asset.name}
-                className="aspect-ratio-1/2 w-10"
-              />
-              <div className="flex flex-col flex-1">
-                <div className="text-lg line-clamp-1">{a.asset.name}</div>
-                <div className="flex-1 text-lg line-clamp-2">
-                  {a.asset.description}
-                </div>
-                <div className="flex items-center">
-                  <AddressLink
-                    address={a.asset.hub}
-                    className="mr-1"
-                  ></AddressLink>
-                  #
-                  <span className="font-bold">
-                    {a.asset.assetId.toString()}
-                  </span>
-                  <span className="ml-4">{a.asset.type}</span>
+        {curation.assets.map((a, i) => (
+          <>
+            <div className="flex items-center ml-4 gap-2">
+              <Checkbox
+                key={a.asset.id}
+                onChange={(e) => onChange(a.asset, e.target.checked)}
+                checked={checkedList.includes(a.asset)}
+              ></Checkbox>
+              <div className="flex gap-2 flex-1">
+                <Image
+                  src={replaceUri(a.asset.image)}
+                  width={160}
+                  alt={a.asset.name}
+                  className="aspect-ratio-1/2 w-10"
+                />
+                <div className="flex flex-col flex-1">
+                  <div className="text-lg line-clamp-1">{a.asset.name}</div>
+                  <div className="flex-1 line-clamp-2 text-gray-500">
+                    {a.asset.description}
+                  </div>
+                  <div className="flex items-center">
+                    <AddressLink
+                      address={a.asset.hub}
+                      className="mr-1"
+                    ></AddressLink>
+                    #
+                    <span className="font-bold">
+                      {a.asset.assetId.toString()}
+                    </span>
+                    <span className="ml-4">{a.asset.type}</span>
+                  </div>
                 </div>
               </div>
+              <div>
+                <ApproveAssetButton
+                  curationId={BigInt(curation.id)}
+                  assets={[{ assetId: a.asset.assetId, hub: a.asset.hub }]}
+                />
+              </div>
             </div>
-            <div>
-              <ApproveAssetButton
-                curationId={BigInt(curation.id)}
-                assets={[{ assetId: a.asset.assetId, hub: a.asset.hub }]}
-              />
-            </div>
-          </div>
+            {i < curation.assets.length - 1 && (
+              <Divider key={a.asset.id + "divider"} className="my-0 ml-10" />
+            )}
+          </>
         ))}
       </div>
     </div>

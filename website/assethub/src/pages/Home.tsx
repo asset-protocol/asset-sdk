@@ -64,7 +64,7 @@ export function Home() {
   // });
 
   const hanldeClickAsset = (asset: Asset) => {
-    goViewer(asset.hub.id, asset.assetId.toString());
+    goViewer(asset.hub, asset.assetId.toString());
   };
 
   const { deploy, isLoading: deploying } = useDeployNewAssetHub();

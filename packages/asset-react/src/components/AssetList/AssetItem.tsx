@@ -87,7 +87,7 @@ export function AssetItem(props: {
             <Avatar
               size="small"
               style={{
-                backgroundColor: "#f56a00",
+                backgroundColor: "#94a3af",
                 marginRight: "4px",
               }}
             >
