@@ -5,7 +5,10 @@ import { ZeroAddress, formatEther } from "ethers";
 import { Asset } from "../../client/core";
 import { useReplaceUri } from "../../lib/utils";
 import { ZERO_BYTES } from "../../core";
-import { useCollectAsset, useGetHubGlobalModuleConfig } from "../../hook/assethub";
+import {
+  useCollectAsset,
+  useGetHubGlobalModuleConfig,
+} from "../../hook/assethub";
 import { useAssetHub, useHubERC20Approve } from "../..";
 import { useState } from "react";
 export type CollectModalProps = Omit<ModalProps, "onOk"> & {
@@ -31,11 +34,11 @@ export function CollectModal(props: CollectModalProps) {
   const collectModule =
     asset.collectModule !== undefined
       ? ctx.collectModules
-        .find((m) => m.moduleContract === asset.collectModule)
-        ?.useCollect(asset, {
-          module: asset.collectModule,
-          initData: asset.collectModuleInitData,
-        })
+          .find((m) => m.moduleContract === asset.collectModule)
+          ?.useCollect(asset, {
+            module: asset.collectModule,
+            initData: asset.collectModuleInitData,
+          })
       : undefined;
 
   const handleCollect = async () => {
@@ -58,6 +61,7 @@ export function CollectModal(props: CollectModalProps) {
         await approve(globalTokenConfig.token, globalTokenConfig.collectFee);
       }
       const tokenId = await collect(
+        asset.hub,
         asset.assetId,
         {
           collectData: ZERO_BYTES,
@@ -123,26 +127,23 @@ export function CollectModal(props: CollectModalProps) {
             </div>
             <div>
               <div className="text-gray-500">Network</div>
-              <div className="font-bold">Polygon mumbai</div>
+              <div className="font-bold">Base sepolia</div>
             </div>
           </div>
           {collectModule && collectModule.viewNode}
           <div className="flex-1"></div>
-          {
-            globalTokenConfig &&
+          {globalTokenConfig && (
             <div>Token Fee: {formatEther(globalTokenConfig.collectFee)}</div>
-          }
+          )}
           <Button
             type="primary"
             className="w-full my-2"
             size="large"
             loading={loading}
             onClick={handleCollect}
-          // disabled={!!collectModule?.errorText}
+            // disabled={!!collectModule?.errorText}
           >
-            {(collectModule && collectModule.collectButtonText) ||
-              "Collect"
-            }
+            {(collectModule && collectModule.collectButtonText) || "Collect"}
           </Button>
           {collectModule?.errorText || (
             <div className="text-gray-500">

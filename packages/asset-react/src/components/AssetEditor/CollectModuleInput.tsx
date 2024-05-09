@@ -1,5 +1,5 @@
 import { Form, Select, Switch } from "antd";
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import { AssetModule } from "../../core";
 import { BytesLike, ZeroAddress } from "ethers";
 import { useAssetHub } from "../../context";
@@ -23,12 +23,10 @@ export type CollectModuleItem = {
 
 export function CollectModuleInput() {
   const { ctx } = useAssetHub();
-  const opts = useMemo(() => {
-    return ctx.collectModules.map((m) => ({
-      label: m.label,
-      value: m.moduleContract,
-    }));
-  }, [ctx]);
+  const opts = ctx.collectModules.map((m) => ({
+    label: m.label,
+    value: m.moduleContract,
+  }));
   return (
     <>
       <Form.Item
@@ -43,7 +41,11 @@ export function CollectModuleInput() {
         {({ getFieldValue }) =>
           getFieldValue("useCollect") && (
             <>
-              <Form.Item name={["collectModule", "module"]} label="Collect Module" className="mb-2">
+              <Form.Item
+                name={["collectModule", "module"]}
+                label="Collect Module"
+                className="mb-2"
+              >
                 <Select style={{ width: 170 }} options={opts}></Select>
               </Form.Item>
               <Form.Item noStyle dependencies={[["collectModule", "module"]]}>
@@ -53,10 +55,15 @@ export function CollectModuleInput() {
                     setFieldValue(["collectModule", "module"], opts[0].value);
                     return;
                   }
-                  const content = ctx.collectModules.find((m) => m.moduleContract === module)?.inputNode;
+                  const content = ctx.collectModules.find(
+                    (m) => m.moduleContract === module
+                  )?.inputNode;
                   return (
                     content && (
-                      <Form.Item name={["collectModule", "initData"]} className="mb-2 ml- bg-gray-50 rounded-md w-full px-2">
+                      <Form.Item
+                        name={["collectModule", "initData"]}
+                        className="mb-2 ml- bg-gray-50 rounded-md w-full px-2"
+                      >
                         {content}
                       </Form.Item>
                     )

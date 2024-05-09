@@ -25,7 +25,16 @@ const root = createBrowserRouter([
       },
       {
         path: "assets",
-        element: <AssetsPage />,
+        children: [
+          {
+            path: "",
+            element: <AssetsPage />,
+          },
+          {
+            path: "create",
+            element: <AssetCreatePage />,
+          },
+        ],
       },
       {
         path: "curations",

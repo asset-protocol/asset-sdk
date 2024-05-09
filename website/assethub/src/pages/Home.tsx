@@ -5,24 +5,24 @@ import { Button, Divider, Input, Select, message } from "antd";
 import { useEffect, useState } from "react";
 import {
   Asset,
+  AssetHubInfo,
   AssetList,
-  useAssetHub,
   useDeployNewAssetHub,
   useGetAssetHubs,
 } from "@asset-protocol/react";
 import { DefaultOptionType } from "antd/es/select";
-import { useNavigateAssetHub } from "../utils/route";
 import { useNavigate, useParams } from "react-router-dom";
 import { ZeroAddress } from "ethers";
+import { useGoAsset } from "../utils/route";
 
 export function Home() {
-  const navigateHub = useNavigateAssetHub();
+  const { goViewer, goCreate } = useGoAsset();
   const navigate = useNavigate();
-  const { changeHub, hubInfo } = useAssetHub();
   const { hub } = useParams();
 
   const [hubOptions, setHubOptions] = useState<DefaultOptionType[]>([]);
   const [hubName, setHubName] = useState<string>();
+  const [hubInfo, setHubInfo] = useState<AssetHubInfo>();
   const { data, loading } = useGetAssetHubs();
 
   useEffect(() => {
@@ -32,15 +32,15 @@ export function Home() {
       );
       if (!hubInfo) {
         if (hub === "home") {
-          changeHub(data[0]?.id);
+          setHubInfo(data[0]);
         } else {
-          changeHub(hub);
+          setHubInfo(data.find((h) => h.id === hub || h.name === hub));
         }
       } else if (hub !== "home" && hubInfo.id !== hub && hubInfo.name !== hub) {
-        changeHub(hub);
+        setHubInfo(data.find((h) => h.id === hub || h.name === hub));
       }
     }
-  }, [changeHub, data, hub, hubInfo]);
+  }, [data, hub, hubInfo]);
 
   // const { data: count } = useReadContract({
   //   address: AssetHub,
@@ -64,7 +64,7 @@ export function Home() {
   // });
 
   const hanldeClickAsset = (asset: Asset) => {
-    navigateHub("asset/" + asset.assetId.toString());
+    goViewer(asset.hub.id, asset.assetId.toString());
   };
 
   const { deploy, isLoading: deploying } = useDeployNewAssetHub();
@@ -99,7 +99,6 @@ export function Home() {
         All AssetHubs:
         <Select
           className="ml-4 w-[200px]"
-          value={hubInfo?.id}
           options={hubOptions}
           onChange={(value) => {
             const hub = hubOptions.find((h) => h.value === value);
@@ -139,7 +138,7 @@ export function Home() {
       <div>AssetCount: {count?.toString()}</div>
       <div>Test Token Balance: {tokenBalance?.toString()}</div> */}
       <div>
-        <Button onClick={() => navigateHub("/asset/create")}>创建资产</Button>
+        <Button onClick={() => goCreate()}>创建资产</Button>
       </div>
       <Divider className="my-2 bg-gray-300" />
       Assets List:

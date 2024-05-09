@@ -1,21 +1,16 @@
-import {
-  AssetEditor,
-  useAssetHub,
-  useGetAssetById,
-} from "@asset-protocol/react";
+import { AssetEditor, useGetAssetById } from "@asset-protocol/react";
 import { toBigInt } from "ethers";
 import { useParams } from "react-router-dom";
-import { useNavigateAssetHub } from "../../utils/route";
+import { useGoAsset } from "../../utils/route";
 
 export function AssetEditPage() {
-  const { assetId } = useParams();
-  const { hubInfo } = useAssetHub();
-  const { asset } = useGetAssetById(toBigInt(assetId!), hubInfo?.id ?? "");
+  const { hub, assetId } = useParams();
+  const { asset } = useGetAssetById(toBigInt(assetId!), hub!);
 
-  const navigate = useNavigateAssetHub();
+  const { goViewer } = useGoAsset();
 
-  const handleSubmited = (assetId: bigint) => {
-    navigate(`/asset/${assetId}`, { replace: true });
+  const handleSubmited = (hub: string, assetId: bigint) => {
+    goViewer(hub, assetId.toString());
   };
 
   if (!asset) {

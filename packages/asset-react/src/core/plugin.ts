@@ -57,24 +57,26 @@ export class AssetHubConfig {
 
   public registerViewer(type: string, provider: IViewerProvider) {
     const providers = this._viewerProviders;
-    let length = -1;
     if (providers[type]) {
-      length = providers[type].push(provider);
+      providers[type].push(provider);
     } else {
       providers[type] = [provider];
-      length = 0;
     }
-    return () => { providers[type].splice(length - 1, 1) };
+    return () => { providers[type].splice(providers[type].indexOf(provider), 1) };
   }
 
   public registerConfigProvider(provider: (props: { children: ReactNode }) => ReactNode) {
-    const length = this._configProviders.push(provider);
-    return () => { this._configProviders.splice(length - 1, 1) };
+    const providers = this._configProviders;
+    providers.push(provider);
+    return () => { providers.splice(providers.indexOf(provider), 1) };
   }
 
   public registerCollectModule(provider: ICollectModule) {
-    const length = this._collectModules.push(provider);
-    return () => { this._collectModules.splice(length - 1, 1) };
+    const collectModules = this._collectModules;
+    collectModules.push(provider);
+    return () => {
+      collectModules.splice(collectModules.indexOf(provider), 1);
+    };
   }
 
   public use(plugin: AssetHubPlugin) {

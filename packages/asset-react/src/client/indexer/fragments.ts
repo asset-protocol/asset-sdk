@@ -4,6 +4,7 @@ export const ASSET_FIELDS = gql`
   fragment AssetFields on Asset {
     assetId
     hub
+    hubName
     type
     name
     image

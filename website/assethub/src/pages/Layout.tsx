@@ -1,20 +1,17 @@
-import { useAssetHub } from "@asset-protocol/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Button, Dropdown, Layout, Menu, MenuProps } from "antd";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useGoAsset, useGoCuration, useGoHome, useGoHub } from "../utils/route";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Content, Header } from "antd/es/layout/layout";
 import { MenuItemType } from "antd/es/menu/hooks/useItems";
 import { CreateHubModal } from "./hub/CreateHub";
 
 export function Layerout() {
-  const { changeHub, hubInfo } = useAssetHub();
   const { goAssets, goCreate: goCreateAsset } = useGoAsset();
   const { goHub } = useGoHub();
   const { goCurations, goCreate: goCreateCuration } = useGoCuration();
   const goHome = useGoHome();
-  const { hub } = useParams();
 
   const [createHubModalVisible, setCreateHubModalVisible] = useState(false);
 
@@ -41,11 +38,8 @@ export function Layerout() {
         key: "asset",
         label: "Create Asset",
         onClick: () => {
-          if (hubInfo) {
-            goCreateAsset(hubInfo.id);
-          }
+          goCreateAsset();
         },
-        disabled: !hubInfo,
       },
       {
         key: "curation",
@@ -63,12 +57,6 @@ export function Layerout() {
       },
     ],
   };
-
-  useEffect(() => {
-    if (hub) {
-      changeHub(hub);
-    }
-  }, [changeHub, hub]);
 
   return (
     <Layout className="bg-transparent">
@@ -91,7 +79,7 @@ export function Layerout() {
         <Dropdown
           menu={createMenu}
           trigger={["click"]}
-          placement="bottomCenter"
+          placement="bottom"
         >
           <Button type="primary">Create</Button>
         </Dropdown>

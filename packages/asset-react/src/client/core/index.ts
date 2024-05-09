@@ -6,6 +6,7 @@ export type Asset = {
   id: string;
   assetId: bigint;
   hub: string;
+  hubName: string;
   type: AssetType;
   name: string;
   image: string;

@@ -38,7 +38,7 @@ export function TokenCollectModuleItem(props: TokenCollectModuleItemProps) {
       return account?.address;
     }
     return data?.recipient;
-  }, [data])
+  }, [account, data]);
 
   useEffect(() => {
     const recipient = data?.recipient ?? ZeroAddress;

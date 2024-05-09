@@ -1,4 +1,4 @@
-import { Button, Form, Modal, ModalProps } from "antd";
+import { Button, Form, Modal, ModalProps, Select } from "antd";
 import { AssetCard } from "../Assset/AssetCard";
 import { useAssetEditor } from "./AssetEditorContext";
 import { useAssetHub } from "../../context";
@@ -11,6 +11,7 @@ import { CollectModuleInput } from "./CollectModuleInput";
 import { ZeroAddress, formatEther } from "ethers";
 import { ZERO_BYTES } from "../../core";
 import { useGetHubGlobalModuleConfig } from "../../hook";
+import { useGetAssetHubs } from "../../client/indexer";
 
 export function AssetPublishForm() {
   const { account } = useAssetHub();
@@ -19,17 +20,20 @@ export function AssetPublishForm() {
   const initialValues = usePublishFormValues();
   const { config: globalTokenConfig } = useGetHubGlobalModuleConfig();
   const { publish, loading, tip } = useAssetPublish();
+  const { data } = useGetAssetHubs();
 
   const handleSubmit = (values: PublishFromDataType) => {
     console.log("values", values);
     if (!values.useCollect) {
       values.collectModule = {
         module: ZeroAddress,
-        initData: ZERO_BYTES
+        initData: ZERO_BYTES,
       };
     }
     publish(values, globalTokenConfig).then((assetId) => {
-      setPublished(assetId);
+      if (assetId) {
+        setPublished(assetId);
+      }
     });
   };
 
@@ -45,6 +49,13 @@ export function AssetPublishForm() {
           onFinish={handleSubmit}
           initialValues={initialValues}
         >
+          <Form.Item label="Sutdio" name="hub">
+            <Select
+              style={{ width: 180, marginLeft: "6px" }}
+              options={data.map((hub) => ({ label: hub.name, value: hub.id }))}
+              disabled={!!asset}
+            />
+          </Form.Item>
           {/* <Form.Item label="Storage" name="storage">
             <Select
               style={{ width: 180, marginLeft: "6px" }}
@@ -56,20 +67,16 @@ export function AssetPublishForm() {
             <CollectModuleInput />
           </Form.Item>
           <div className="flex-1"></div>
-          {
-            globalTokenConfig && !asset &&
-            globalTokenConfig.createFee > 0 &&
+          {globalTokenConfig && !asset && globalTokenConfig.createFee > 0 && (
             <Form.Item noStyle label="Token Fee">
               <div>Token Fee: {formatEther(globalTokenConfig.createFee)}</div>
             </Form.Item>
-          }
-          {
-            globalTokenConfig && asset &&
-            globalTokenConfig.updateFee > 0 &&
+          )}
+          {globalTokenConfig && asset && globalTokenConfig.updateFee > 0 && (
             <Form.Item noStyle label="Token Fee">
               <div>Token Fee: {formatEther(globalTokenConfig.updateFee)}</div>
             </Form.Item>
-          }
+          )}
           {<span className="text-gray-400">{tip}</span>}
           <Form.Item className="w-full my-2">
             <Button

@@ -1,14 +1,18 @@
 import { FeeCollectModulePlugin, useAssetHub } from "@asset-protocol/react";
 import { useEffect } from "react";
 
-export function FeeCollectModule() {
-  const { ctx, hubInfo } = useAssetHub();
+export function FeeCollectModule({
+  feeCollectModule,
+}: {
+  feeCollectModule: string;
+}) {
+  const { ctx } = useAssetHub();
 
   useEffect(() => {
-    if (hubInfo?.feeCollectModule) {
-      return ctx.use(FeeCollectModulePlugin(hubInfo.feeCollectModule));
+    if (feeCollectModule) {
+      return ctx.use(FeeCollectModulePlugin(feeCollectModule));
     }
-  }, [ctx, hubInfo]);
+  }, [ctx, feeCollectModule]);
 
   return null;
 }

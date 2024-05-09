@@ -1,6 +1,6 @@
 import { useReplaceUri } from "../../lib/utils";
 import { Asset } from "../../client/core";
-import { Image, Skeleton, Tag } from "antd";
+import { Avatar, Image, Skeleton, Tag } from "antd";
 import { PresetColors } from "antd/es/theme/interface";
 import clsx from "clsx";
 import { fromNow } from "../../lib/date";
@@ -64,9 +64,10 @@ export function AssetItem(props: {
         <div className="line-clamp-1">{value.description}</div>
         <div className="flex-1 flex gap-2">
           {value.tags ? (
-            value.tags.map((t) => (
+            value.tags.map((t, i) => (
               <Tag
-                key={t.name}
+                className="mr-0"
+                key={t.name + i}
                 color={
                   PresetColors[Math.floor(Math.random() * PresetColors.length)]
                 }
@@ -81,9 +82,21 @@ export function AssetItem(props: {
         {props.footer ? (
           props.footer
         ) : (
-          <div className="flex items-center justify-between">
-            <div>{value.collectCount?.toString() ?? 0} Collected</div>
-            <div className="text-gray-500">
+          <div className="flex items-center">
+            {/* <div>{value.collectCount?.toString() ?? 0} Collected</div> */}
+            <Avatar
+              size="small"
+              style={{
+                backgroundColor: "#f56a00",
+                marginRight: "4px",
+              }}
+            >
+              {value.hubName[0]}
+            </Avatar>
+            <span className="text-gray-500 flex-1 line-clamp-1">
+              {value.hubName}
+            </span>
+            <div className="text-gray-500 ">
               {fromNow(Number.parseInt(value.timestamp.toString()))}
             </div>
           </div>

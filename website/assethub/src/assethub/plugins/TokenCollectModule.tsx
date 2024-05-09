@@ -1,14 +1,18 @@
 import { TokenCollectModulePlugin, useAssetHub } from "@asset-protocol/react";
 import { useEffect } from "react";
 
-export function TokenCollectModule() {
-  const { ctx, hubInfo } = useAssetHub();
+export function TokenCollectModule({
+  tokenCollectModule,
+}: {
+  tokenCollectModule: string;
+}) {
+  const { ctx } = useAssetHub();
 
   useEffect(() => {
-    if (hubInfo?.tokenCollectModule) {
+    if (tokenCollectModule) {
       return ctx.use(
         TokenCollectModulePlugin({
-          moduleContract: hubInfo.tokenCollectModule,
+          moduleContract: tokenCollectModule,
           tokens: [
             {
               label: "TestToken",
@@ -19,7 +23,7 @@ export function TokenCollectModule() {
         })
       );
     }
-  }, [ctx, hubInfo]);
+  }, [ctx, tokenCollectModule]);
 
   return null;
 }

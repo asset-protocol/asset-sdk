@@ -66,6 +66,7 @@ query GetCurations{
             id
             image
             hub
+            hubName
           }
         }
       }
@@ -105,6 +106,7 @@ query GetCurationById($id: String!) {
         lastUpdatedAt
         publisher
         hub
+        hubName
         assetId
         collectCount
         tags {
@@ -137,6 +139,7 @@ query GetCurationAssets($publisher: String, $status: AssetApproveStatus) {
         assetId
         type
         hub
+        hubName
         name
         description
         image

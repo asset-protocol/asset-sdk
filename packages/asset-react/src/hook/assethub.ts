@@ -1,7 +1,7 @@
 import { useAssetHub } from "../context/provider";
-import { DataTypes, NewTokenGlobalModule } from '../client/assethub';
+import { DataTypes, NewAssetHub, NewTokenGlobalModule } from '../client/assethub';
 import { BytesLike, ZeroAddress } from 'ethers';
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HubCreateDataStruct } from "../client/assethub/abi/LiteAssetHubManager";
 import { INGORED_ADDRESS, ZERO_BYTES } from "../core";
 import { PayableOverrides } from "../client/assethub/abi";
@@ -74,12 +74,10 @@ function checkCreateData(data: AssetCreateData): DataTypes.AssetCreateDataStruct
 }
 
 export function useCreateAsset() {
-  const { assetHub } = useAssetHub();
+  const { signer } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
-  const create = useCallback(async (data: AssetCreateData) => {
-    if (!assetHub) {
-      throw new Error("asset hub not set");
-    }
+  const create = async (hub: string, data: AssetCreateData) => {
+    const assetHub = NewAssetHub(signer, hub);
     setIsLoading(true);
     const createData = checkCreateData(data);
     console.log("createData", createData)
@@ -91,7 +89,7 @@ export function useCreateAsset() {
     } finally {
       setIsLoading(false);
     }
-  }, [assetHub])
+  }
   return { create, isLoading };
 }
 
@@ -107,10 +105,10 @@ function checkUpdateData(data: UpdateAssetInput): DataTypes.AssetUpdateDataStruc
 }
 
 export function useUpdateAsset() {
-  const { assetHub } = useAssetHub();
+  const { signer } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
-
-  const update = async (assetId: bigint, data: UpdateAssetInput) => {
+  const update = async (hub: string, assetId: bigint, data: UpdateAssetInput) => {
+    const assetHub = NewAssetHub(signer, hub);
     if (!assetHub) {
       throw new Error("asset hub not set");
     }
@@ -134,12 +132,10 @@ export type CollectData = {
 }
 
 export function useCollectAsset() {
-  const { assetHub, hubInfo } = useAssetHub();
+  const { signer } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
-  const collect = async (assetId: bigint, collectData: CollectData, options?: PayableOverrides) => {
-    if (!assetHub || !hubInfo) {
-      throw new Error("asset hub not set");
-    }
+  const collect = async (hub: string, assetId: bigint, collectData: CollectData, options?: PayableOverrides) => {
+    const assetHub = NewAssetHub(signer, hub);
     setIsLoading(true);
     try {
       const tokeNftId = await assetHub.collect.staticCall(assetId, collectData.collectData, options ?? {});
@@ -155,20 +151,20 @@ export function useCollectAsset() {
   return { collect, isLoading };
 }
 
-export function useGetHubGlobalModuleConfig() {
-  const { hubManagerInfo, hubInfo, signer } = useAssetHub();
+export function useGetHubGlobalModuleConfig(hub?: string) {
+  const { hubManagerInfo, signer } = useAssetHub();
   const [loading, setLoading] = useState(false);
   const [config, setConfig] = useState<HubTokenFeeConfigStructOutput>();
 
   useEffect(() => {
-    getConfig().then((res) => {
+    getConfig(hub).then((res) => {
       setConfig(res);
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hub]);
 
-  const getConfig = async () => {
-    if (!hubManagerInfo || !hubInfo) {
+  const getConfig = async (hub?: string) => {
+    if (!hubManagerInfo || !hub) {
       return;
     }
     if (hubManagerInfo.globalModule === ZeroAddress) {
@@ -177,7 +173,7 @@ export function useGetHubGlobalModuleConfig() {
     try {
       setLoading(true);
       const module = NewTokenGlobalModule(signer, hubManagerInfo.globalModule);
-      const res = await module.config(hubInfo.id);
+      const res = await module.config(hub);
       console.log("config", res);
       return res;
     } finally {

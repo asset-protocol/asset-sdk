@@ -79,6 +79,30 @@ export type MangerInitDataStructOutput = [
   nftGatedModule: string;
 };
 
+export declare namespace LiteHubManagerBase {
+  export type HubModulesStorageStruct = {
+    tokenCreateModule: AddressLike;
+    collectNFT: AddressLike;
+    feeCollectModule: AddressLike;
+    tokenCollectModule: AddressLike;
+    nftGatedModule: AddressLike;
+  };
+
+  export type HubModulesStorageStructOutput = [
+    tokenCreateModule: string,
+    collectNFT: string,
+    feeCollectModule: string,
+    tokenCollectModule: string,
+    nftGatedModule: string
+  ] & {
+    tokenCreateModule: string;
+    collectNFT: string;
+    feeCollectModule: string;
+    tokenCollectModule: string;
+    nftGatedModule: string;
+  };
+}
+
 export interface LiteAssetHubManagerInterface extends Interface {
   getFunction(
     nameOrSignature:
@@ -90,6 +114,8 @@ export interface LiteAssetHubManagerInterface extends Interface {
       | "curation"
       | "deploy"
       | "globalModule"
+      | "hasNamedHub"
+      | "hubDefaultModules"
       | "implementation"
       | "initialize"
       | "isHub"
@@ -143,6 +169,11 @@ export interface LiteAssetHubManagerInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "globalModule",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "hasNamedHub", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "hubDefaultModules",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -206,6 +237,14 @@ export interface LiteAssetHubManagerInterface extends Interface {
   decodeFunctionResult(functionFragment: "deploy", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "globalModule",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "hasNamedHub",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "hubDefaultModules",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -428,6 +467,14 @@ export interface LiteAssetHubManager extends BaseContract {
 
   globalModule: TypedContractMethod<[], [string], "view">;
 
+  hasNamedHub: TypedContractMethod<[name: string], [boolean], "view">;
+
+  hubDefaultModules: TypedContractMethod<
+    [],
+    [LiteHubManagerBase.HubModulesStorageStructOutput],
+    "view"
+  >;
+
   implementation: TypedContractMethod<[index: BigNumberish], [string], "view">;
 
   initialize: TypedContractMethod<
@@ -505,6 +552,16 @@ export interface LiteAssetHubManager extends BaseContract {
   getFunction(
     nameOrSignature: "globalModule"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "hasNamedHub"
+  ): TypedContractMethod<[name: string], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "hubDefaultModules"
+  ): TypedContractMethod<
+    [],
+    [LiteHubManagerBase.HubModulesStorageStructOutput],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "implementation"
   ): TypedContractMethod<[index: BigNumberish], [string], "view">;

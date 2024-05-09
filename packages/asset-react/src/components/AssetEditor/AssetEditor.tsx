@@ -8,7 +8,7 @@ import { AssetEditorPanel } from "./AssetEnditorPanel";
 
 export type AssetEditorProps = Omit<AssetEditorProviderProps, "children"> & {
   className?: string;
-  onPublished?: (assetId: bigint) => void;
+  onPublished?: (hub: string, assetId: bigint) => void;
 };
 
 export function AssetEditor(props: AssetEditorProps) {
@@ -16,7 +16,7 @@ export function AssetEditor(props: AssetEditorProps) {
   return (
     <AssetEditorProvider {...resProps}>
       <div className={clsx("", className)}>
-        <AssetEditorPanel onPublished={onPublished}/>
+        <AssetEditorPanel onPublished={onPublished} />
         <AssetMetadataEditor />
       </div>
     </AssetEditorProvider>

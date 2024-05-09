@@ -1,14 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useAssetHub } from "@asset-protocol/react";
 import { useCallback } from "react";
-import { NavigateOptions, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function useGoHome() {
-  const { hubInfo } = useAssetHub();
   const navigate = useNavigate();
   return useCallback(() => {
-    navigate(`/${hubInfo?.name ?? "home"}`)
-  }, [hubInfo])
+    navigate(`/home`)
+  }, [])
 }
 
 export function useGoHub() {
@@ -19,18 +17,6 @@ export function useGoHub() {
   return { goHub }
 }
 
-export function useNavigateAssetHub() {
-  const { hubInfo } = useAssetHub();
-  const navigate = useNavigate();
-  return useCallback((to: string, opts?: NavigateOptions) => {
-    if (to.startsWith("/")) {
-      navigate(`/${hubInfo?.name}${to}`, opts)
-    } else {
-      navigate(`/${hubInfo?.name}/${to}`, opts)
-    }
-  }, [hubInfo])
-}
-
 export function useGoAsset() {
   const navigate = useNavigate();
   const goAssets = () => {
@@ -39,11 +25,14 @@ export function useGoAsset() {
   const goViewer = (hub: string, assetId: string) => {
     navigate(`/${hub}/asset/${assetId}`)
   }
-  const goCreate = (hub: string) => {
-    navigate(`/${hub}/asset/create`)
+  const goCreate = () => {
+    navigate(`/assets/create`)
+  }
+  const goEdit = (hub: string, assetId: string) => {
+    navigate(`/${hub}/asset/${assetId}/edit`)
   }
   return {
-    goViewer, goCreate, goAssets
+    goViewer, goCreate, goAssets, goEdit
   }
 }
 

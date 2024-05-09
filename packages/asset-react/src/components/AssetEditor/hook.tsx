@@ -15,19 +15,21 @@ import { HubTokenFeeConfigStructOutput } from "../../client/assethub/abi/TokenGl
 export type PublishFromDataType = {
   // storage: StorageScheme;
   useCollect: boolean;
+  hub?: string;
   collectModule?: AssetModule;
   gatedModule?: AssetModule;
 };
 
 export function usePublishFormValues() {
-  const { collectModule } = useAssetEditor();
+  const { collectModule, hub } = useAssetEditor();
   const initialValues: PublishFromDataType = useMemo(() => {
     return {
       useCollect:
         (collectModule && collectModule.module !== ZeroAddress) ?? false,
       collectModule,
+      hub,
     };
-  }, [collectModule]);
+  }, [collectModule, hub]);
   return initialValues;
 }
 
@@ -51,6 +53,9 @@ export function useAssetPublish() {
     setLoading(true);
     let assetId = asset?.assetId;
     try {
+      if (!values.hub) {
+        throw new Error("Please select a hub");
+      }
       const newData: UpdateAssetInput = {};
       let newConent = content;
       setTip("Saving content...");
@@ -101,13 +106,13 @@ export function useAssetPublish() {
         if (config) {
           await approve(config.token, config.updateFee);
         }
-        await update(asset.assetId, newData);
+        await update(values.hub, asset.assetId, newData);
       } else {
         setTip("Ceating asset...");
         if (config) {
           await approve(config.token, config.createFee);
         }
-        assetId = await create({
+        assetId = await create(values.hub, {
           ...newData,
           assetCreateModuleData: ZERO_BYTES,
         });

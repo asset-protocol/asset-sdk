@@ -16,6 +16,7 @@ export function NewAssetHub(signer: Signer, hub: string | Addressable) {
 }
 
 export function NewAssetHubManager(signer: Signer, manager: string | Addressable) {
+  console.log("manager address", manager);
   const ct = new Contract(manager, assethubManagerAbi, signer) as unknown;
   return ct as AssetHubManager;
 }

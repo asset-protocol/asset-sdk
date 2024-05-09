@@ -1,11 +1,11 @@
 import { AssetEditor, TYPE_RICH_TEXT } from "@asset-protocol/react";
-import { useNavigateAssetHub } from "../../utils/route";
+import { useGoAsset } from "../../utils/route";
 
 export function AssetCreatePage() {
-  const navigate = useNavigateAssetHub();
+  const { goViewer } = useGoAsset();
 
-  const handleSubmitted = (assetId: bigint) => {
-    navigate(`/asset/${assetId}`, { replace: true });
+  const handleSubmitted = (hub: string, assetId: bigint) => {
+    goViewer(hub, assetId.toString());
   };
   return (
     <div className="max-w-[1080px] mx-auto">

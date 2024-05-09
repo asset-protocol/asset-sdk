@@ -8,7 +8,6 @@ import {
   useGetAssetCollectors,
   useRefreshAssetMetadata,
 } from "../../client/indexer";
-import { useAssetHub } from "../../context";
 import { useMemo } from "react";
 import { useAssetViewer } from "./AssetViewerContext";
 import { AssetDescription } from "./AssetDescription";
@@ -23,14 +22,12 @@ export function AssetViewerHeader(props: {
   const showDescription = props.showDescription ?? true;
 
   const replaceUri = useReplaceUri();
-  const { hubInfo } = useAssetHub();
   const { data, refetch: collectorsRefetch } = useGetAssetCollectors(
-    hubInfo?.id ?? "",
+    asset.hub,
     asset.assetId.toString(),
     account
   );
-  const { refresh: refreshMetadata } =
-    useRefreshAssetMetadata();
+  const { refresh: refreshMetadata } = useRefreshAssetMetadata();
 
   const collectCount = useMemo(() => data.collectors.length, [data]);
   const isPublisher = account && account === asset?.publisher;
@@ -45,7 +42,7 @@ export function AssetViewerHeader(props: {
         onClick: async () => {
           const res = await refreshMetadata(
             asset?.assetId ?? BigInt(0),
-            hubInfo?.id ?? ""
+            asset.hub
           );
           message.success(
             res
@@ -71,9 +68,11 @@ export function AssetViewerHeader(props: {
         </div>
       )}
       <div
-        className={`${showCover ? "px-4 " : ""
-          }border-gray-300 border-solid border-0 border-b-[1px]${showCover ? " -translate-y-28" : ""
-          }`}
+        className={`${
+          showCover ? "px-4 " : ""
+        }border-gray-300 border-solid border-0 border-b-[1px]${
+          showCover ? " -translate-y-28" : ""
+        }`}
       >
         <h1 className="text-3xl font-bold">{asset.name}</h1>
         <div className="flex items-center flex-wrap  text-base pb-2">
@@ -81,7 +80,12 @@ export function AssetViewerHeader(props: {
             <Avatar size={22} icon={<UserOutlined />} />
             <AddressLink address={asset.publisher} />
             <div className="text-gray-500">
-              Updated at {fromNow(Number.parseInt((asset.lastUpdatedAt ?? asset.timestamp).toString()))}
+              Updated at{" "}
+              {fromNow(
+                Number.parseInt(
+                  (asset.lastUpdatedAt ?? asset.timestamp).toString()
+                )
+              )}
             </div>
             {/* AssetId:
                 <Button
@@ -123,7 +127,10 @@ export function AssetViewerHeader(props: {
         <div className={`${showCover ? "-mt-24" : ""}`}>
           {showDescription && (
             <div className="m-auto text-gray-500 my-4 text-base bg-gray-100 rounded-md py-6 px-6 mx-4">
-              <AssetDescription text={asset?.description} linkSelector={() => ""} />
+              <AssetDescription
+                text={asset?.description}
+                linkSelector={() => ""}
+              />
             </div>
           )}
         </div>

@@ -7,14 +7,14 @@ import { useAssetHub } from "../../context";
 import clsx from "clsx";
 
 export function AssetEditorPanel(props: {
-  onPublished?: (assetId: bigint) => void;
+  onPublished?: (hub: string, assetId: bigint) => void;
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
 
   const getAssetTypes = useAssetTypes();
   const assetTypeOptions = getAssetTypes();
-  const { type, setType, content, metadata, publishedAssetId } =
+  const { type, setType, content, metadata, publishedAssetId, hub } =
     useAssetEditor();
   const { account, requireLogin } = useAssetHub();
 
@@ -25,7 +25,7 @@ export function AssetEditorPanel(props: {
   useEffect(() => {
     if (publishedAssetId) {
       setOpen(false);
-      props.onPublished?.(publishedAssetId);
+      props.onPublished?.(hub!, publishedAssetId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publishedAssetId]);

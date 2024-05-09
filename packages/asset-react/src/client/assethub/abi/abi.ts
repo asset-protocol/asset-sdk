@@ -1714,6 +1714,65 @@ export const assethubManagerAbi = [
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      }
+    ],
+    "name": "hasNamedHub",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "hubDefaultModules",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "tokenCreateModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "collectNFT",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "feeCollectModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "tokenCollectModule",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "nftGatedModule",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct LiteHubManagerBase.HubModulesStorage",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "index",
         "type": "uint256"
@@ -1926,6 +1985,7 @@ export const assethubManagerAbi = [
     "type": "function"
   }
 ]
+
 
 export const IERC20Abi = [
   {

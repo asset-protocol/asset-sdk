@@ -4,22 +4,21 @@ import {
   AssetViewerProviderProps,
 } from "./AssetViewerContext";
 import { useGetAssetById } from "../../client/indexer";
-import { useAssetHub } from "../../context";
 
 export type AssetViewerProps = Omit<
   AssetViewerProviderProps,
   "asset" | "children"
 > & {
+  hub: string;
   assetId: bigint;
   className?: string;
   viewerAttributes?: Record<string, unknown>;
 };
 
 export function AssetViewer(props: AssetViewerProps) {
-  const { assetId, viewerAttributes, ...resProps } = props;
+  const { assetId, viewerAttributes, hub, ...resProps } = props;
   const getViewer = useViewer();
-  const { hubInfo } = useAssetHub();
-  const { asset, refetch } = useGetAssetById(assetId, hubInfo?.id ?? "");
+  const { asset, refetch } = useGetAssetById(assetId, hub);
 
   const ViewerSelector = asset && getViewer(asset).viewer;
   return (

@@ -105,7 +105,10 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
           <ApproveAssetButton
             disabeld={checkedList.length === 0}
             curationId={BigInt(curation.id)}
-            assets={checkedList}
+            assets={checkedList.map((a) => ({
+              assetId: a.assetId,
+              hub: a.hub,
+            }))}
           />
         </div>
       </div>
@@ -146,7 +149,7 @@ export function CurationApproveItem({ curation }: { curation: Curation }) {
             <div>
               <ApproveAssetButton
                 curationId={BigInt(curation.id)}
-                assets={[a.asset]}
+                assets={[{ assetId: a.asset.assetId, hub: a.asset.hub }]}
               />
             </div>
           </div>

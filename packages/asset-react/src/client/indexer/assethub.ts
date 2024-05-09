@@ -6,8 +6,8 @@ export type GqlAssetHubList<T> = {
 }
 
 const GET_Asset_HUBS = gql`
-query GetAssetHubs{
-  assetHubs(limit:9999, orderBy: timestamp_ASC){
+query GetAssetHubs($owner: String){
+  assetHubs(where: {admin_eq: $owner}, limit:9999, orderBy: timestamp_ASC){
     id
     admin
     name
@@ -20,9 +20,12 @@ query GetAssetHubs{
   }
 }`;
 
-export function useGetAssetHubs() {
-  const { data, ...res } = useQuery<GqlAssetHubList<AssetHubInfo>>(GET_Asset_HUBS, {});
-  return { ...res, data: data?.assetHubs };
+export function useGetAssetHubs(owner?: string, skipFunc?: (owner?: string) => boolean) {
+  const { data, ...res } = useQuery<GqlAssetHubList<AssetHubInfo>>(GET_Asset_HUBS, {
+    variables: { owner },
+    skip: skipFunc?.(owner)
+  });
+  return { ...res, data: (data?.assetHubs) ?? [] };
 }
 
 const GET_HUB_BY_NAME_OR_ID = gql`
