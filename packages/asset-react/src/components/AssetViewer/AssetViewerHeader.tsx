@@ -5,7 +5,7 @@ import {
   UpCircleFilled,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Dropdown, message } from "antd";
+import { Avatar, Dropdown, MenuProps, message } from "antd";
 import { AddressLink } from "../Address/AddressLink";
 import { fromNow } from "../../lib/date";
 import { CollectButton } from "../AssetCollect";
@@ -39,16 +39,8 @@ export function AssetViewerHeader(props: {
   const collectCount = useMemo(() => data.collectors.length, [data]);
   const isPublisher = account && account === asset?.publisher;
 
-  const menuProps = {
+  const menuProps: MenuProps = {
     items: [
-      {
-        label: "Edit",
-        icon: <EditFilled />,
-        className: "text-base",
-        key: "Edit",
-        onClick: () => onEdit?.(asset),
-        disabled: !isPublisher,
-      },
       {
         label: "Refresh Metadata",
         icon: <UpCircleFilled />,
@@ -69,6 +61,18 @@ export function AssetViewerHeader(props: {
       },
     ],
   };
+  if (isPublisher) {
+    menuProps.items?.unshift({
+      label: "Edit",
+      icon: <EditFilled />,
+      className: "text-base",
+      key: "Edit",
+      onClick: () => {
+        onEdit?.(asset);
+      },
+      disabled: !isPublisher,
+    });
+  }
 
   return (
     <div className={props.className}>
@@ -125,23 +129,21 @@ export function AssetViewerHeader(props: {
                 collectorsRefetch();
               }}
             />
-            {isPublisher && (
-              <div className="ml-2">
-                <Dropdown.Button
-                  menu={menuProps}
-                  onClick={() => setInfoModalOpen(true)}
-                >
-                  <InfoCircleOutlined />
-                </Dropdown.Button>
-                <AssetInfoModal
-                  asset={asset}
-                  open={infoModalOpen}
-                  maskClosable={false}
-                  onCancel={() => setInfoModalOpen(false)}
-                  onOk={() => setInfoModalOpen(false)}
-                />
-              </div>
-            )}
+            <div className="ml-2">
+              <Dropdown.Button
+                menu={menuProps}
+                onClick={() => setInfoModalOpen(true)}
+              >
+                <InfoCircleOutlined />
+              </Dropdown.Button>
+              <AssetInfoModal
+                asset={asset}
+                open={infoModalOpen}
+                maskClosable={false}
+                onCancel={() => setInfoModalOpen(false)}
+                onOk={() => setInfoModalOpen(false)}
+              />
+            </div>
           </div>
         </div>
       </div>
