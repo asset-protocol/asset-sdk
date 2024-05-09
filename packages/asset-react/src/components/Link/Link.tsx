@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { LinkHTMLAttributes } from "react";
 import useToken from "antd/es/theme/useToken";
+import { AnchorHTMLAttributes } from "react";
 
-export type LinkProps = LinkHTMLAttributes<HTMLAnchorElement> & {
+export type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   to?: string;
 };
 export function Link(props: LinkProps) {

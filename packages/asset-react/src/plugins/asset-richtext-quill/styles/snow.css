@@ -1,12 +1,11 @@
-.ql-toolbar {
+.ql-toolbar.ql-snow {
   border-width: 0px;
 }
-
-.ql-container {
+.ql-container.ql-snow {
   border-width: 0px;
   font-size: 18px;
 }
 
-.ql-editor {
+.ql-editor.ql-snow {
   padding: 12px 15px;
 }

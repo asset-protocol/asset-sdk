@@ -1,5 +1,10 @@
 import { useReplaceUri } from "../../lib/utils";
-import { UpCircleFilled, UserOutlined } from "@ant-design/icons";
+import {
+  EditFilled,
+  InfoCircleOutlined,
+  UpCircleFilled,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Avatar, Dropdown, message } from "antd";
 import { AddressLink } from "../Address/AddressLink";
 import { fromNow } from "../../lib/date";
@@ -8,9 +13,10 @@ import {
   useGetAssetCollectors,
   useRefreshAssetMetadata,
 } from "../../client/indexer";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAssetViewer } from "./AssetViewerContext";
 import { AssetDescription } from "./AssetDescription";
+import { AssetInfoModal } from "./AssetInfo";
 
 export function AssetViewerHeader(props: {
   showCover?: boolean;
@@ -28,12 +34,21 @@ export function AssetViewerHeader(props: {
     account
   );
   const { refresh: refreshMetadata } = useRefreshAssetMetadata();
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
 
   const collectCount = useMemo(() => data.collectors.length, [data]);
   const isPublisher = account && account === asset?.publisher;
 
   const menuProps = {
     items: [
+      {
+        label: "Edit",
+        icon: <EditFilled />,
+        className: "text-base",
+        key: "Edit",
+        onClick: () => onEdit?.(asset),
+        disabled: !isPublisher,
+      },
       {
         label: "Refresh Metadata",
         icon: <UpCircleFilled />,
@@ -114,10 +129,17 @@ export function AssetViewerHeader(props: {
               <div className="ml-2">
                 <Dropdown.Button
                   menu={menuProps}
-                  onClick={() => onEdit?.(asset)}
+                  onClick={() => setInfoModalOpen(true)}
                 >
-                  Edit
+                  <InfoCircleOutlined />
                 </Dropdown.Button>
+                <AssetInfoModal
+                  asset={asset}
+                  open={infoModalOpen}
+                  maskClosable={false}
+                  onCancel={() => setInfoModalOpen(false)}
+                  onOk={() => setInfoModalOpen(false)}
+                />
               </div>
             )}
           </div>
