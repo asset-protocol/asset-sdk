@@ -44,6 +44,8 @@ const AssetRichTextEditor = (props: RichTextEditorProps) => {
                 selectFile("image/*").then((file) => {
                   if (file) {
                     const blobURL = URL.createObjectURL(file);
+                    console.log("selelcted file", blobURL);
+                    console.log("editor", editor.current);
                     editor.current?.format(
                       "image",
                       blobURL,
