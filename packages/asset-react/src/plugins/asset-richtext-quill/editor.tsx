@@ -1,4 +1,3 @@
-import "material-symbols/outlined.css";
 import { AssetHubConfig } from "../../core/plugin";
 import { TYPE_RICH_TEXT } from "./consts";
 import { Suspense, lazy } from "react";

@@ -6,6 +6,11 @@
   font-size: 18px;
 }
 
-.ql-editor.ql-snow {
-  padding: 12px 15px;
+.ql-editor {
+  padding: 0px;
+}
+
+.ql-editor p {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
