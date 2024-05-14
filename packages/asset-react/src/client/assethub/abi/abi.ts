@@ -1637,6 +1637,30 @@ export const assethubManagerAbi = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "canCreateHub",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "creatorNFT",
     "outputs": [
@@ -1985,7 +2009,6 @@ export const assethubManagerAbi = [
     "type": "function"
   }
 ]
-
 
 export const IERC20Abi = [
   {

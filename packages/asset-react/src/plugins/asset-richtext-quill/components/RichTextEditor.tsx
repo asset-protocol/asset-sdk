@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import QuillEditor from "./QuillEditor";
 import { selectFile } from "../utils/file";
 import Quill from "quill";
@@ -12,9 +12,6 @@ export type RichTextEditorProps = {
 const AssetRichTextEditor = (props: RichTextEditorProps) => {
   const { content, setContent } = useAssetEditor();
   const editor = useRef<Quill>(null);
-  useEffect(() => {
-    console.log("eitor rerender");
-  }, []);
   return (
     <div className="border-[1px] border-solid border-gray-300">
       <AssetEditorHeader descriptonPlaceholder="Input Summary" />
@@ -45,8 +42,6 @@ const AssetRichTextEditor = (props: RichTextEditorProps) => {
                   selectFile("image/*").then((file) => {
                     if (file) {
                       const blobURL = URL.createObjectURL(file);
-                      console.log("selelcted file", blobURL);
-                      console.log("editor", editor.current);
                       editor.current?.format(
                         "image",
                         blobURL,

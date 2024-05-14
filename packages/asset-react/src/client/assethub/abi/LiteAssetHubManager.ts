@@ -110,6 +110,7 @@ export interface LiteAssetHubManagerInterface extends Interface {
       | "assetHubImpl"
       | "assetHubInfo"
       | "assetHubInfoByName"
+      | "canCreateHub"
       | "creatorNFT"
       | "curation"
       | "deploy"
@@ -157,6 +158,10 @@ export interface LiteAssetHubManagerInterface extends Interface {
   encodeFunctionData(
     functionFragment: "assetHubInfoByName",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "canCreateHub",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "creatorNFT",
@@ -230,6 +235,10 @@ export interface LiteAssetHubManagerInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "assetHubInfoByName",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "canCreateHub",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "creatorNFT", data: BytesLike): Result;
@@ -455,6 +464,12 @@ export interface LiteAssetHubManager extends BaseContract {
     "view"
   >;
 
+  canCreateHub: TypedContractMethod<
+    [account: AddressLike],
+    [[boolean, string]],
+    "view"
+  >;
+
   creatorNFT: TypedContractMethod<[], [string], "view">;
 
   curation: TypedContractMethod<[], [string], "view">;
@@ -540,6 +555,9 @@ export interface LiteAssetHubManager extends BaseContract {
   getFunction(
     nameOrSignature: "assetHubInfoByName"
   ): TypedContractMethod<[name: string], [LiteHubInfoStructOutput], "view">;
+  getFunction(
+    nameOrSignature: "canCreateHub"
+  ): TypedContractMethod<[account: AddressLike], [[boolean, string]], "view">;
   getFunction(
     nameOrSignature: "creatorNFT"
   ): TypedContractMethod<[], [string], "view">;

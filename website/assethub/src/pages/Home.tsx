@@ -1,4 +1,4 @@
-import { Button, Divider, Input, Select, message } from "antd";
+import { Button, Divider, Select } from "antd";
 // import assetHubAbi from "../abi/AssetHub.json";
 // import erc20Abi from "../abi/IERC20.json";
 // import { AssetHub, FeeAssetModule, TestToken, admin } from "../context/consts";
@@ -7,12 +7,10 @@ import {
   Asset,
   AssetHubInfo,
   AssetList,
-  useDeployNewAssetHub,
   useGetAssetHubs,
 } from "@asset-protocol/react";
 import { DefaultOptionType } from "antd/es/select";
 import { useNavigate, useParams } from "react-router-dom";
-import { ZeroAddress } from "ethers";
 import { useGoAsset } from "../utils/route";
 
 export function Home() {
@@ -21,7 +19,6 @@ export function Home() {
   const { hub } = useParams();
 
   const [hubOptions, setHubOptions] = useState<DefaultOptionType[]>([]);
-  const [hubName, setHubName] = useState<string>();
   const [hubInfo, setHubInfo] = useState<AssetHubInfo>();
   const { data, loading } = useGetAssetHubs();
 
@@ -67,24 +64,6 @@ export function Home() {
     goViewer(asset.hub, asset.assetId.toString());
   };
 
-  const { deploy, isLoading: deploying } = useDeployNewAssetHub();
-  const handleDeployHub = async () => {
-    try {
-      if (hubName) {
-        const address = await deploy({
-          admin: ZeroAddress,
-          name: hubName,
-          createModule: ZeroAddress,
-        });
-        message.success(`Deployed AssetHub: ${address}`);
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      message.error(e.message);
-    }
-  };
-
   if (loading) {
     return (
       <div className="pt-6">
@@ -107,17 +86,6 @@ export function Home() {
             }
           }}
         ></Select>
-      </div>
-      <div className="flex gap-2">
-        <Button loading={deploying} onClick={handleDeployHub}>
-          Deploy New AssetHub
-        </Button>
-        <Input
-          placeholder="Input New AssetHub Name"
-          className="w-[260px]"
-          value={hubName}
-          onChange={(t) => setHubName(t.target.value!)}
-        ></Input>
       </div>
       <Divider className="my-2 bg-gray-300" />
       {/* <div>TestToken: {TestToken}</div> */}
