@@ -1,10 +1,12 @@
 import { ImageBlobUpload } from "@asset-protocol/react";
-import { Form, FormInstance, Input } from "antd";
+import { DatePicker, Form, FormInstance, Input } from "antd";
+import dayjs, { Dayjs } from "dayjs";
 
 export type CurationFormData = {
   name: string;
   description: string;
   image: string;
+  expiry?: Dayjs;
 };
 
 export type CurationsCreateFormProps = {
@@ -31,6 +33,16 @@ export function CurationCreateForm(props: CurationsCreateFormProps) {
       </Form.Item>
       <Form.Item name="image" label="Image">
         <ImageBlobUpload />
+      </Form.Item>
+      <Form.Item
+        name="expire"
+        label="End Time"
+      >
+        <DatePicker
+          showTime
+          placeholder="Select End Time"
+          minDate={dayjs(new Date())}
+        />
       </Form.Item>
       {props.children}
     </Form>

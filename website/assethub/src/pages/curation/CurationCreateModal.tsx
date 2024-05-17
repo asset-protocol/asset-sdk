@@ -39,6 +39,7 @@ export function CurationCreateModal(props: CurationCreateModalProps) {
       const curationId = await create({
         contentURI,
         status: CurationStatus.Public,
+        expiry: values.expiry?.unix() ?? 0,
         assets: [],
       });
       console.log("curationId", curationId);

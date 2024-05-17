@@ -2891,7 +2891,7 @@ export const CurationAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "s",
+        "name": "account",
         "type": "address"
       }
     ],
@@ -3032,6 +3032,12 @@ export const CurationAbi = [
         "internalType": "enum AssetApproveStatus",
         "name": "status",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
       }
     ],
     "name": "AssetApproved",
@@ -3056,11 +3062,6 @@ export const CurationAbi = [
           {
             "internalType": "uint256",
             "name": "assetId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
             "type": "uint256"
           }
         ],
@@ -3108,7 +3109,7 @@ export const CurationAbi = [
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "curationId",
         "type": "uint256"
@@ -3126,6 +3127,12 @@ export const CurationAbi = [
         "type": "uint8"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      },
+      {
         "components": [
           {
             "internalType": "address",
@@ -3135,11 +3142,6 @@ export const CurationAbi = [
           {
             "internalType": "uint256",
             "name": "assetId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
             "type": "uint256"
           }
         ],
@@ -3172,6 +3174,12 @@ export const CurationAbi = [
         "internalType": "uint8",
         "name": "status",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
       }
     ],
     "name": "CurationUpdated",
@@ -3278,11 +3286,6 @@ export const CurationAbi = [
             "internalType": "uint256",
             "name": "assetId",
             "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
-            "type": "uint256"
           }
         ],
         "internalType": "struct CurationAsset[]",
@@ -3372,6 +3375,35 @@ export const CurationAbi = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "curationId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address[]",
+        "name": "hubs",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "assetIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "assetsStatus",
+    "outputs": [
+      {
+        "internalType": "enum AssetApproveStatus[]",
+        "name": "",
+        "type": "uint8[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -3401,6 +3433,11 @@ export const CurationAbi = [
         "type": "uint8"
       },
       {
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      },
+      {
         "components": [
           {
             "internalType": "address",
@@ -3410,11 +3447,6 @@ export const CurationAbi = [
           {
             "internalType": "uint256",
             "name": "assetId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
             "type": "uint256"
           }
         ],
@@ -3460,7 +3492,7 @@ export const CurationAbi = [
               },
               {
                 "internalType": "uint256",
-                "name": "order",
+                "name": "expiry",
                 "type": "uint256"
               },
               {
@@ -3482,6 +3514,11 @@ export const CurationAbi = [
             "internalType": "uint8",
             "name": "status",
             "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
           }
         ],
         "internalType": "struct CurationData",
@@ -3729,6 +3766,24 @@ export const CurationAbi = [
       }
     ],
     "name": "setCurationURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "curationId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint64",
+        "name": "expiry",
+        "type": "uint64"
+      }
+    ],
+    "name": "setExpiry",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

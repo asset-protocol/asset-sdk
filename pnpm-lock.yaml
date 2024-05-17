@@ -141,6 +141,9 @@ importers:
       antd:
         specifier: ^5.14.1
         version: 5.17.0(date-fns@2.30.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.11
       ethers:
         specifier: ^6.11.1
         version: 6.12.1(bufferutil@4.0.8)

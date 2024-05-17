@@ -3,6 +3,7 @@ import {
   AssetItem,
   Asset,
   useCurationAddAssets,
+  AssetApprovalStatus,
 } from "@asset-protocol/react";
 import { Badge, Button, List, message } from "antd";
 import { AssetSelectorModal } from "../asset/AssetSelector";
@@ -39,16 +40,16 @@ export function CurationDetail(props: CurationDetailProps) {
             <Badge.Ribbon
               rootClassName="w-full h-full"
               text={
-                item.status === "Pending"
+                item.status === AssetApprovalStatus.Pending
                   ? "Not Approved"
-                  : item.status === "Approved"
+                  : item.status === AssetApprovalStatus.Approved
                   ? "Approved"
                   : "Rejected"
               }
               color={
-                item.status === "Pending"
+                item.status === AssetApprovalStatus.Pending
                   ? "#9c9c9c"
-                  : item.status === "Approved"
+                  : item.status === AssetApprovalStatus.Approved
                   ? "green"
                   : "red"
               }
