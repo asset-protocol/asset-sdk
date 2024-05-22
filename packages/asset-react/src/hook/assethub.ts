@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { HubCreateDataStruct } from "../client/assethub/abi/LiteAssetHubManager";
 import { INGORED_ADDRESS, ZERO_BYTES } from "../core";
 import { PayableOverrides } from "../client/assethub/abi";
-import { HubTokenFeeConfigStructOutput } from "../client/assethub/abi/TokenGlobalModule";
+import { AssetTokenConfigStructOutput } from "../client/assethub/abi/TokenGlobalModule";
 
 export function useDeployNewAssetHub() {
   const { assetHubManager } = useAssetHub();
@@ -154,7 +154,7 @@ export function useCollectAsset() {
 export function useGetHubGlobalModuleConfig(hub?: string) {
   const { hubManagerInfo, signer } = useAssetHub();
   const [loading, setLoading] = useState(false);
-  const [config, setConfig] = useState<HubTokenFeeConfigStructOutput>();
+  const [config, setConfig] = useState<AssetTokenConfigStructOutput>();
 
   useEffect(() => {
     getConfig(hub).then((res) => {
@@ -173,7 +173,7 @@ export function useGetHubGlobalModuleConfig(hub?: string) {
     try {
       setLoading(true);
       const module = NewTokenGlobalModule(signer, hubManagerInfo.globalModule);
-      const res = await module.config(hub);
+      const res = await module.assetHubConfig(hub);
       console.log("config", res);
       return res;
     } finally {

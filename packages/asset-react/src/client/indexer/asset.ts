@@ -141,7 +141,7 @@ export function useGetAssetById(assetId: bigint, hub: string) {
     fetchPolicy: "no-cache",
     skip: !hub
   })
-  return { ...res, asset: data?.assetsConnection.edges?.[0].node }
+  return { ...res, asset: data?.assetsConnection.edges?.[0]?.node }
 }
 
 const REFRESH_ASSET_METADATA = gql`

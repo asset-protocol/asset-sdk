@@ -7,3 +7,6 @@ export function fromNow(date: string | number | Date | dayjs.Dayjs) {
   return dayjs(date).fromNow();
 }
 
+export function toNow(date: string | number | Date | dayjs.Dayjs) {
+  return dayjs(date).toNow();
+}

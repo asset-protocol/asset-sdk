@@ -23,43 +23,45 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export type CurationAssetStruct = {
-  hub: AddressLike;
-  assetId: BigNumberish;
-  order: BigNumberish;
-};
+export type CurationAssetStruct = { hub: AddressLike; assetId: BigNumberish };
 
-export type CurationAssetStructOutput = [
-  hub: string,
-  assetId: bigint,
-  order: bigint
-] & { hub: string; assetId: bigint; order: bigint };
+export type CurationAssetStructOutput = [hub: string, assetId: bigint] & {
+  hub: string;
+  assetId: bigint;
+};
 
 export type AssetInfoStruct = {
   hub: AddressLike;
   assetId: BigNumberish;
-  order: BigNumberish;
+  expiry: BigNumberish;
   status: BigNumberish;
 };
 
 export type AssetInfoStructOutput = [
   hub: string,
   assetId: bigint,
-  order: bigint,
+  expiry: bigint,
   status: bigint
-] & { hub: string; assetId: bigint; order: bigint; status: bigint };
+] & { hub: string; assetId: bigint; expiry: bigint; status: bigint };
 
 export type CurationDataStruct = {
   assets: AssetInfoStruct[];
   tokenURI: string;
   status: BigNumberish;
+  expiry: BigNumberish;
 };
 
 export type CurationDataStructOutput = [
   assets: AssetInfoStructOutput[],
   tokenURI: string,
-  status: bigint
-] & { assets: AssetInfoStructOutput[]; tokenURI: string; status: bigint };
+  status: bigint,
+  expiry: bigint
+] & {
+  assets: AssetInfoStructOutput[];
+  tokenURI: string;
+  status: bigint;
+  expiry: bigint;
+};
 
 export interface CurationInterface extends Interface {
   getFunction(
@@ -69,6 +71,7 @@ export interface CurationInterface extends Interface {
       | "approve"
       | "approveAsset"
       | "approveAssetBatch"
+      | "assetsStatus"
       | "balanceOf"
       | "create"
       | "curationData"
@@ -85,6 +88,7 @@ export interface CurationInterface extends Interface {
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
       | "setCurationURI"
+      | "setExpiry"
       | "setStatus"
       | "supportsInterface"
       | "symbol"
@@ -131,12 +135,16 @@ export interface CurationInterface extends Interface {
     values: [BigNumberish, AddressLike[], BigNumberish[], BigNumberish[]]
   ): string;
   encodeFunctionData(
+    functionFragment: "assetsStatus",
+    values: [BigNumberish, AddressLike[], BigNumberish[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "balanceOf",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "create",
-    values: [string, BigNumberish, CurationAssetStruct[]]
+    values: [string, BigNumberish, BigNumberish, CurationAssetStruct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "curationData",
@@ -189,6 +197,10 @@ export interface CurationInterface extends Interface {
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setExpiry",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setStatus",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -227,6 +239,10 @@ export interface CurationInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "approveAssetBatch",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "assetsStatus",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -275,6 +291,7 @@ export interface CurationInterface extends Interface {
     functionFragment: "setCurationURI",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setExpiry", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setStatus", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
@@ -342,19 +359,22 @@ export namespace AssetApprovedEvent {
     curationId: BigNumberish,
     hub: AddressLike,
     assetId: BigNumberish,
-    status: BigNumberish
+    status: BigNumberish,
+    expiry: BigNumberish
   ];
   export type OutputTuple = [
     curationId: bigint,
     hub: string,
     assetId: bigint,
-    status: bigint
+    status: bigint,
+    expiry: bigint
   ];
   export interface OutputObject {
     curationId: bigint;
     hub: string;
     assetId: bigint;
     status: bigint;
+    expiry: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -409,6 +429,7 @@ export namespace CurationCreatedEvent {
     curationId: BigNumberish,
     curationURI: string,
     status: BigNumberish,
+    expiry: BigNumberish,
     assets: CurationAssetStruct[]
   ];
   export type OutputTuple = [
@@ -416,6 +437,7 @@ export namespace CurationCreatedEvent {
     curationId: bigint,
     curationURI: string,
     status: bigint,
+    expiry: bigint,
     assets: CurationAssetStructOutput[]
   ];
   export interface OutputObject {
@@ -423,6 +445,7 @@ export namespace CurationCreatedEvent {
     curationId: bigint;
     curationURI: string;
     status: bigint;
+    expiry: bigint;
     assets: CurationAssetStructOutput[];
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -435,17 +458,20 @@ export namespace CurationUpdatedEvent {
   export type InputTuple = [
     curationId: BigNumberish,
     curationURI: string,
-    status: BigNumberish
+    status: BigNumberish,
+    expiry: BigNumberish
   ];
   export type OutputTuple = [
     curationId: bigint,
     curationURI: string,
-    status: bigint
+    status: bigint,
+    expiry: bigint
   ];
   export interface OutputObject {
     curationId: bigint;
     curationURI: string;
     status: bigint;
+    expiry: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -587,10 +613,21 @@ export interface Curation extends BaseContract {
     "nonpayable"
   >;
 
+  assetsStatus: TypedContractMethod<
+    [curationId: BigNumberish, hubs: AddressLike[], assetIds: BigNumberish[]],
+    [bigint[]],
+    "view"
+  >;
+
   balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
 
   create: TypedContractMethod<
-    [curationURI: string, status: BigNumberish, assets: CurationAssetStruct[]],
+    [
+      curationURI: string,
+      status: BigNumberish,
+      expiry: BigNumberish,
+      assets: CurationAssetStruct[]
+    ],
     [bigint],
     "payable"
   >;
@@ -656,6 +693,12 @@ export interface Curation extends BaseContract {
 
   setCurationURI: TypedContractMethod<
     [curationId: BigNumberish, curationURI: string],
+    [void],
+    "nonpayable"
+  >;
+
+  setExpiry: TypedContractMethod<
+    [curationId: BigNumberish, expiry: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -742,12 +785,24 @@ export interface Curation extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "assetsStatus"
+  ): TypedContractMethod<
+    [curationId: BigNumberish, hubs: AddressLike[], assetIds: BigNumberish[]],
+    [bigint[]],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "balanceOf"
   ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "create"
   ): TypedContractMethod<
-    [curationURI: string, status: BigNumberish, assets: CurationAssetStruct[]],
+    [
+      curationURI: string,
+      status: BigNumberish,
+      expiry: BigNumberish,
+      assets: CurationAssetStruct[]
+    ],
     [bigint],
     "payable"
   >;
@@ -827,6 +882,13 @@ export interface Curation extends BaseContract {
     nameOrSignature: "setCurationURI"
   ): TypedContractMethod<
     [curationId: BigNumberish, curationURI: string],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "setExpiry"
+  ): TypedContractMethod<
+    [curationId: BigNumberish, expiry: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -968,7 +1030,7 @@ export interface Curation extends BaseContract {
       ApprovalForAllEvent.OutputObject
     >;
 
-    "AssetApproved(uint256,address,uint256,uint8)": TypedContractEvent<
+    "AssetApproved(uint256,address,uint256,uint8,uint256)": TypedContractEvent<
       AssetApprovedEvent.InputTuple,
       AssetApprovedEvent.OutputTuple,
       AssetApprovedEvent.OutputObject
@@ -1001,7 +1063,7 @@ export interface Curation extends BaseContract {
       AssetsRemovedEvent.OutputObject
     >;
 
-    "CurationCreated(address,uint256,string,uint8,tuple[])": TypedContractEvent<
+    "CurationCreated(address,uint256,string,uint8,uint256,tuple[])": TypedContractEvent<
       CurationCreatedEvent.InputTuple,
       CurationCreatedEvent.OutputTuple,
       CurationCreatedEvent.OutputObject
@@ -1012,7 +1074,7 @@ export interface Curation extends BaseContract {
       CurationCreatedEvent.OutputObject
     >;
 
-    "CurationUpdated(uint256,string,uint8)": TypedContractEvent<
+    "CurationUpdated(uint256,string,uint8,uint256)": TypedContractEvent<
       CurationUpdatedEvent.InputTuple,
       CurationUpdatedEvent.OutputTuple,
       CurationUpdatedEvent.OutputObject

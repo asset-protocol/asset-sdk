@@ -149,10 +149,10 @@ export function AssetViewerHeader(props: {
       </div>
       <div>
         <div className={`${showCover ? "-mt-24" : ""}`}>
-          {showDescription && (
+          {showDescription && asset.description && (
             <div className="m-auto text-gray-500 my-4 text-base bg-gray-100 rounded-md py-6 px-6 mx-4">
               <AssetDescription
-                text={asset?.description}
+                text={asset.description}
                 linkSelector={() => ""}
               />
             </div>

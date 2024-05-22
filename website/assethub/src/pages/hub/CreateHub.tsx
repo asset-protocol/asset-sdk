@@ -1,7 +1,16 @@
-import { useDeployNewAssetHub, useHasNamedHub } from "@asset-protocol/react";
+import {
+  CheckCircleTwoTone,
+  ExclamationCircleTwoTone,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import {
+  useAssetHub,
+  useDeployNewAssetHub,
+  useHasNamedHub,
+} from "@asset-protocol/react";
 import { Form, FormInstance, Input, Modal, ModalProps, message } from "antd";
 import { ZeroAddress } from "ethers";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type HubCreateFormData = {
   name: string;
@@ -36,7 +45,7 @@ export function CreateHubForm(props: CreateHubFormProps) {
           },
         ]}
       >
-        <Input />
+        <Input placeholder="Please enter the name of the HUB" />
       </Form.Item>
       {props.children}
     </Form>
@@ -49,8 +58,13 @@ export type CreateHubModalProps = Omit<ModalProps, "onOk"> & {
 
 export function CreateHubModal(props: CreateHubModalProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [hasCreatorNFT, setHasCreatorNFT] = useState(false);
+  const [checkingNFT, setCheckingNFT] = useState(false);
+
   const formRef = useRef<FormInstance<HubCreateFormData>>(null);
   const { deploy } = useDeployNewAssetHub();
+  const { assetHubManager, account } = useAssetHub();
+
   const hanldeCreate = async (hub: HubCreateFormData) => {
     setIsLoading(true);
     try {
@@ -67,6 +81,28 @@ export function CreateHubModal(props: CreateHubModalProps) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (assetHubManager && account) {
+      setCheckingNFT(true);
+      assetHubManager
+        .canCreateHub(account.address)
+        .then((res) => {
+          setHasCreatorNFT(res[0]);
+          console.log("canCreateHub", res);
+        })
+        .catch((error) => {
+          console.error(error);
+          message.error("Failed to check if can create hub");
+        })
+        .finally(() => {
+          setCheckingNFT(false);
+        });
+    } else {
+      setHasCreatorNFT(false);
+    }
+  }, [assetHubManager, account]);
+
   return (
     <Modal
       {...props}
@@ -74,12 +110,27 @@ export function CreateHubModal(props: CreateHubModalProps) {
       centered
       maskClosable={false}
       onOk={() => formRef.current?.submit()}
+      okButtonProps={{
+        loading: isLoading,
+        disabled: !hasCreatorNFT,
+      }}
       confirmLoading={isLoading}
       title="Create Hub"
       transitionName=""
       maskTransitionName=""
     >
-      <CreateHubForm formRef={formRef} onSubmit={hanldeCreate}></CreateHubForm>
+      <CreateHubForm formRef={formRef} onSubmit={hanldeCreate}>
+        <div className="ml-2">
+          {checkingNFT ? (
+            <LoadingOutlined />
+          ) : hasCreatorNFT ? (
+            <CheckCircleTwoTone className="mr-2" twoToneColor="#52c41a" />
+          ) : (
+            <ExclamationCircleTwoTone className="mr-2" twoToneColor="red" />
+          )}
+          Require to be an owner of a Creator NFT
+        </div>
+      </CreateHubForm>
     </Modal>
   );
 }

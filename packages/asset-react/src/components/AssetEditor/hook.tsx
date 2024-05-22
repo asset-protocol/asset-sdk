@@ -10,7 +10,7 @@ import {
 import { AssetModule, ZERO_BYTES } from "../../core";
 import { useMemo, useState } from "react";
 import { ZeroAddress } from "ethers";
-import { HubTokenFeeConfigStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
+import { AssetTokenConfigStructOutput } from "../../client/assethub/abi/TokenGlobalModule";
 
 export type PublishFromDataType = {
   // storage: StorageScheme;
@@ -48,7 +48,7 @@ export function useAssetPublish() {
 
   const publish = async (
     values: PublishFromDataType,
-    config?: HubTokenFeeConfigStructOutput
+    config?: AssetTokenConfigStructOutput
   ) => {
     setLoading(true);
     let assetId = asset?.assetId;

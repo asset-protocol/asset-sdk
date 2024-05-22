@@ -50,15 +50,12 @@ export function AssetItem(props: {
       )}
       <div className="py-4 px-2 flex-1 flex flex-col gap-2">
         <div className="text-lg font-bold">
-          <div className="flex">
-            <div
-              className="flex-1 cursor-pointer line-clamp-1 hover:underline"
-              title={value.name}
-              onClick={viewAsset}
-            >
-              {value.name ?? "---"}
-            </div>
-            <div>#{value.assetId?.toString()}</div>
+          <div
+            className="flex-1 cursor-pointer line-clamp-1 hover:underline"
+            title={value.name}
+            onClick={viewAsset}
+          >
+            {value.name ?? "---"}
           </div>
         </div>
         <div className="line-clamp-1">{value.description}</div>
@@ -95,6 +92,8 @@ export function AssetItem(props: {
             </Avatar>
             <span className="text-gray-500 flex-1 line-clamp-1">
               {value.hubName}
+              <span className="font-bold">#</span>
+              {value.assetId.toString()}
             </span>
             <div className="text-gray-500 ">
               {fromNow(Number.parseInt(value.timestamp.toString()))}

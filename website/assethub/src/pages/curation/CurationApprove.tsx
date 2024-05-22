@@ -1,7 +1,7 @@
 import {
   AddressLink,
   Asset,
-  AssetApprovalStatusType,
+  AssetApprovalStatus,
   Curation,
   replaceUri,
   useCurationApproveAssets,
@@ -19,7 +19,10 @@ import {
 import { useState } from "react";
 
 export function CurationApprove({ account }: { account: string }) {
-  const { data, loading } = useGetCurationAssets(account, "Pending");
+  const { data, loading } = useGetCurationAssets(
+    account,
+    AssetApprovalStatus.Pending
+  );
 
   return (
     <div>
@@ -47,7 +50,7 @@ export function ApproveAssetButton({
   disabeld?: boolean;
 }) {
   const { approveAssets, loading } = useCurationApproveAssets();
-  const handleApprove = async (status: AssetApprovalStatusType) => {
+  const handleApprove = async (status: AssetApprovalStatus) => {
     const assetsInput = assets.map((a) => ({ ...a, status }));
     await approveAssets(curationId, assetsInput);
   };
@@ -57,7 +60,7 @@ export function ApproveAssetButton({
         label: "Reject Asset",
         key: "reject",
         danger: true,
-        onClick: () => handleApprove(AssetApprovalStatusType.Rejected),
+        onClick: () => handleApprove(AssetApprovalStatus.Rejected),
       },
     ],
   };
@@ -66,7 +69,7 @@ export function ApproveAssetButton({
       disabled={disabeld}
       loading={loading}
       menu={menuProps}
-      onClick={() => handleApprove(AssetApprovalStatusType.Approved)}
+      onClick={() => handleApprove(AssetApprovalStatus.Approved)}
     >
       Approve
     </Dropdown.Button>
