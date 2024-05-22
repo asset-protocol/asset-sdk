@@ -114,13 +114,10 @@ export function CurationItem({ curation }: { curation: Curation }) {
         </div>
         <div className="line-clamp-1">{curation.description}</div>
       </div>
-      {curation.expiry > 0 && (
-        <div className="px-2">End at: {curation.expiry}</div>
-      )}
       <div className="flex items-center justify-between mb-2 px-2">
-        <div className="text-gray-500">
-          {fromNow(Number.parseInt(curation.timestamp?.toString()))}
-        </div>
+        {curation.expiry > 0 && <div className="text-gray-500">
+          End at:  {new Date(curation.expiry * 1000).toLocaleString()}
+        </div>}
       </div>
     </div>
   );

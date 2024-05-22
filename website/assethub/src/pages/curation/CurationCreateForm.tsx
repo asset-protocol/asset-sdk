@@ -35,7 +35,7 @@ export function CurationCreateForm(props: CurationsCreateFormProps) {
         <ImageBlobUpload />
       </Form.Item>
       <Form.Item
-        name="expire"
+        name="expiry"
         label="End Time"
       >
         <DatePicker

@@ -4,6 +4,7 @@ import {
   Asset,
   useCurationAddAssets,
   AssetApprovalStatus,
+  useGetCurationAssetsStatus,
 } from "@asset-protocol/react";
 import { Badge, Button, List, message } from "antd";
 import { AssetSelectorModal } from "../asset/AssetSelector";
@@ -15,6 +16,10 @@ export type CurationDetailProps = {
 };
 export function CurationDetail(props: CurationDetailProps) {
   const { goViewer } = useGoAsset();
+  const { data } = useGetCurationAssetsStatus(props.curation.id, props.curation.assets.map(a => ({
+    hub: a.asset.hub,
+    assetId: a.asset.assetId.toString()
+  })))
 
   return (
     <div>
@@ -32,38 +37,46 @@ export function CurationDetail(props: CurationDetailProps) {
         grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
         itemLayout="horizontal"
         rowKey={(item) => item.asset.assetId}
-        renderItem={(item) => (
-          <List.Item
-            colStyle={{ display: "flex", height: "100%" }}
-            className="w-full"
-          >
-            <Badge.Ribbon
-              rootClassName="w-full h-full"
-              text={
-                item.status === AssetApprovalStatus.Pending
-                  ? "Not Approved"
-                  : item.status === AssetApprovalStatus.Approved
-                  ? "Approved"
-                  : "Rejected"
-              }
-              color={
-                item.status === AssetApprovalStatus.Pending
-                  ? "#9c9c9c"
-                  : item.status === AssetApprovalStatus.Approved
-                  ? "green"
-                  : "red"
-              }
+        renderItem={(item, index) => {
+          const assetStatus = data?.[index] ?? item.status;
+          return (
+            <List.Item
+              colStyle={{ display: "flex", height: "100%" }}
+              className="w-full"
             >
-              <AssetItem
-                value={item.asset}
-                key={item.asset.id}
-                onClick={(a) => goViewer(a.hub, a.assetId.toString())}
-              />
-            </Badge.Ribbon>
-          </List.Item>
-        )}
-      ></List>
-    </div>
+              <Badge.Ribbon
+                rootClassName="w-full h-full"
+                text={
+                  assetStatus === AssetApprovalStatus.Pending
+                    ? "Not Approved"
+                    : assetStatus === AssetApprovalStatus.Approved
+                      ? "Approved"
+                      : assetStatus === AssetApprovalStatus.Expired
+                        ? "Expired"
+                        : "Rejected"
+                }
+                color={
+                  assetStatus === AssetApprovalStatus.Pending
+                    ? "#9c9c9c"
+                    : assetStatus === AssetApprovalStatus.Approved
+                      ? "green"
+                      : assetStatus === AssetApprovalStatus.Expired
+                        ? "yellow"
+                        : "red"
+                }
+              >
+                <AssetItem
+                  value={item.asset}
+                  key={item.asset.id}
+                  onClick={(a) => goViewer(a.hub, a.assetId.toString())}
+                />
+              </Badge.Ribbon>
+            </List.Item>
+          )
+        }
+        }
+      ></List >
+    </div >
   );
 }
 

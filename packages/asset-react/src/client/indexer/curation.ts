@@ -137,7 +137,7 @@ export function useGetCurationById(id: string) {
 }
 
 const GET_CURATION_ASSETS = gql`
-  query GetCurationAssets($publisher: String, $status: AssetApproveStatus) {
+  query GetCurationAssets($publisher: String, $status: Int) {
     curations(
       where: {
         assets_some: { asset: { publisher_eq: $publisher }, status_eq: $status }
@@ -206,9 +206,9 @@ export function useGetCurationTagNames(keyword?: string, limit?: number) {
 
 const GET_ASSET_STATUS = gql`
   query GetCurationAssetsStatus(
-    $curationId: String
-    $assets: [String!]
-    $hubs: [String!]
+    $curationId: String!
+    $assets: [String!]!
+    $hubs: [String!]!
   ) {
     curationAssetStatus(hubs: $hubs, assets: $assets, curationId: $curationId)
   }
