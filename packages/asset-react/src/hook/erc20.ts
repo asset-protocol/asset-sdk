@@ -1,6 +1,6 @@
 import { NewERC20 } from "../client/assethub";
 import { useAssetHub } from "../context";
-import { ZeroAddress } from "ethers";
+import { ZeroAddress, parseEther } from "ethers";
 import { useCallback } from "react";
 
 export function useERC20BalanceOf(contract: string) {
@@ -17,23 +17,23 @@ export function useERC20BalanceOf(contract: string) {
 }
 
 export function useHubERC20Approve() {
-  const { signer, account, hubManagerInfo } = useAssetHub();
+  const { contractRunner, hubManagerInfo } = useAssetHub();
   const approve = useCallback(async (contract: string, amount: bigint) => {
     console.log("erc20", contract);
-    if (signer.provider && account && amount > 0n && hubManagerInfo) {
-      const token = NewERC20(signer, contract);
+    if (contractRunner?.provider && amount > 0n && hubManagerInfo) {
+      const token = NewERC20(contractRunner, contract);
       const allowance = await token.allowance(
-        signer.getAddress(),
+        await contractRunner.getAddress(),
         hubManagerInfo.globalModule
       );
       if (allowance < amount) {
-        const tx = await token.approve(hubManagerInfo.globalModule, amount);
+        const tx = await token.approve(hubManagerInfo.globalModule, parseEther("999999999"));
         await tx.wait();
       }
       return true;
     }
     return false;
-  }, [signer])
+  }, [contractRunner])
 
   return { approve };
 

@@ -21,7 +21,7 @@ export function AssetList(props: AssetListProps) {
       loading={loading}
       dataSource={data?.assets}
       itemLayout="horizontal"
-      rowKey={(item) => item.assetId}
+      rowKey={(item) => item.id}
       renderItem={(item) => (
         <List.Item
           colStyle={{ display: "flex", height: "100%" }}
@@ -29,7 +29,6 @@ export function AssetList(props: AssetListProps) {
         >
           <AssetItem
             value={item}
-            key={item.assetId}
             onClick={(a) => props.onAssetClick?.(a)}
           />
         </List.Item>

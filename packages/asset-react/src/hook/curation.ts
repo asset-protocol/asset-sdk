@@ -15,22 +15,25 @@ export type CreateCurationInput = {
 };
 
 export function useCreateCuration() {
-  const { hubManagerInfo, signer } = useAssetHub();
+  const { hubManagerInfo, contractRunner } = useAssetHub();
   const [loading, setLoading] = useState(false);
 
   const create = useCallback(
     async (args: CreateCurationInput) => {
       setLoading(true);
       try {
-        if (hubManagerInfo && signer) {
-          const curation = NewCuration(signer, hubManagerInfo.curation);
+        if (hubManagerInfo && contractRunner) {
+          const curation = NewCuration(contractRunner, hubManagerInfo.curation);
           console.log("creage args", args);
-          const curationId = await curation.create.staticCall(
-            args.contentURI,
-            args.status,
-            args.expiry,
-            args.assets
-          );
+          let curationId: bigint | undefined;
+          if (!contractRunner.isMulti) {
+            curationId = await curation.create.staticCall(
+              args.contentURI,
+              args.status,
+              args.expiry,
+              args.assets
+            );
+          }
           const tx = await curation.create(
             args.contentURI,
             args.status,
@@ -44,7 +47,7 @@ export function useCreateCuration() {
         setLoading(false);
       }
     },
-    [hubManagerInfo, signer]
+    [hubManagerInfo, contractRunner]
   );
   return { create, loading };
 }

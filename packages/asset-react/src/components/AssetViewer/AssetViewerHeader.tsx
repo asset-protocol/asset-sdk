@@ -13,10 +13,11 @@ import {
   useGetAssetCollectors,
   useRefreshAssetMetadata,
 } from "../../client/indexer";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAssetViewer } from "./AssetViewerContext";
 import { AssetDescription } from "./AssetDescription";
 import { AssetInfoModal } from "./AssetInfo";
+import { useAssetHub } from "../../context";
 
 export function AssetViewerHeader(props: {
   showCover?: boolean;
@@ -24,8 +25,10 @@ export function AssetViewerHeader(props: {
   className?: string;
 }) {
   const { asset, account, requestLogin, onEdit } = useAssetViewer();
+  const { contractRunner } = useAssetHub();
   const showCover = props.showCover ?? true;
   const showDescription = props.showDescription ?? true;
+  const [isPublisher, setIsPublisher] = useState(account && account === asset?.publisher);
 
   const replaceUri = useReplaceUri();
   const { data, refetch: collectorsRefetch } = useGetAssetCollectors(
@@ -37,42 +40,51 @@ export function AssetViewerHeader(props: {
   const [infoModalOpen, setInfoModalOpen] = useState(false);
 
   const collectCount = useMemo(() => data.collectors.length, [data]);
-  const isPublisher = account && account === asset?.publisher;
-
-  const menuProps: MenuProps = {
-    items: [
-      {
-        label: "Refresh Metadata",
-        icon: <UpCircleFilled />,
+  const menuProps: MenuProps = useMemo(() => {
+    const data: MenuProps = {
+      items: [
+        {
+          label: "Refresh Metadata",
+          icon: <UpCircleFilled />,
+          className: "text-base",
+          key: "Refresh",
+          onClick: async () => {
+            const res = await refreshMetadata(
+              asset?.assetId ?? BigInt(0),
+              asset.hub
+            );
+            message.success(
+              res
+                ? "refresh asset metadata success"
+                : "refresh asset metadata failed"
+            );
+          },
+          disabled: !isPublisher,
+        },
+      ],
+    };
+    if (isPublisher) {
+      data.items?.unshift({
+        label: "Edit",
+        icon: <EditFilled />,
         className: "text-base",
-        key: "Refresh",
-        onClick: async () => {
-          const res = await refreshMetadata(
-            asset?.assetId ?? BigInt(0),
-            asset.hub
-          );
-          message.success(
-            res
-              ? "refresh asset metadata success"
-              : "refresh asset metadata failed"
-          );
+        key: "Edit",
+        onClick: () => {
+          onEdit?.(asset);
         },
         disabled: !isPublisher,
-      },
-    ],
-  };
-  if (isPublisher) {
-    menuProps.items?.unshift({
-      label: "Edit",
-      icon: <EditFilled />,
-      className: "text-base",
-      key: "Edit",
-      onClick: () => {
-        onEdit?.(asset);
-      },
-      disabled: !isPublisher,
-    });
-  }
+      });
+    }
+    return data;
+  }, [isPublisher])
+
+  useEffect(() => {
+    if (!isPublisher) {
+      contractRunner?.getAddress().then(v => {
+        setIsPublisher(v === asset.publisher);
+      })
+    }
+  }, [contractRunner, asset])
 
   return (
     <div className={props.className}>
@@ -87,11 +99,9 @@ export function AssetViewerHeader(props: {
         </div>
       )}
       <div
-        className={`${
-          showCover ? "px-4 " : ""
-        }border-gray-300 border-solid border-0 border-b-[1px]${
-          showCover ? " -translate-y-28" : ""
-        }`}
+        className={`${showCover ? "px-4 " : ""
+          }border-gray-300 border-solid border-0 border-b-[1px]${showCover ? " -translate-y-28" : ""
+          }`}
       >
         <h1 className="text-3xl font-bold">{asset.name}</h1>
         <div className="flex items-center flex-wrap  text-base pb-2">
