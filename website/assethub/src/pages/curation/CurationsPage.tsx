@@ -3,7 +3,6 @@ import { CurationCreateModal } from "./CurationCreateModal";
 import { useSearchParams } from "react-router-dom";
 import {
   Curation,
-  fromNow,
   replaceUri,
   useGetCurations,
 } from "@asset-protocol/react";
