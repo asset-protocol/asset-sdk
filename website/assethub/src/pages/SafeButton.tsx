@@ -2,10 +2,11 @@ import { useAssetHub } from '@asset-protocol/react'
 import SafeApiKit from '@safe-global/api-kit'
 import { Select } from 'antd'
 import { baseSepolia } from 'wagmi/chains'
-import Safe, { EthersAdapter } from '@safe-global/protocol-kit'
+import Safe from '@safe-global/protocol-kit'
 import { useEffect, useState } from 'react';
 import { DefaultOptionType } from 'antd/es/select';
 import { ContractRunner, Signer, ethers } from 'ethers';
+import { Config, useConnectorClient } from 'wagmi'
 
 export class SafeSigner implements Required<ContractRunner> {
   isMulti: boolean = true;
@@ -60,21 +61,17 @@ export class SafeSigner implements Required<ContractRunner> {
 
 export function SafeButton() {
   const { signer, setContractRunner, account } = useAssetHub();
-
   const [safes, setSafes] = useState<DefaultOptionType[]>();
+  const { data: client } = useConnectorClient<Config>()
 
   const handleChange = async (v: string) => {
-    if (v == "") {
+    if (v == "" || !client || !signer.provider) {
       setContractRunner(undefined);
       return;
     }
-    const ethAdapter = new EthersAdapter({
-      ethers,
-      signerOrProvider: signer
-    })
     // Create Safe instance
-    const protocolKit = await Safe.create({
-      ethAdapter,
+    const protocolKit = await Safe.init({
+      provider: client?.transport,
       safeAddress: v
     })
     const rn = new SafeSigner(protocolKit, signer)
