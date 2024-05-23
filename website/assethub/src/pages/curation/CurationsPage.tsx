@@ -3,7 +3,6 @@ import { CurationCreateModal } from "./CurationCreateModal";
 import { useSearchParams } from "react-router-dom";
 import {
   Curation,
-  fromNow,
   replaceUri,
   useGetCurations,
 } from "@asset-protocol/react";
@@ -115,9 +114,9 @@ export function CurationItem({ curation }: { curation: Curation }) {
         <div className="line-clamp-1">{curation.description}</div>
       </div>
       <div className="flex items-center justify-between mb-2 px-2">
-        <div className="text-gray-500">
-          {fromNow(Number.parseInt(curation.timestamp?.toString()))}
-        </div>
+        {curation.expiry > 0 && <div className="text-gray-500">
+          End at:  {new Date(curation.expiry * 1000).toLocaleString()}
+        </div>}
       </div>
     </div>
   );

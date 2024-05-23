@@ -15,12 +15,18 @@ import { useGetAssetHubs } from "../../client/indexer";
 
 export function AssetPublishForm() {
   const { account } = useAssetHub();
-  const { metadata, setPublished, asset } = useAssetEditor();
+  const { metadata, setPublished, asset, hub, setHub } = useAssetEditor();
 
   const initialValues = usePublishFormValues();
-  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig();
+  const { config: globalTokenConfig } = useGetHubGlobalModuleConfig(hub);
   const { publish, loading, tip } = useAssetPublish();
   const { data } = useGetAssetHubs();
+
+  const onValuesChanged = (changeValues: PublishFromDataType) => {
+    if (changeValues.hub && changeValues.hub !== hub) {
+      setHub(changeValues.hub);
+    }
+  }
 
   const handleSubmit = (values: PublishFromDataType) => {
     console.log("values", values);
@@ -47,6 +53,7 @@ export function AssetPublishForm() {
         <Form<PublishFromDataType>
           className="flex-1 items-start flex flex-col"
           onFinish={handleSubmit}
+          onValuesChange={onValuesChanged}
           initialValues={initialValues}
         >
           <Form.Item label="Sutdio" name="hub">

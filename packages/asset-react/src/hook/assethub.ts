@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { HubCreateDataStruct } from "../client/assethub/abi/LiteAssetHubManager";
 import { INGORED_ADDRESS, ZERO_BYTES } from "../core";
 import { PayableOverrides } from "../client/assethub/abi";
-import { HubTokenFeeConfigStructOutput } from "../client/assethub/abi/TokenGlobalModule";
+import { AssetTokenConfigStructOutput } from "../client/assethub/abi/TokenGlobalModule";
 
 export function useDeployNewAssetHub() {
-  const { assetHubManager } = useAssetHub();
+  const { assetHubManager, contractRunner } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<string>();
   const zeroAssetHubCreateData: Partial<HubCreateDataStruct> = {
@@ -29,7 +29,10 @@ export function useDeployNewAssetHub() {
         ...zeroAssetHubCreateData,
         ...data,
       };
-      const hub = await assetHubManager.deploy.staticCall(createData);
+      let hub: string | undefined;
+      if (!contractRunner?.isMulti) {
+        hub = await assetHubManager.deploy.staticCall(createData);
+      }
       const res = await assetHubManager.deploy(createData);
       await res.wait();
       console.log("asset hub created: ", hub);
@@ -74,15 +77,21 @@ function checkCreateData(data: AssetCreateData): DataTypes.AssetCreateDataStruct
 }
 
 export function useCreateAsset() {
-  const { signer } = useAssetHub();
+  const { contractRunner } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const create = async (hub: string, data: AssetCreateData) => {
-    const assetHub = NewAssetHub(signer, hub);
+    if (!contractRunner) {
+      throw new Error("contractRunner is undefined");
+    }
+    const assetHub = NewAssetHub(contractRunner, hub);
     setIsLoading(true);
     const createData = checkCreateData(data);
     console.log("createData", createData)
     try {
-      const tokenId = await assetHub.create.staticCall(createData);
+      let tokenId: bigint | undefined = undefined;
+      if (!contractRunner.isMulti) {
+        tokenId = await assetHub.create.staticCall(createData);
+      }
       const res = await assetHub.create(createData);
       await res.wait();
       return tokenId;
@@ -105,13 +114,13 @@ function checkUpdateData(data: UpdateAssetInput): DataTypes.AssetUpdateDataStruc
 }
 
 export function useUpdateAsset() {
-  const { signer } = useAssetHub();
+  const { contractRunner } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const update = async (hub: string, assetId: bigint, data: UpdateAssetInput) => {
-    const assetHub = NewAssetHub(signer, hub);
-    if (!assetHub) {
-      throw new Error("asset hub not set");
+    if (!contractRunner) {
+      throw new Error("contractRunner is undefined");
     }
+    const assetHub = NewAssetHub(contractRunner, hub);
     setIsLoading(true);
     try {
       const updateData = checkUpdateData(data);
@@ -132,13 +141,19 @@ export type CollectData = {
 }
 
 export function useCollectAsset() {
-  const { signer } = useAssetHub();
+  const { contractRunner } = useAssetHub();
   const [isLoading, setIsLoading] = useState(false);
   const collect = async (hub: string, assetId: bigint, collectData: CollectData, options?: PayableOverrides) => {
-    const assetHub = NewAssetHub(signer, hub);
+    if (!contractRunner) {
+      throw new Error("contractRunner is undefined");
+    }
+    const assetHub = NewAssetHub(contractRunner, hub);
     setIsLoading(true);
     try {
-      const tokeNftId = await assetHub.collect.staticCall(assetId, collectData.collectData, options ?? {});
+      let tokeNftId: bigint | undefined = undefined;
+      if (!contractRunner.isMulti) {
+        tokeNftId = await assetHub.collect.staticCall(assetId, collectData.collectData, options ?? {});
+      }
       console.log("tokeNftId", tokeNftId)
       const res = await assetHub.collect(assetId, collectData.collectData, options ?? {});
       await res.wait();
@@ -154,7 +169,7 @@ export function useCollectAsset() {
 export function useGetHubGlobalModuleConfig(hub?: string) {
   const { hubManagerInfo, signer } = useAssetHub();
   const [loading, setLoading] = useState(false);
-  const [config, setConfig] = useState<HubTokenFeeConfigStructOutput>();
+  const [config, setConfig] = useState<AssetTokenConfigStructOutput>();
 
   useEffect(() => {
     getConfig(hub).then((res) => {
@@ -173,7 +188,7 @@ export function useGetHubGlobalModuleConfig(hub?: string) {
     try {
       setLoading(true);
       const module = NewTokenGlobalModule(signer, hubManagerInfo.globalModule);
-      const res = await module.config(hub);
+      const res = await module.assetHubConfig(hub);
       console.log("config", res);
       return res;
     } finally {

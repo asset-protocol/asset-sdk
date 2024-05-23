@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Content, Header } from "antd/es/layout/layout";
 import { MenuItemType } from "antd/es/menu/hooks/useItems";
 import { CreateHubModal } from "./hub/CreateHub";
+import { SafeButton } from "./SafeButton";
 
 export function Layerout() {
   const { goAssets, goCreate: goCreateAsset } = useGoAsset();
@@ -83,6 +84,7 @@ export function Layerout() {
         >
           <Button type="primary">Create</Button>
         </Dropdown>
+        <SafeButton />
         <ConnectButton />
       </Header>
       <Content>

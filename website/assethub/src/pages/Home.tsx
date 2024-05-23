@@ -2,31 +2,27 @@ import { Button, Divider, Select } from "antd";
 // import assetHubAbi from "../abi/AssetHub.json";
 // import erc20Abi from "../abi/IERC20.json";
 // import { AssetHub, FeeAssetModule, TestToken, admin } from "../context/consts";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Asset,
   AssetHubInfo,
   AssetList,
   useGetAssetHubs,
 } from "@asset-protocol/react";
-import { DefaultOptionType } from "antd/es/select";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGoAsset } from "../utils/route";
 
-export function Home() {
+const home = function Home() {
   const { goViewer, goCreate } = useGoAsset();
   const navigate = useNavigate();
   const { hub } = useParams();
 
-  const [hubOptions, setHubOptions] = useState<DefaultOptionType[]>([]);
   const [hubInfo, setHubInfo] = useState<AssetHubInfo>();
   const { data, loading } = useGetAssetHubs();
 
+  const hubOptions = useMemo(() => data?.map((hub) => ({ label: hub.name, value: hub.id })), [data])
   useEffect(() => {
     if (data) {
-      setHubOptions(
-        data?.map((hub) => ({ label: hub.name, value: hub.id })) || []
-      );
       if (!hubInfo) {
         if (hub === "home") {
           setHubInfo(data[0]);
@@ -37,7 +33,7 @@ export function Home() {
         setHubInfo(data.find((h) => h.id === hub || h.name === hub));
       }
     }
-  }, [data, hub, hubInfo]);
+  }, [data, hub]);
 
   // const { data: count } = useReadContract({
   //   address: AssetHub,
@@ -80,7 +76,7 @@ export function Home() {
           className="ml-4 w-[200px]"
           options={hubOptions}
           onChange={(value) => {
-            const hub = hubOptions.find((h) => h.value === value);
+            const hub = hubOptions?.find((h) => h.value === value);
             if (hub) {
               navigate("/" + hub.label);
             }
@@ -121,9 +117,12 @@ export function Home() {
           }}
           grid={{ column: 4, gutter: 12, xs: 2, sm: 3 }}
           onAssetClick={hanldeClickAsset}
-          // itemClassName="w-[240px]"
+        // itemClassName="w-[240px]"
         ></AssetList>
       )}
     </div>
   );
 }
+// home.whyDidYouRender = true
+
+export const Home = home;

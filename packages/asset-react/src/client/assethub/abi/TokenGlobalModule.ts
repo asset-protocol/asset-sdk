@@ -23,31 +23,68 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export type HubTokenFeeConfigStruct = {
+export type AssetTokenConfigStruct = {
+  exist: boolean;
   token: AddressLike;
+  recipient: AddressLike;
   createFee: BigNumberish;
   updateFee: BigNumberish;
   collectFee: BigNumberish;
 };
 
-export type HubTokenFeeConfigStructOutput = [
+export type AssetTokenConfigStructOutput = [
+  exist: boolean,
   token: string,
+  recipient: string,
   createFee: bigint,
   updateFee: bigint,
   collectFee: bigint
-] & { token: string; createFee: bigint; updateFee: bigint; collectFee: bigint };
+] & {
+  exist: boolean;
+  token: string;
+  recipient: string;
+  createFee: bigint;
+  updateFee: bigint;
+  collectFee: bigint;
+};
 
-export type TokenFeeConfigStruct = {
+export type CurationTokenFeeConfigStruct = {
   createFee: BigNumberish;
   updateFee: BigNumberish;
   collectFee: BigNumberish;
 };
 
-export type TokenFeeConfigStructOutput = [
+export type CurationTokenFeeConfigStructOutput = [
   createFee: bigint,
   updateFee: bigint,
   collectFee: bigint
 ] & { createFee: bigint; updateFee: bigint; collectFee: bigint };
+
+export type CurationAssetStruct = { hub: AddressLike; assetId: BigNumberish };
+
+export type CurationAssetStructOutput = [hub: string, assetId: bigint] & {
+  hub: string;
+  assetId: bigint;
+};
+
+export type AssetTokenFeeConfigStruct = {
+  exist: boolean;
+  createFee: BigNumberish;
+  updateFee: BigNumberish;
+  collectFee: BigNumberish;
+};
+
+export type AssetTokenFeeConfigStructOutput = [
+  exist: boolean,
+  createFee: bigint,
+  updateFee: bigint,
+  collectFee: bigint
+] & {
+  exist: boolean;
+  createFee: bigint;
+  updateFee: bigint;
+  collectFee: bigint;
+};
 
 export declare namespace DataTypes {
   export type AssetCreateDataStruct = {
@@ -83,41 +120,61 @@ export interface TokenGlobalModuleInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "UPGRADE_INTERFACE_VERSION"
-      | "config"
+      | "_curation"
+      | "assetHubConfig"
+      | "curationConfig"
       | "initialize"
-      | "onCollect"
+      | "manager"
+      | "onCollectAsset"
       | "onCreateAsset"
-      | "onUpdate"
-      | "owner"
+      | "onCurationCollect"
+      | "onCurationCreate"
+      | "onUpdateAsset"
       | "proxiableUUID"
-      | "renounceOwnership"
-      | "setCollectFee"
-      | "setCreateFee"
-      | "setDefaultConfig"
-      | "setHubConfig"
+      | "setAssetCollectFee"
+      | "setAssetCreateFee"
+      | "setAssetDefaultConfig"
+      | "setAssetHubConfig"
+      | "setAssetUpdateFee"
+      | "setCurationCollectFee"
+      | "setCurationConfig"
+      | "setCurationCreateFee"
+      | "setCurationUpdateFee"
       | "setRecipient"
       | "setToken"
-      | "setUpdateFee"
-      | "transferOwnership"
+      | "supportsInterface"
       | "upgradeToAndCall"
       | "version"
   ): FunctionFragment;
 
   getEvent(
-    nameOrSignatureOrTopic: "Initialized" | "OwnershipTransferred" | "Upgraded"
+    nameOrSignatureOrTopic:
+      | "Initialized"
+      | "RecipientChanged"
+      | "TokenChanged"
+      | "Upgraded"
   ): EventFragment;
 
   encodeFunctionData(
     functionFragment: "UPGRADE_INTERFACE_VERSION",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "config", values: [AddressLike]): string;
+  encodeFunctionData(functionFragment: "_curation", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "initialize",
-    values: [AddressLike, AddressLike, TokenFeeConfigStruct]
+    functionFragment: "assetHubConfig",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "onCollect",
+    functionFragment: "curationConfig",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [AddressLike, AddressLike, AddressLike]
+  ): string;
+  encodeFunctionData(functionFragment: "manager", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "onCollectAsset",
     values: [BigNumberish, AddressLike, AddressLike, BytesLike]
   ): string;
   encodeFunctionData(
@@ -125,33 +182,62 @@ export interface TokenGlobalModuleInterface extends Interface {
     values: [AddressLike, BigNumberish, DataTypes.AssetCreateDataStruct]
   ): string;
   encodeFunctionData(
-    functionFragment: "onUpdate",
+    functionFragment: "onCurationCollect",
+    values: [BigNumberish, AddressLike, AddressLike, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "onCurationCreate",
+    values: [
+      BigNumberish,
+      AddressLike,
+      string,
+      BigNumberish,
+      CurationAssetStruct[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "onUpdateAsset",
     values: [AddressLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setCollectFee",
+    functionFragment: "setAssetCollectFee",
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setCreateFee",
+    functionFragment: "setAssetCreateFee",
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setDefaultConfig",
-    values: [TokenFeeConfigStruct]
+    functionFragment: "setAssetDefaultConfig",
+    values: [AssetTokenFeeConfigStruct]
   ): string;
   encodeFunctionData(
-    functionFragment: "setHubConfig",
-    values: [AddressLike, TokenFeeConfigStruct]
+    functionFragment: "setAssetHubConfig",
+    values: [AddressLike, AssetTokenFeeConfigStruct]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAssetUpdateFee",
+    values: [AddressLike, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setCurationCollectFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setCurationConfig",
+    values: [CurationTokenFeeConfigStruct]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setCurationCreateFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setCurationUpdateFee",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setRecipient",
@@ -162,12 +248,8 @@ export interface TokenGlobalModuleInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "setUpdateFee",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [AddressLike]
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "upgradeToAndCall",
@@ -179,37 +261,75 @@ export interface TokenGlobalModuleInterface extends Interface {
     functionFragment: "UPGRADE_INTERFACE_VERSION",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "config", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "_curation", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "assetHubConfig",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "curationConfig",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "onCollect", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "manager", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "onCollectAsset",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "onCreateAsset",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "onUpdate", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "onCurationCollect",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "onCurationCreate",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "onUpdateAsset",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "setAssetCollectFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setCollectFee",
+    functionFragment: "setAssetCreateFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setCreateFee",
+    functionFragment: "setAssetDefaultConfig",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setDefaultConfig",
+    functionFragment: "setAssetHubConfig",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setHubConfig",
+    functionFragment: "setAssetUpdateFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCurationCollectFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCurationConfig",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCurationCreateFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCurationUpdateFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -218,11 +338,7 @@ export interface TokenGlobalModuleInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setToken", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setUpdateFee",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -244,12 +360,23 @@ export namespace InitializedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace OwnershipTransferredEvent {
-  export type InputTuple = [previousOwner: AddressLike, newOwner: AddressLike];
-  export type OutputTuple = [previousOwner: string, newOwner: string];
+export namespace RecipientChangedEvent {
+  export type InputTuple = [recipient: AddressLike];
+  export type OutputTuple = [recipient: string];
   export interface OutputObject {
-    previousOwner: string;
-    newOwner: string;
+    recipient: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TokenChangedEvent {
+  export type InputTuple = [token: AddressLike];
+  export type OutputTuple = [token: string];
+  export interface OutputObject {
+    token: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -314,19 +441,29 @@ export interface TokenGlobalModule extends BaseContract {
 
   UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], "view">;
 
-  config: TypedContractMethod<
+  _curation: TypedContractMethod<[], [string], "view">;
+
+  assetHubConfig: TypedContractMethod<
     [hub: AddressLike],
-    [HubTokenFeeConfigStructOutput],
+    [AssetTokenConfigStructOutput],
+    "view"
+  >;
+
+  curationConfig: TypedContractMethod<
+    [],
+    [CurationTokenFeeConfigStructOutput],
     "view"
   >;
 
   initialize: TypedContractMethod<
-    [manager: AddressLike, token: AddressLike, feeConfig: TokenFeeConfigStruct],
+    [manager: AddressLike, token: AddressLike, recipient: AddressLike],
     [void],
     "nonpayable"
   >;
 
-  onCollect: TypedContractMethod<
+  manager: TypedContractMethod<[], [string], "view">;
+
+  onCollectAsset: TypedContractMethod<
     [
       arg0: BigNumberish,
       arg1: AddressLike,
@@ -334,7 +471,7 @@ export interface TokenGlobalModule extends BaseContract {
       arg3: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   onCreateAsset: TypedContractMethod<
@@ -344,41 +481,90 @@ export interface TokenGlobalModule extends BaseContract {
       arg2: DataTypes.AssetCreateDataStruct
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
-  onUpdate: TypedContractMethod<
-    [publisher: AddressLike, arg1: BigNumberish],
+  onCurationCollect: TypedContractMethod<
+    [
+      curationId: BigNumberish,
+      publiser: AddressLike,
+      collector: AddressLike,
+      data: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
-  owner: TypedContractMethod<[], [string], "view">;
+  onCurationCreate: TypedContractMethod<
+    [
+      arg0: BigNumberish,
+      publisher: AddressLike,
+      arg2: string,
+      arg3: BigNumberish,
+      arg4: CurationAssetStruct[]
+    ],
+    [void],
+    "payable"
+  >;
+
+  onUpdateAsset: TypedContractMethod<
+    [publisher: AddressLike, arg1: BigNumberish],
+    [void],
+    "payable"
+  >;
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
-  renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
-
-  setCollectFee: TypedContractMethod<
+  setAssetCollectFee: TypedContractMethod<
     [hub: AddressLike, collectFee: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  setCreateFee: TypedContractMethod<
+  setAssetCreateFee: TypedContractMethod<
     [hub: AddressLike, createFee: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  setDefaultConfig: TypedContractMethod<
-    [feeConfig: TokenFeeConfigStruct],
+  setAssetDefaultConfig: TypedContractMethod<
+    [feeConfig: AssetTokenFeeConfigStruct],
     [void],
     "nonpayable"
   >;
 
-  setHubConfig: TypedContractMethod<
-    [hub: AddressLike, feeConfig: TokenFeeConfigStruct],
+  setAssetHubConfig: TypedContractMethod<
+    [hub: AddressLike, feeConfig: AssetTokenFeeConfigStruct],
+    [void],
+    "nonpayable"
+  >;
+
+  setAssetUpdateFee: TypedContractMethod<
+    [hub: AddressLike, updateFee: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  setCurationCollectFee: TypedContractMethod<
+    [collectFee: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  setCurationConfig: TypedContractMethod<
+    [feeConfig: CurationTokenFeeConfigStruct],
+    [void],
+    "nonpayable"
+  >;
+
+  setCurationCreateFee: TypedContractMethod<
+    [createFee: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
+  setCurationUpdateFee: TypedContractMethod<
+    [updateFee: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -391,16 +577,10 @@ export interface TokenGlobalModule extends BaseContract {
 
   setToken: TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
 
-  setUpdateFee: TypedContractMethod<
-    [hub: AddressLike, updateFee: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  transferOwnership: TypedContractMethod<
-    [newOwner: AddressLike],
-    [void],
-    "nonpayable"
+  supportsInterface: TypedContractMethod<
+    [interfaceId: BytesLike],
+    [boolean],
+    "view"
   >;
 
   upgradeToAndCall: TypedContractMethod<
@@ -419,21 +599,30 @@ export interface TokenGlobalModule extends BaseContract {
     nameOrSignature: "UPGRADE_INTERFACE_VERSION"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "config"
+    nameOrSignature: "_curation"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "assetHubConfig"
   ): TypedContractMethod<
     [hub: AddressLike],
-    [HubTokenFeeConfigStructOutput],
+    [AssetTokenConfigStructOutput],
     "view"
   >;
   getFunction(
+    nameOrSignature: "curationConfig"
+  ): TypedContractMethod<[], [CurationTokenFeeConfigStructOutput], "view">;
+  getFunction(
     nameOrSignature: "initialize"
   ): TypedContractMethod<
-    [manager: AddressLike, token: AddressLike, feeConfig: TokenFeeConfigStruct],
+    [manager: AddressLike, token: AddressLike, recipient: AddressLike],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "onCollect"
+    nameOrSignature: "manager"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "onCollectAsset"
   ): TypedContractMethod<
     [
       arg0: BigNumberish,
@@ -442,7 +631,7 @@ export interface TokenGlobalModule extends BaseContract {
       arg3: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "onCreateAsset"
@@ -453,52 +642,94 @@ export interface TokenGlobalModule extends BaseContract {
       arg2: DataTypes.AssetCreateDataStruct
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
-    nameOrSignature: "onUpdate"
+    nameOrSignature: "onCurationCollect"
   ): TypedContractMethod<
-    [publisher: AddressLike, arg1: BigNumberish],
+    [
+      curationId: BigNumberish,
+      publiser: AddressLike,
+      collector: AddressLike,
+      data: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "owner"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: "onCurationCreate"
+  ): TypedContractMethod<
+    [
+      arg0: BigNumberish,
+      publisher: AddressLike,
+      arg2: string,
+      arg3: BigNumberish,
+      arg4: CurationAssetStruct[]
+    ],
+    [void],
+    "payable"
+  >;
+  getFunction(
+    nameOrSignature: "onUpdateAsset"
+  ): TypedContractMethod<
+    [publisher: AddressLike, arg1: BigNumberish],
+    [void],
+    "payable"
+  >;
   getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "renounceOwnership"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setCollectFee"
+    nameOrSignature: "setAssetCollectFee"
   ): TypedContractMethod<
     [hub: AddressLike, collectFee: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setCreateFee"
+    nameOrSignature: "setAssetCreateFee"
   ): TypedContractMethod<
     [hub: AddressLike, createFee: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setDefaultConfig"
+    nameOrSignature: "setAssetDefaultConfig"
   ): TypedContractMethod<
-    [feeConfig: TokenFeeConfigStruct],
+    [feeConfig: AssetTokenFeeConfigStruct],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setHubConfig"
+    nameOrSignature: "setAssetHubConfig"
   ): TypedContractMethod<
-    [hub: AddressLike, feeConfig: TokenFeeConfigStruct],
+    [hub: AddressLike, feeConfig: AssetTokenFeeConfigStruct],
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "setAssetUpdateFee"
+  ): TypedContractMethod<
+    [hub: AddressLike, updateFee: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "setCurationCollectFee"
+  ): TypedContractMethod<[collectFee: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "setCurationConfig"
+  ): TypedContractMethod<
+    [feeConfig: CurationTokenFeeConfigStruct],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "setCurationCreateFee"
+  ): TypedContractMethod<[createFee: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "setCurationUpdateFee"
+  ): TypedContractMethod<[updateFee: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "setRecipient"
   ): TypedContractMethod<[recipient: AddressLike], [void], "nonpayable">;
@@ -506,15 +737,8 @@ export interface TokenGlobalModule extends BaseContract {
     nameOrSignature: "setToken"
   ): TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "setUpdateFee"
-  ): TypedContractMethod<
-    [hub: AddressLike, updateFee: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "transferOwnership"
-  ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
+    nameOrSignature: "supportsInterface"
+  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
     nameOrSignature: "upgradeToAndCall"
   ): TypedContractMethod<
@@ -534,11 +758,18 @@ export interface TokenGlobalModule extends BaseContract {
     InitializedEvent.OutputObject
   >;
   getEvent(
-    key: "OwnershipTransferred"
+    key: "RecipientChanged"
   ): TypedContractEvent<
-    OwnershipTransferredEvent.InputTuple,
-    OwnershipTransferredEvent.OutputTuple,
-    OwnershipTransferredEvent.OutputObject
+    RecipientChangedEvent.InputTuple,
+    RecipientChangedEvent.OutputTuple,
+    RecipientChangedEvent.OutputObject
+  >;
+  getEvent(
+    key: "TokenChanged"
+  ): TypedContractEvent<
+    TokenChangedEvent.InputTuple,
+    TokenChangedEvent.OutputTuple,
+    TokenChangedEvent.OutputObject
   >;
   getEvent(
     key: "Upgraded"
@@ -560,15 +791,26 @@ export interface TokenGlobalModule extends BaseContract {
       InitializedEvent.OutputObject
     >;
 
-    "OwnershipTransferred(address,address)": TypedContractEvent<
-      OwnershipTransferredEvent.InputTuple,
-      OwnershipTransferredEvent.OutputTuple,
-      OwnershipTransferredEvent.OutputObject
+    "RecipientChanged(address)": TypedContractEvent<
+      RecipientChangedEvent.InputTuple,
+      RecipientChangedEvent.OutputTuple,
+      RecipientChangedEvent.OutputObject
     >;
-    OwnershipTransferred: TypedContractEvent<
-      OwnershipTransferredEvent.InputTuple,
-      OwnershipTransferredEvent.OutputTuple,
-      OwnershipTransferredEvent.OutputObject
+    RecipientChanged: TypedContractEvent<
+      RecipientChangedEvent.InputTuple,
+      RecipientChangedEvent.OutputTuple,
+      RecipientChangedEvent.OutputObject
+    >;
+
+    "TokenChanged(address)": TypedContractEvent<
+      TokenChangedEvent.InputTuple,
+      TokenChangedEvent.OutputTuple,
+      TokenChangedEvent.OutputObject
+    >;
+    TokenChanged: TypedContractEvent<
+      TokenChangedEvent.InputTuple,
+      TokenChangedEvent.OutputTuple,
+      TokenChangedEvent.OutputObject
     >;
 
     "Upgraded(address)": TypedContractEvent<

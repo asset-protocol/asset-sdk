@@ -53,7 +53,7 @@ export function CreateHubForm(props: CreateHubFormProps) {
 }
 
 export type CreateHubModalProps = Omit<ModalProps, "onOk"> & {
-  onFinish?: (hub: { hub: string; name: string }) => void;
+  onFinish?: (hub: { hub?: string; name: string }) => void;
 };
 
 export function CreateHubModal(props: CreateHubModalProps) {

@@ -32,6 +32,7 @@ export type AssetProviderProps = {
   grapqlClient: ApolloClient<unknown>;
 
   signer: Signer;
+
   account?: AccountInfo;
   requireLogin: () => void;
 

@@ -2196,7 +2196,7 @@ export const IERC20Abi = [
   },
 ] as const;
 
-export const TokenGlobalModuleAbi = [
+export const TokenGlobalModuleAbi =[
   {
     "inputs": [
       {
@@ -2236,29 +2236,22 @@ export const TokenGlobalModuleAbi = [
   },
   {
     "inputs": [],
+    "name": "NotHub",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotHubOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "NotInitializing",
     "type": "error"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnableInvalidOwner",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "OwnableUnauthorizedAccount",
+    "inputs": [],
+    "name": "NotManager",
     "type": "error"
   },
   {
@@ -2294,19 +2287,26 @@ export const TokenGlobalModuleAbi = [
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
+        "name": "recipient",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "RecipientChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "TokenChanged",
     "type": "event"
   },
   {
@@ -2336,6 +2336,19 @@ export const TokenGlobalModuleAbi = [
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "_curation",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -2343,13 +2356,23 @@ export const TokenGlobalModuleAbi = [
         "type": "address"
       }
     ],
-    "name": "config",
+    "name": "assetHubConfig",
     "outputs": [
       {
         "components": [
           {
+            "internalType": "bool",
+            "name": "exist",
+            "type": "bool"
+          },
+          {
             "internalType": "address",
             "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
             "type": "address"
           },
           {
@@ -2368,7 +2391,37 @@ export const TokenGlobalModuleAbi = [
             "type": "uint256"
           }
         ],
-        "internalType": "struct HubTokenFeeConfig",
+        "internalType": "struct AssetTokenConfig",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "curationConfig",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "createFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "updateFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectFee",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct CurationTokenFeeConfig",
         "name": "",
         "type": "tuple"
       }
@@ -2389,31 +2442,27 @@ export const TokenGlobalModuleAbi = [
         "type": "address"
       },
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "createFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "updateFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "collectFee",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct TokenFeeConfig",
-        "name": "feeConfig",
-        "type": "tuple"
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
       }
     ],
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "manager",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -2439,9 +2488,9 @@ export const TokenGlobalModuleAbi = [
         "type": "bytes"
       }
     ],
-    "name": "onCollect",
+    "name": "onCollectAsset",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -2501,7 +2550,80 @@ export const TokenGlobalModuleAbi = [
     ],
     "name": "onCreateAsset",
     "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "curationId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "publiser",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "collector",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "onCurationCollect",
+    "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "publisher",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "hub",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "assetId",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct CurationAsset[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "onCurationCreate",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -2517,22 +2639,9 @@ export const TokenGlobalModuleAbi = [
         "type": "uint256"
       }
     ],
-    "name": "onUpdate",
+    "name": "onUpdateAsset",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -2549,13 +2658,6 @@ export const TokenGlobalModuleAbi = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
@@ -2568,7 +2670,7 @@ export const TokenGlobalModuleAbi = [
         "type": "uint256"
       }
     ],
-    "name": "setCollectFee",
+    "name": "setAssetCollectFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -2586,7 +2688,7 @@ export const TokenGlobalModuleAbi = [
         "type": "uint256"
       }
     ],
-    "name": "setCreateFee",
+    "name": "setAssetCreateFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -2595,6 +2697,11 @@ export const TokenGlobalModuleAbi = [
     "inputs": [
       {
         "components": [
+          {
+            "internalType": "bool",
+            "name": "exist",
+            "type": "bool"
+          },
           {
             "internalType": "uint256",
             "name": "createFee",
@@ -2611,12 +2718,12 @@ export const TokenGlobalModuleAbi = [
             "type": "uint256"
           }
         ],
-        "internalType": "struct TokenFeeConfig",
+        "internalType": "struct AssetTokenFeeConfig",
         "name": "feeConfig",
         "type": "tuple"
       }
     ],
-    "name": "setDefaultConfig",
+    "name": "setAssetDefaultConfig",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -2631,6 +2738,11 @@ export const TokenGlobalModuleAbi = [
       {
         "components": [
           {
+            "internalType": "bool",
+            "name": "exist",
+            "type": "bool"
+          },
+          {
             "internalType": "uint256",
             "name": "createFee",
             "type": "uint256"
@@ -2646,12 +2758,99 @@ export const TokenGlobalModuleAbi = [
             "type": "uint256"
           }
         ],
-        "internalType": "struct TokenFeeConfig",
+        "internalType": "struct AssetTokenFeeConfig",
         "name": "feeConfig",
         "type": "tuple"
       }
     ],
-    "name": "setHubConfig",
+    "name": "setAssetHubConfig",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "hub",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "updateFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setAssetUpdateFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "collectFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setCurationCollectFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "createFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "updateFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectFee",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct CurationTokenFeeConfig",
+        "name": "feeConfig",
+        "type": "tuple"
+      }
+    ],
+    "name": "setCurationConfig",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "createFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setCurationCreateFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "updateFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setCurationUpdateFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -2685,32 +2884,20 @@ export const TokenGlobalModuleAbi = [
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "hub",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "updateFee",
-        "type": "uint256"
+        "internalType": "bytes4",
+        "name": "interfaceId",
+        "type": "bytes4"
       }
     ],
-    "name": "setUpdateFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
+    "name": "supportsInterface",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -2891,7 +3078,7 @@ export const CurationAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "s",
+        "name": "account",
         "type": "address"
       }
     ],
@@ -3032,6 +3219,12 @@ export const CurationAbi = [
         "internalType": "enum AssetApproveStatus",
         "name": "status",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
       }
     ],
     "name": "AssetApproved",
@@ -3056,11 +3249,6 @@ export const CurationAbi = [
           {
             "internalType": "uint256",
             "name": "assetId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
             "type": "uint256"
           }
         ],
@@ -3108,7 +3296,7 @@ export const CurationAbi = [
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "curationId",
         "type": "uint256"
@@ -3126,6 +3314,12 @@ export const CurationAbi = [
         "type": "uint8"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      },
+      {
         "components": [
           {
             "internalType": "address",
@@ -3135,11 +3329,6 @@ export const CurationAbi = [
           {
             "internalType": "uint256",
             "name": "assetId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
             "type": "uint256"
           }
         ],
@@ -3172,6 +3361,12 @@ export const CurationAbi = [
         "internalType": "uint8",
         "name": "status",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
       }
     ],
     "name": "CurationUpdated",
@@ -3278,11 +3473,6 @@ export const CurationAbi = [
             "internalType": "uint256",
             "name": "assetId",
             "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
-            "type": "uint256"
           }
         ],
         "internalType": "struct CurationAsset[]",
@@ -3372,6 +3562,35 @@ export const CurationAbi = [
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "curationId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address[]",
+        "name": "hubs",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "assetIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "assetsStatus",
+    "outputs": [
+      {
+        "internalType": "enum AssetApproveStatus[]",
+        "name": "",
+        "type": "uint8[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "owner",
         "type": "address"
@@ -3401,6 +3620,11 @@ export const CurationAbi = [
         "type": "uint8"
       },
       {
+        "internalType": "uint256",
+        "name": "expiry",
+        "type": "uint256"
+      },
+      {
         "components": [
           {
             "internalType": "address",
@@ -3410,11 +3634,6 @@ export const CurationAbi = [
           {
             "internalType": "uint256",
             "name": "assetId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "order",
             "type": "uint256"
           }
         ],
@@ -3460,7 +3679,7 @@ export const CurationAbi = [
               },
               {
                 "internalType": "uint256",
-                "name": "order",
+                "name": "expiry",
                 "type": "uint256"
               },
               {
@@ -3482,6 +3701,11 @@ export const CurationAbi = [
             "internalType": "uint8",
             "name": "status",
             "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
           }
         ],
         "internalType": "struct CurationData",
@@ -3729,6 +3953,24 @@ export const CurationAbi = [
       }
     ],
     "name": "setCurationURI",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "curationId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint64",
+        "name": "expiry",
+        "type": "uint64"
+      }
+    ],
+    "name": "setExpiry",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

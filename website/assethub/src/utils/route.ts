@@ -19,18 +19,18 @@ export function useGoHub() {
 
 export function useGoAsset() {
   const navigate = useNavigate();
-  const goAssets = () => {
+  const goAssets = useCallback(() => {
     navigate("/assets")
-  }
-  const goViewer = (hub: string, assetId: string) => {
+  }, [])
+  const goViewer = useCallback((hub: string, assetId: string) => {
     navigate(`/${hub}/asset/${assetId}`)
-  }
-  const goCreate = () => {
+  }, [])
+  const goCreate = useCallback(() => {
     navigate(`/assets/create`)
-  }
-  const goEdit = (hub: string, assetId: string) => {
+  }, [])
+  const goEdit = useCallback((hub: string, assetId: string) => {
     navigate(`/${hub}/asset/${assetId}/edit`)
-  }
+  }, [])
   return {
     goViewer, goCreate, goAssets, goEdit
   }
